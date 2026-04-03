@@ -1,0 +1,18 @@
+/* 
+Zeigt welche Stadt von welcher Energiequelle versorgt wird 
+und wie viel Leistung die Quelle momentan + maximal liefert
+*/
+
+SELECT
+    s.STADT_ID,
+    s.STADT_NAME,
+    e.EQ_ID,
+    e.EQ_TYP,
+    e.AKTUELLE_LEISTUNG,
+    e.KAPAZITAET_MAX
+FROM VERSORGT_STADT vs
+JOIN STADT s
+    ON vs.STADT_ID = s.STADT_ID
+JOIN ENERGIEQUELLE e
+    ON vs.EQ_ID = e.EQ_ID
+ORDER BY s.STADT_NAME, e.EQ_ID;
