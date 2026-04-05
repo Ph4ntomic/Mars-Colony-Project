@@ -66,7 +66,7 @@ const Overview = () => {
                 <StatusCard title="Bevölkerung" value={loading ? "..." : totalCitizens + " (" + minorCitizens + ")"} color="text-white" borderColor="border-gray-600" />
             </div>
             <div className="mt-8">
-                <h4 className="text-xl font-bold text-mars-accent mb-4">Ressourcenverbrauch (letzte 30 Tage)</h4>
+                <h4 className="text-xl font-bold text-mars-accent mb-4">Ressourcenverbrauch (letzte 12 Monate)</h4>
                 <RessourcesChart data={data} isLoading={loadingGraph} />
             </div>
         </section>
