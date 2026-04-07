@@ -1,5 +1,5 @@
 export async function fetchCsrfToken(): Promise<string> {
-  const url = 'https://hsbi.cyzetlc.de/dev/api/restApi.php?action=generate_csrf&csrf=init';
+  const url = 'https://hsbi.cyzetlc.de/dev/api/restApi.php?action=generate_csrf';
 
   const res = await fetch(url, {
     credentials: 'include'
@@ -18,7 +18,7 @@ export async function fetchCsrfToken(): Promise<string> {
  * @returns {Promise<T>} Ein Promise, das mit den typisierten JSON-Daten aufgelöst wird.
  */
 export async function apiFetch<T>(endpoint: string): Promise<T> {
-  const csrf = localStorage.getItem('csrfToken');
+  let csrf = localStorage.getItem('csrfToken');
 
   if (!csrf) {
     await fetchCsrfToken();
@@ -39,6 +39,23 @@ export async function apiFetch<T>(endpoint: string): Promise<T> {
         'X-CSRF-Token': csrf!
       }
     });
+
+    if (response.status === 403) {
+      csrf = await fetchCsrfToken();
+
+      const retry = await fetch(url, {
+        credentials: 'include',
+        headers: {
+          'X-CSRF-Token': csrf!
+        }
+      });
+
+      if (!retry.ok) {
+        throw new Error(`HTTP Error (retry)! Status: ${retry.status}`);
+      }
+
+      return retry.json();
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP Error! Status: ${response.status} for ${url}`);

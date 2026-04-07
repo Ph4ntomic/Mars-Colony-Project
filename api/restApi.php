@@ -1,8 +1,18 @@
 <?php
 require "./server.php";
 
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: X-CSRF-Token, Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json; charset=utf-8');
+
 ini_set('display_errors', 0);
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 $json = json_decode("{}", true);
 
@@ -43,8 +53,8 @@ $response = [];
 
 switch ($action) {
     case "generate_csrf":
-        generate_csrf();
         session_regenerate_id(true);
+        generate_csrf();
         $response['csrf'] = $_SESSION['csrf']['token'];
         break;
 
