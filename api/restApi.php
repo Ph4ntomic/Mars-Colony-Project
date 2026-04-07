@@ -1,9 +1,18 @@
 <?php
 require "./server.php";
-generate_csrf();                //debug
 
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: X-CSRF-Token, Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json; charset=utf-8');
+
 ini_set('display_errors', 0);
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 $json = json_decode("{}", true);
 
@@ -14,29 +23,37 @@ function sendResponse(array $data, int $httpCode = 200)
     exit;
 }
 
-if (!isset($_GET['action']) || !isset($_GET['csrf'])) {
+if (!isset($_GET['action'])) {
     sendResponse(["error" => 400, "message" => "Invalid request!"], 400);
 }
 
 $action = $_GET['action'];
-$given_csrf = $_GET['csrf'];
+$given_csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 $current_csrf = $_SESSION['csrf']['token'] ?? '';
 
-$given_csrf = $current_csrf; // debug
+if ($action !== "generate_csrf") {
+    if (!isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+        sendResponse(["error" => 400, "message" => "Missing CSRF"], 400);
+    }
 
-if ($current_csrf !== $given_csrf) {
-    sendResponse(["error" => 403, "message" => "Invalid CSRF-Token!"], 403);
-}
+    $given_csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    $current_csrf = $_SESSION['csrf']['token'] ?? '';
 
-$oneDayInSeconds = 24 * 60 * 60;
-if (($_SESSION['csrf']['time'] + $oneDayInSeconds) < time()) {
-    sendResponse(["error" => 403, "message" => "CSRF-Token expired!"], 403);
+    if (!hash_equals($current_csrf, $given_csrf)) {
+        sendResponse(["error" => 403, "message" => "Invalid CSRF-Token!"], 403);
+    }
+
+    $oneDayInSeconds = 24 * 60 * 60;
+    if (($_SESSION['csrf']['time'] + $oneDayInSeconds) < time()) {
+        sendResponse(["error" => 403, "message" => "CSRF-Token expired!"], 403);
+    }
 }
 
 $response = [];
 
 switch ($action) {
     case "generate_csrf":
+        session_regenerate_id(true);
         generate_csrf();
         $response['csrf'] = $_SESSION['csrf']['token'];
         break;
