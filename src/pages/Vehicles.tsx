@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from "../utils/restApi";
+import ErrorBox from '../components/ui/ErrorBox';
 
 interface ApiVehicle {
     TYP: string;
@@ -76,18 +77,12 @@ const Vehicles: React.FC = () => {
     }
 
     if (error) {
-        return (
-            <section className="min-h-screen flex items-center justify-center p-4">
-                <div className="bg-red-900/30 border border-red-500 rounded-xl p-6 max-w-md backdrop-blur-sm">
-                    <p className="text-red-400 text-center">⚠️ Fehler: {error}</p>
-                </div>
-            </section>
-        );
+        return <ErrorBox error={error} />;
     }
 
     return (
-        <section className="py-8">
-            <div className="max-w-7xl mx-auto px-4">
+        <section>
+            <div className="max-w-7xl">
                 <div className="flex items-center gap-4 mb-10">
                     <div className="p-2.5 rounded-lg bg-mars-accent/10 border border-mars-accent/20 text-mars-accent shadow-[0_0_15px_rgba(227,88,76,0.1)]">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
