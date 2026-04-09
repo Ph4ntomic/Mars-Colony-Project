@@ -63,6 +63,7 @@ const SqlOverview: React.FC = () => {
             </section>
         );
     }
+    
     if (error) {
         return <ErrorBox error={error} />;
     }
