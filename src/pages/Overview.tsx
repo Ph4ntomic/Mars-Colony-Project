@@ -2,6 +2,7 @@ import StatusCard from '../components/dashboard/StatusCard';
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../utils/restApi';
 import { RessourcesChart, type RessourcesData } from '../components/dashboard/RessourcesChart';
+import Weather from '../components/dashboard/Weather';
 
 interface DashboardStats {
     citizens_count: Array<{ citizens_count: number; minors_count: number }>;
@@ -32,12 +33,12 @@ const Overview = () => {
         setTimeout(() => {
             setData([
                 { name: 'Jan', amount: 400 },
-                { name: 'Feb', amount: 300 },
+                { name: 'Feb', amount: 100 },
                 { name: 'Mär', amount: 350 },
                 { name: 'Apr', amount: 420 },
                 { name: 'Mai', amount: 480 },
                 { name: 'Jun', amount: 550 },
-                { name: 'Jul', amount: 600 },
+                { name: 'Jul', amount: 430 },
                 { name: 'Aug', amount: 580 },
                 { name: 'Sep', amount: 490 },
                 { name: 'Okt', amount: 410 },
@@ -59,11 +60,14 @@ const Overview = () => {
     return (
         <section>
             <h3 className="text-2xl font-semibold text-mars-accent mb-4">Missions-Status</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatusCard title="Städte" value={loading ? "..." : totalCities} color="text-green-400" borderColor="border-green-500/50" />
-                <StatusCard title="Aktive Fahrzeuge" value={loading ? "..." : activeVehicles + "/" + totalVehicles} color="text-mars-accent" borderColor="border-mars-accent/50" />
-                <StatusCard title="Energie-Leistung" value={loading ? "..." : energyPower + " MW"} color="text-mars-red-deep" borderColor="border-mars-red-deep/50" />
-                <StatusCard title="Bevölkerung" value={loading ? "..." : totalCitizens + " (" + minorCitizens + ")"} color="text-white" borderColor="border-gray-600" />
+            <div className="flex gap-4 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+                    <StatusCard title="Städte" value={loading ? "..." : totalCities} color="text-green-400" borderColor="border-green-500/50" />
+                    <StatusCard title="Aktive Fahrzeuge" value={loading ? "..." : activeVehicles + "/" + totalVehicles} color="text-mars-accent" borderColor="border-mars-accent/50" />
+                    <StatusCard title="Energie-Leistung" value={loading ? "..." : energyPower + " MW"} color="text-mars-red-deep" borderColor="border-mars-red-deep/50" />
+                    <StatusCard title="Bevölkerung" value={loading ? "..." : totalCitizens + " (" + minorCitizens + ")"} color="text-white" borderColor="border-gray-600" />
+                </div>
+                <Weather />
             </div>
             <div className="mt-8 grid grid-cols-2 gap-6">
                 <div className='bg-secondary p-6 rounded-lg border border-gray-700 shadow-lg'>
@@ -72,7 +76,7 @@ const Overview = () => {
                 </div>
                 <div className='bg-secondary p-6 rounded-lg border border-gray-700 shadow-lg'>
                     <h4 className="text-xl font-bold text-mars-accent mb-4">Weitere Statistiken</h4>
-                    <RessourcesChart data={data} isLoading={loadingGraph} />
+                    <RessourcesChart data={[...data].reverse()} isLoading={loadingGraph} />
                 </div>
             </div>
         </section>
