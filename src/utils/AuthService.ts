@@ -22,6 +22,7 @@ export class AuthService {
                 localStorage.setItem('auth_token', result.token);
                 localStorage.setItem('username', userField.value);
                 localStorage.setItem('csrf_token', result.csrf);
+                localStorage.setItem('auth_time', Date.now().toString());
                 window.location.reload();
             } else {
                 if (errorMsg) {
@@ -40,6 +41,7 @@ export class AuthService {
     }
 
     public static isLoggedIn(): boolean {
-        return !!localStorage.getItem('auth_token');
+        return !!localStorage.getItem('auth_token')
+            && (Date.now() - parseInt(localStorage.getItem('auth_time') || '0')) < 1000 * 60 * 60;
     }
 }
