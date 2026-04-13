@@ -167,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setSection, onLogout }
 
             <div className="pt-4 border-t border-white/5 mt-4">
                 <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-white/6 flex items-center justify-center text-white/90">T</div>
+                    <div className="w-10 h-10 rounded-full bg-white/6 flex items-center justify-center text-white/90">{localStorage.getItem('username')?.charAt(0).toUpperCase() || 'U'}</div>
                     {!collapsed && (
                         <div className="flex-1">
                             <div className="text-sm font-medium text-white">{localStorage.getItem('username')}</div>
