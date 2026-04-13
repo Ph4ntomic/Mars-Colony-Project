@@ -150,12 +150,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setSection, onLogout }
                                 {!collapsed && (
                                     <span className="flex-1 text-left text-sm">
                                         <div className="font-medium">{item.label}</div>
-                                        {/* subtitle */}
                                         <div className="text-xs text-gray-400">{active ? 'Aktiv' : 'Anzeigen'}</div>
                                     </span>
                                 )}
 
-                                {/* Active left indicator */}
                                 {active && !collapsed && (
                                     <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-10 rounded-r-full bg-gradient-to-b from-mars-accent to-mars-red-deep shadow-lg"></span>
                                 )}
@@ -179,7 +177,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setSection, onLogout }
                         title="Account Menü"
                         className="p-2 rounded-md text-gray-300 hover:bg-white/5 transition hidden"
                     >
-                        {/* placeholder for dropdown */}
                     </button>
                 </div>
 
