@@ -1,7 +1,9 @@
 const LoginPage = () => {
     return (
-        <section className="min-h-screen flex items-center justify-center bg-main">
-            <div className="bg-secondary border border-slate-700 rounded-xl p-8 w-full max-w-md backdrop-blur-sm">
+        <section className="min-h-screen flex items-center justify-center bg-main" >
+            <img src="https://media.cnn.com/api/v1/images/stellar/prod/230614113409-curiosity-marker-band-valley.jpg?q=w_3000,c_fill" alt="Mars Landscape" className="min-h-screen w-full absolute inset-0 object-cover blur" />
+            <div className="opacity-35 bg-bg-main min-w-screen min-h-screen absolute inset-0 object-cover z-10"></div>
+            <div className="bg-secondary border border-slate-700 rounded-xl p-8 w-full max-w-md backdrop-blur-sm shadow-smoke-lg relative z-20">
                 <div className="flex flex-col items-center">
                     <img src="./logo.png" alt="ALS-Control Logo" className="w-16 h-16 mb-4" />
                     <h2 className="text-2xl font-bold mb-6 text-center text-mars-accent">ALS LOGIN</h2>
