@@ -1,10 +1,25 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './dashboard/Sidebar';
 import { calculateMarsSolDate } from '../utils/marsTime';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const Layout = () => {
     const [marsDate, setMarsDate] = useState({ sol: 0, time: '00:00' });
+    const location = useLocation();
+
+    const getTitle = () => {
+        const path = location.pathname;
+
+        if (path === "/") return "Overview";
+        if (path.startsWith("/vehicles")) return "Vehicles";
+        if (path.startsWith("/employees")) return "Employees";
+        if (path.startsWith("/sql")) return "SQL";
+        if (path.startsWith("/ressources")) return "Ressources";
+        if (path.startsWith("/citizens")) return "Citizens";
+        if (path.startsWith("/cities")) return "Cities";
+
+        return "Dashboard";
+    };
 
     useEffect(() => {
         const updateTime = () => {
@@ -19,15 +34,12 @@ const Layout = () => {
 
     return (
         <div className="h-screen w-full flex flex-col md:flex-row overflow-hidden">
-            <Sidebar 
-                activeSection='overview'
-                setSection={() => {}}
-            />
+            <Sidebar />
 
             <main className="flex-1 overflow-y-auto p-6 md:p-10 relative">
                 <header className="mb-8 pb-4 border-b flex justify-between items-center sticky top-0 backdrop-blur z-10">
                     <h2 className="text-3xl md:text-4xl font-extrabold capitalize">
-                        Titel..
+                        {getTitle()}
                     </h2>
                     <div className="text-sm text-gray-400 text-right">
                         Mitarbeiter: <span className="text-mars-accent">{localStorage.getItem('username')}</span> <br />
