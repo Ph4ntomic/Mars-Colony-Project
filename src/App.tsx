@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { useState } from "react";
 import { AuthService } from './utils/AuthService.ts';
 
 import Overview from './pages/Overview';
@@ -13,31 +13,25 @@ import Cities from './pages/Cities.tsx';
 import Layout from './components/Layout.tsx';
 
 function App() {
-  const auth = new AuthService('https://hsbi.cyzetlc.de/dev/api/login.php');
-  document.getElementById('login-btn')?.addEventListener('click', () => auth.login());
+  const [isLoggedIn, setIsLoggedIn] = useState(AuthService.isLoggedIn());
 
-  if (!AuthService.isLoggedIn()) {
-    return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Overview />} />
-            <Route path="vehicles" element={<Vehicles />} />
-            {/*<Route path="rover/:name" element={<Rover />} />*/}
-            <Route path="employees" element={<Employees />} />
-            <Route path="sql" element={<SqlOverview />} />
-            <Route path="ressources" element={<Ressources />} />
-            <Route path="citizens" element={<Citizens />} />
-            <Route path="cities" element={<Cities />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    );
-  } else {
-    return (
-      <LoginPage />
-    );
-  }
+  return isLoggedIn ? (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Overview />} />
+          <Route path="vehicles" element={<Vehicles />} />
+          <Route path="employees" element={<Employees />} />
+          <Route path="sql" element={<SqlOverview />} />
+          <Route path="ressources" element={<Ressources />} />
+          <Route path="citizens" element={<Citizens />} />
+          <Route path="cities" element={<Cities />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  ) : (
+    <LoginPage onLogin={() => setIsLoggedIn(true)} />
+  );
 }
 
 export default App;
