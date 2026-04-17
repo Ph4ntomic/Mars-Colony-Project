@@ -8,7 +8,7 @@ const City = () => {
         <section>
             <h3 className="text-2xl font-semibold text-mars-accent mb-4">{name}</h3>
             <div className='bg-secondary p-6 rounded-lg border border-gray-700 shadow-lg grid grid-cols-2 gap-6'>
-                <div>
+                <div className="border-r border-r-gray-700 pr-6">
                     <img src="https://www.businessinsider.de/wp-content/uploads/2018/10/mars-scientific-city-glaskuppeln.jpg" alt="City" className="w-full h-64 object-cover rounded-md mb-4" />
                     <h2 className="text-2xl font-bold text-mars-accent">{name}</h2>
                     <p className="text-gray-300 w-full flex"><span className='w-full'>Bevölkerung: </span><span className="font-bold w-full flex place-content-end">10.000</span></p>
