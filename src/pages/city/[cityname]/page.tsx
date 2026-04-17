@@ -37,6 +37,22 @@ const City = () => {
                         { name: 'Nov', amount: 370 },
                         { name: 'Dez', amount: 450 }
                     ]} isLoading={false} />
+                    <hr className="border-gray-700 my-5"/>
+                    <h4 className="text-xl font-bold text-mars-accent mb-2">Energieverbrauch</h4>
+                    <RessourcesChart data={[
+                        { name: 'Jan', amount: 300 },
+                        { name: 'Feb', amount: 200 },
+                        { name: 'Mär', amount: 250 },
+                        { name: 'Apr', amount: 320 },
+                        { name: 'Mai', amount: 380 },
+                        { name: 'Jun', amount: 450 },
+                        { name: 'Jul', amount: 330 },
+                        { name: 'Aug', amount: 480 },
+                        { name: 'Sep', amount: 390 },
+                        { name: 'Okt', amount: 310 },
+                        { name: 'Nov', amount: 270 },
+                        { name: 'Dez', amount: 350 }
+                    ]} isLoading={false} />
                 </div>
             </div>
         </section>
