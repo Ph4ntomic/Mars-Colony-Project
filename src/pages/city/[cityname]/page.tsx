@@ -14,17 +14,13 @@ const City = () => {
                     <p className="text-gray-300 w-full flex"><span className='w-full'>Bevölkerung: </span><span className="font-bold w-full flex place-content-end">10.000</span></p>
                     <p className="text-gray-300 w-full flex"><span className='w-full'>Energie-Leistung: </span><span className="font-bold w-full flex place-content-end">500 MW</span></p>
                     <p className="text-gray-300 w-full flex"><span className='w-full'>Aktive Fahrzeuge: </span><span className="font-bold w-full flex place-content-end">200</span></p>
+                    <button className="mt-4 px-4 py-2 bg-mars-accent text-white rounded-md hover:bg-mars-accent/90 transition-colors">Mehr Details</button>
+                    <button className="mt-4 ml-2 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors">Bewohner-Verzeichnis</button>
+                    <button className="mt-4 ml-2 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors">Energie-Verbrauch</button>
                 </div>
                 <div>
                     <h4 className="text-xl font-bold text-mars-accent mb-2">Beschreibung</h4>
                     <p className="text-gray-300">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <hr className="border-gray-700 my-5"/>
-                    <h4 className="text-xl font-bold text-mars-accent mb-2">Aktuelle Projekte</h4>
-                    <ul className="list-disc list-inside text-gray-300">
-                        <li>Projekt A: Entwicklung eines neuen Energiesystems</li>
-                        <li>Projekt B: Ausbau der Infrastruktur</li>
-                        <li>Projekt C: Forschung zur Verbesserung der Lebensbedingungen</li>
-                    </ul>
                     <hr className="border-gray-700 my-5"/>
                     <h4 className="text-xl font-bold text-mars-accent mb-2">Bevölkerungsentwicklung</h4>
                     <RessourcesChart data={[
