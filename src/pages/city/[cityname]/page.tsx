@@ -6,7 +6,6 @@ const City = () => {
 
     return (
         <section>
-            <h3 className="text-2xl font-semibold text-mars-accent mb-4">{name}</h3>
             <div className='bg-secondary p-6 rounded-lg border border-gray-700 shadow-lg grid grid-cols-2 gap-6'>
                 <div className="border-r border-r-gray-700 pr-6">
                     <img src="https://www.businessinsider.de/wp-content/uploads/2018/10/mars-scientific-city-glaskuppeln.jpg" alt="City" className="w-full h-64 object-cover rounded-md mb-4" />

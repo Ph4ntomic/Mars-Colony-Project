@@ -18,6 +18,11 @@ const Layout = () => {
         if (path.startsWith("/citizens")) return "Citizens";
         if (path.startsWith("/cities")) return "Cities";
 
+        if (path.startsWith("/city/")) {
+            const cityName = path.split("/city/")[1];
+            return cityName.charAt(0).toUpperCase() + cityName.slice(1);
+        }
+
         return "Dashboard";
     };
 
