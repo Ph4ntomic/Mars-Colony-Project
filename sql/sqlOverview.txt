@@ -8,3 +8,6 @@ Zeigt alle Abteilungen mit Leitung und Login / Welche Abteilungen gibt es und we
 _______________________________________________________________
 getDepartmentResourceDependencies.sql
 Zeigt welche Abteilung mit welchen Ressourcen verknüpft/zugeordnet ist 
+_______________________________________________________________
+getEmployeeCountByDepartment.sql
+Sie nimmt alle Abteilungen aus ABTEILUNG, verbindet dazu passende Mitarbeiter aus MITARBEITER, zählt die Mitarbeiter pro Abteilung und sortiert die größte Abteilung nach oben.
