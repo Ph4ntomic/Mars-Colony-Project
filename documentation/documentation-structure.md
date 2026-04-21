@@ -1,25 +1,23 @@
+# Dokumentationsstruktur
+
+```text
 documentation/
-│
 ├── README.md
-│
 ├── 10_case-study/
 │   ├── README.md
 │   ├── hintergrund.md
 │   ├── problemstellung.md
 │   └── zielsetzung.md
-│
 ├── 20_use-cases/
 │   ├── README.md
 │   ├── use-cases.md
 │   ├── akteure.md
 │   └── use-case-diagramm.png
-│
 ├── 25_identitaet-und-branding/
 │   ├── README.md
 │   ├── namensgebung.md
 │   ├── logo-design.md
 │   └── assets/
-│
 ├── 30_anforderungsanalyse-und-bpmn/
 │   ├── README.md
 │   ├── anforderungsanalyse.md
@@ -27,14 +25,12 @@ documentation/
 │   ├── prozess-01.bpmn
 │   ├── prozess-02.bpmn
 │   └── assets/
-│
 ├── 40_lastenheft-und-pflichtenheft/
 │   ├── README.md
 │   ├── lastenheft.md
 │   ├── pflichtenheft.md
 │   ├── priorisierung.md
 │   └── ressourcenplanung.md
-│
 ├── 50_datenbank/
 │   ├── README.md
 │   ├── erd.md
@@ -46,7 +42,6 @@ documentation/
 │   └── assets/
 │       ├── erd.pdf
 │       └── pdm.pdf
-│
 ├── 60_architektur-und-technologie/
 │   ├── README.md
 │   ├── architekturuebersicht.md
@@ -54,7 +49,6 @@ documentation/
 │   ├── frontend.md
 │   ├── backend.md
 │   └── technologiebegruendung.md
-│
 ├── 70_software-dokumentation/
 │   ├── README.md
 │   ├── moduluebersicht.md
@@ -62,14 +56,12 @@ documentation/
 │   ├── installationshinweise.md
 │   ├── query-overview.md
 │   └── sicherheitskonzept.md
-│
 ├── 80_test-und-qualitaet/
 │   ├── README.md
 │   ├── testkonzept.md
 │   ├── testfaelle.md
 │   ├── testergebnisse.md
 │   └── bekannte-probleme.md
-│
 ├── 90_projektmanagement/
 │   ├── README.md
 │   ├── aufgabenverteilung.md
@@ -77,13 +69,11 @@ documentation/
 │   ├── projektplan.md
 │   ├── einzelleistungen.md
 │   └── feedback.md
-│
 ├── 95_praesentationen/
 │   ├── README.md
 │   ├── proposal/
 │   ├── zwischenstand/
 │   └── abschluss/
-│
 └── 99_projektbericht/
     ├── README.md
     ├── projektbericht.md
