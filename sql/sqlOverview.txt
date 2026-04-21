@@ -10,4 +10,26 @@ getDepartmentResourceDependencies.sql
 Zeigt welche Abteilung mit welchen Ressourcen verknüpft/zugeordnet ist 
 _______________________________________________________________
 getEmployeeCountByDepartment.sql
-Sie nimmt alle Abteilungen aus ABTEILUNG, verbindet dazu passende Mitarbeiter aus MITARBEITER, zählt die Mitarbeiter pro Abteilung und sortiert die größte Abteilung nach oben.
+Sie nimmt alle Abteilungen aus ABTEILUNG, verbindet dazu passende Mitarbeiter aus MITARBEITER, 
+zählt die Mitarbeiter pro Abteilung und sortiert die größte Abteilung nach oben.
+_______________________________________________________________
+getCitiesWithoutEnergySource.sql
+Die Abfrage zeigt Städte, die keiner Energiequelle zugeordnet sind. Das ist simpel
+aber fachlich sehr stark, weil eine Mars-Stadt ohne Energieversorgung ein echtes Problem wäre.
+_______________________________________________________________
+getResidentCountByAddress.sql
+Die Abfrage zeigt, wie viele Bewohner an welcher Adresse wohnen. Das ist leicht, aber sinnvoll, 
+weil man damit sieht, welche Wohnbereiche stark belegt sind. 
+(Maybe auch cool wenn man Ressourcen trackt)
+
+_______________________________________________________________
+Lagerübersicht mit Ressourcenmenge
+getStorageResourceSummary.sql
+Die Abfrage zeigt pro Lager, wie viele verschiedene Ressourcen dort liegen 
+und wie viel Menge, Gewicht und Volumen zusammenkommen. Sehr passend für Ressourcenverwaltung.
+COUNT = zählt Zeilen
+SUM = addiert Zahlen
+
+_______________________________________________________________
+getResidentCountByCity.sql
+
