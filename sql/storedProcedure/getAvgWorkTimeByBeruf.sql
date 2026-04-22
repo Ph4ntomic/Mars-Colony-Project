@@ -1,0 +1,15 @@
+DROP PROCEDURE IF EXISTS getAvgWorkTimeByBeruf;
+DELIMITER $$
+
+CREATE PROCEDURE getAvgWorkTimeByBeruf()
+READS SQL DATA
+BEGIN
+SELECT
+    b.BERUFUNG_NAME,
+    AVG(b.ARBEITSZEIT) AS durchschnittliche_arbeitszeit
+FROM BERUFUNG b
+GROUP BY b.BERUFUNG_NAME
+ORDER BY durchschnittliche_arbeitszeit DESC;
+END $$
+
+DELIMITER ;
