@@ -17,7 +17,9 @@ Im Projekt „Mars Logistik Verwaltung“ entwickeln wir ein datenbankgestützte
 - Sergiu Curmei, Matr.-Nr. 502 135 44
 
 **Sprecher / Sprecherin:**  
-Die Rolle der Sprecherin bzw. des Sprechers wird in unserer Gruppe rotierend übernommen. Im Verlauf des Projekts wird jedes Gruppenmitglied diese Rolle einmal wahrnehmen.
+Ansprechperson: Tom Coombs (tom.coombs@hsbi.de)  
+Stellvertretung: Leonardo Parrino (leonardo_rosario.parrino@hsbi.de)
+
 
 **Oracle-Datenbank:**  
 Nein, wir benötigen kein neues Schema in der Oracle-Datenbank, da wir bereits eine MariaDB auf einem VPS eingerichtet haben.
