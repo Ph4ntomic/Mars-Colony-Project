@@ -1,11 +1,31 @@
+DROP PROCEDURE IF EXISTS getEmployeeProfile;
 DELIMITER $$
 
 CREATE PROCEDURE getEmployeeProfile(IN p_employee_id DECIMAL(8,0))
+READS SQL DATA
 BEGIN
-SELECT *
-FROM employees
-    INNER JOIN citizens ON employees.citizen_id = citizens.citizen_id
-WHERE employees.employee_id = p_employee_id;
+SELECT
+    m.MITARBEITER_ID,
+    m.LOGIN,
+    m.GEHALT,
+    m.BEREICH_ID,
+    m.ABT_BEREICH_ID,
+    a.ABTEILUNG_NAME,
+    m.BERUFUNG_ID,
+    be.BERUFUNG_NAME,
+    b.BEWOHNER_ID,
+    b.ADRESSE_ID,
+    b.VORNAME,
+    b.NACHNAME,
+    b.GEB
+FROM MITARBEITER m
+INNER JOIN BEWOHNER b
+    ON m.BEWOHNER_ID = b.BEWOHNER_ID
+LEFT JOIN ABTEILUNG a
+    ON m.ABT_BEREICH_ID = a.BEREICH_ID
+LEFT JOIN BERUFUNG be
+    ON m.BERUFUNG_ID = be.BERUFUNG_ID
+WHERE m.MITARBEITER_ID = p_employee_id;
 END $$
 
 DELIMITER ;

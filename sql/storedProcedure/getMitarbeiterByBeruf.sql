@@ -1,14 +1,20 @@
+DROP PROCEDURE IF EXISTS getMitarbeiterByBeruf;
 DELIMITER $$
 
 CREATE PROCEDURE getMitarbeiterByBeruf(IN p_berufung_name VARCHAR(255))
+READS SQL DATA
 BEGIN
-SELECT m.mitarbeiter_id,
-    m.vorname,
-    m.nachname,
-    m.gehalt
-FROM Mitarbeiter m
-    JOIN Berufung b ON m.berufung_id = b.b_id
-WHERE b.berufung_name = p_berufung_name;
+SELECT
+    m.MITARBEITER_ID,
+    bw.VORNAME,
+    bw.NACHNAME,
+    m.GEHALT
+FROM MITARBEITER m
+INNER JOIN BEWOHNER bw
+    ON m.BEWOHNER_ID = bw.BEWOHNER_ID
+INNER JOIN BERUFUNG b
+    ON m.BERUFUNG_ID = b.BERUFUNG_ID
+WHERE b.BERUFUNG_NAME = p_berufung_name;
 END $$
 
 DELIMITER ;

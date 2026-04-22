@@ -1,6 +1,8 @@
+DROP PROCEDURE IF EXISTS getDepartmentsWithLeaders;
 DELIMITER $$
 
 CREATE PROCEDURE getDepartmentsWithLeaders()
+READS SQL DATA
 BEGIN
 SELECT
     a.BEREICH_ID,

@@ -1,15 +1,21 @@
+DROP PROCEDURE IF EXISTS getMitarbeiterRolle;
 DELIMITER $$
 
 CREATE PROCEDURE getMitarbeiterRolle()
+READS SQL DATA
 BEGIN
-SELECT m.login,
-    bw.vorname,
-    bw.nachname,
-    be.berufung_name,
-    m.gehalt
+SELECT
+    m.LOGIN,
+    bw.VORNAME,
+    bw.NACHNAME,
+    be.BERUFUNG_NAME,
+    m.GEHALT
 FROM MITARBEITER m
-    JOIN BERUFUNG be ON m.berufung_id = be.berufung_id
-    JOIN BEWOHNER bw ON bw.BEWOHNER_ID = m.bewohner_id;
+INNER JOIN BERUFUNG be
+    ON m.BERUFUNG_ID = be.BERUFUNG_ID
+INNER JOIN BEWOHNER bw
+    ON bw.BEWOHNER_ID = m.BEWOHNER_ID
+ORDER BY m.MITARBEITER_ID;
 END $$
 
 DELIMITER ;

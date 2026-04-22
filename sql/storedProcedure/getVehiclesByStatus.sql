@@ -1,10 +1,18 @@
+DROP PROCEDURE IF EXISTS getVehiclesByStatus;
 DELIMITER $$
 
 CREATE PROCEDURE getVehiclesByStatus(IN p_status VARCHAR(255))
+READS SQL DATA
 BEGIN
 SELECT COUNT(*) AS vehicle_count
-FROM vehicles
-WHERE status = p_status;
+FROM (
+    SELECT F_STATUS AS STATUS
+    FROM FAHRZEUGE
+    UNION ALL
+    SELECT RF_STATUS AS STATUS
+    FROM RAUMFAHRZEUG
+) vehicle_statuses
+WHERE STATUS = p_status;
 END $$
 
 DELIMITER ;

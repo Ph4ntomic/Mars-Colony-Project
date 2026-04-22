@@ -1,19 +1,21 @@
+DROP PROCEDURE IF EXISTS getRessourcesBelowMin;
 DELIMITER $$
 
 CREATE PROCEDURE getRessourcesBelowMin()
+READS SQL DATA
 BEGIN
 SELECT
     r.RESSOURCE_ID,
-    r.r_typ,
-    r.menge,
-    r.min_schwellenwert,
-    l.lagertyp
+    r.R_TYP,
+    r.MENGE,
+    r.MIN_SCHWELLENWERT,
+    l.LAGERTYP
 FROM RESSOURCE r
-INNER JOIN IST_GELAGERT_IN ig 
-    ON r.RESSOURCE_ID = ig.ressource_id
-INNER JOIN LAGER l 
-    ON ig.lager_id = l.lager_id
-WHERE r.menge < r.min_schwellenwert;
+INNER JOIN IST_GELAGERT_IN ig
+    ON r.RESSOURCE_ID = ig.RESSOURCE_ID
+INNER JOIN LAGER l
+    ON ig.LAGER_ID = l.LAGER_ID
+WHERE r.MENGE < r.MIN_SCHWELLENWERT;
 END $$
 
 DELIMITER ;

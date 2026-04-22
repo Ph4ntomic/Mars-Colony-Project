@@ -1,17 +1,26 @@
+DROP PROCEDURE IF EXISTS getMissionsBericht;
 DELIMITER $$
 
 CREATE PROCEDURE getMissionsBericht()
+READS SQL DATA
 BEGIN
-SELECT t.tpw_id,
-    m.login AS pilot,
-    f.f_name AS fahrzeug,
-    s.stadt_name AS sektor,
-    t.dauer,
-    t.tpw_status
+SELECT
+    t.TPW_ID,
+    m.LOGIN AS pilot,
+    COALESCE(f.F_NAME, rf.RF_TYP) AS fahrzeug,
+    s.STADT_NAME AS sektor,
+    t.DAUER,
+    t.TPW_STATUS
 FROM TRANSPORTWEGE t
-    JOIN MITARBEITER m ON t.mitarbeiter_id = m.mitarbeiter_id
-    JOIN FAHRZEUGE f ON t.fahrzeug_id = f.fahrzeug_id
-    JOIN STADT s ON t.stadt_id = s.stadt_id;
+INNER JOIN MITARBEITER m
+    ON t.MITARBEITER_ID = m.MITARBEITER_ID
+LEFT JOIN FAHRZEUGE f
+    ON t.FAHRZEUG_ID = f.FAHRZEUG_ID
+LEFT JOIN RAUMFAHRZEUG rf
+    ON t.RF_ID = rf.RF_ID
+INNER JOIN STADT s
+    ON t.STADT_ID = s.STADT_ID
+ORDER BY t.TPW_ID;
 END $$
 
 DELIMITER ;

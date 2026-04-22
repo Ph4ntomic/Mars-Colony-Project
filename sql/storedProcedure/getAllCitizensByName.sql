@@ -1,24 +1,26 @@
+DROP PROCEDURE IF EXISTS getAllCitizensByName;
 DELIMITER $$
 
 CREATE PROCEDURE getAllCitizensByName(IN p_search_term VARCHAR(255))
+READS SQL DATA
 BEGIN
 SELECT
-    b.bewohner_id,
-    b.vorname,
-    b.nachname,
-    CONCAT(CONCAT(CONCAT(CONCAT(a.stra_e, ' '), a.hausnummer), ', '), s.stadt_name) AS adresse,
-    CASE 
-        WHEN m.bewohner_id IS NOT NULL THEN 'Ja' 
-        ELSE 'Nein' 
+    b.BEWOHNER_ID,
+    b.VORNAME,
+    b.NACHNAME,
+    CONCAT(a.STRA_E, ' ', a.HAUSNUMMER, ', ', s.STADT_NAME) AS adresse,
+    CASE
+        WHEN m.BEWOHNER_ID IS NOT NULL THEN 'Ja'
+        ELSE 'Nein'
     END AS ist_mitarbeiter
 FROM BEWOHNER b
-LEFT JOIN MITARBEITER m 
-    ON b.bewohner_id = m.bewohner_id
-INNER JOIN ADRESSE a 
-    ON b.adresse_id = a.adresse_id
-INNER JOIN STADT s 
-    ON a.stadt_id = s.stadt_id
-WHERE CONCAT(b.vorname, ' ', b.nachname) LIKE CONCAT('%', p_search_term, '%');
+LEFT JOIN MITARBEITER m
+    ON b.BEWOHNER_ID = m.BEWOHNER_ID
+INNER JOIN ADRESSE a
+    ON b.ADRESSE_ID = a.ADRESSE_ID
+INNER JOIN STADT s
+    ON a.STADT_ID = s.STADT_ID
+WHERE CONCAT(b.VORNAME, ' ', b.NACHNAME) LIKE CONCAT('%', p_search_term, '%');
 END $$
 
 DELIMITER ;

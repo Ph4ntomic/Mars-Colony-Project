@@ -1,17 +1,27 @@
+DROP PROCEDURE IF EXISTS getCitiesWithStats;
 DELIMITER $$
 
 CREATE PROCEDURE getCitiesWithStats()
+READS SQL DATA
 BEGIN
-SELECT 
-    s.stadt_name,
-    k.breitengrad,
-    k.laengengrad,
-    COUNT(b.bewohner_id) AS einwohner_anzahl
+SELECT
+    s.STADT_NAME,
+    k.BREITENGRAD,
+    k.LAENGENGRAD,
+    COUNT(b.BEWOHNER_ID) AS einwohner_anzahl
 FROM STADT s
-JOIN KOORDINATE k ON s.koord_id = k.id
-LEFT JOIN ADRESSE a ON s.stadt_id = a.stadt_id
-LEFT JOIN BEWOHNER b ON a.adresse_id = b.adresse_id
-GROUP BY s.stadt_name, k.breitengrad, k.laengengrad;
+LEFT JOIN KOORDINATE k
+    ON s.KOORD_ID = k.ID
+LEFT JOIN ADRESSE a
+    ON s.STADT_ID = a.STADT_ID
+LEFT JOIN BEWOHNER b
+    ON a.ADRESSE_ID = b.ADRESSE_ID
+GROUP BY
+    s.STADT_ID,
+    s.STADT_NAME,
+    k.BREITENGRAD,
+    k.LAENGENGRAD
+ORDER BY s.STADT_NAME;
 END $$
 
 DELIMITER ;

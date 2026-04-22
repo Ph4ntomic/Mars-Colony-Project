@@ -1,12 +1,17 @@
+DROP PROCEDURE IF EXISTS getCitiesWithKoords;
 DELIMITER $$
 
 CREATE PROCEDURE getCitiesWithKoords()
+READS SQL DATA
 BEGIN
-SELECT s.stadt_name,
-    k.breitengrad,
-    k.laengengrad
+SELECT
+    s.STADT_NAME,
+    k.BREITENGRAD,
+    k.LAENGENGRAD
 FROM STADT s
-    JOIN KOORDINATE k ON s.koord_id = k.id;
+INNER JOIN KOORDINATE k
+    ON s.KOORD_ID = k.ID
+ORDER BY s.STADT_NAME;
 END $$
 
 DELIMITER ;

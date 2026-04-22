@@ -1,16 +1,21 @@
+DROP PROCEDURE IF EXISTS getBewohnerAtAddress;
 DELIMITER $$
 
 CREATE PROCEDURE getBewohnerAtAddress()
+READS SQL DATA
 BEGIN
-SELECT b.bewohner_id,
-    b.vorname,
-    b.nachname,
-    a.stra_e as 'StraÃŸe',
-    a.hausnummer
+SELECT
+    b.BEWOHNER_ID,
+    b.VORNAME,
+    b.NACHNAME,
+    a.STRA_E AS Strasse,
+    a.HAUSNUMMER
 FROM BEWOHNER b
-    JOIN ADRESSE a ON b.adresse_id = a.adresse_id
-ORDER BY b.nachname,
-    b.vorname;
+JOIN ADRESSE a
+    ON b.ADRESSE_ID = a.ADRESSE_ID
+ORDER BY
+    b.NACHNAME,
+    b.VORNAME;
 END $$
 
 DELIMITER ;

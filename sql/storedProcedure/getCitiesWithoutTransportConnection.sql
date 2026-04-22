@@ -1,11 +1,15 @@
+DROP PROCEDURE IF EXISTS getCitiesWithoutTransportConnection;
 DELIMITER $$
 
 CREATE PROCEDURE getCitiesWithoutTransportConnection()
+READS SQL DATA
 BEGIN
-SELECT s.stadt_name
+SELECT s.STADT_NAME
 FROM STADT s
-    LEFT JOIN TRANSPORTWEGE t ON s.stadt_id = t.stadt_id
-WHERE t.tpw_id IS NULL;
+LEFT JOIN TRANSPORTWEGE t
+    ON s.STADT_ID = t.STADT_ID
+WHERE t.TPW_ID IS NULL
+ORDER BY s.STADT_NAME;
 END $$
 
 DELIMITER ;
