@@ -4,7 +4,7 @@
 Projekt: Mars Logistik Verwaltung [ALS]  
 Version: 1.0  
 Stand: 05.05.2026  
-Praktikumsgruppe: [1]
+Praktikumsgruppe: 1
 
 ---
 
@@ -37,14 +37,9 @@ Das Projekt basiert auf folgenden vorhandenen Bestandteilen:
 | SQL-Dateien | vorhanden |
 | Stored Procedures | vorhanden / weiter ausbaubar |
 | MariaDB-Datenbank | vorhanden |
-| VPS | vorhanden |
 | Businessprozesse | festgelegt |
 | BPMN-Modelle | passend zu den Businessprozessen zu erstellen |
 | Dokumentation | vorhanden und weiter zu optimieren |
-
-VPS bedeutet Virtual Private Server, auf Deutsch: virtueller privater Server.
-
-Ein VPS ist ein gemieteter Server im Internet, auf dem eigene Dienste betrieben werden können. In diesem Projekt läuft darauf die MariaDB-Datenbank für Mars Logistik Verwaltung [ALS].
 
 ---
 
@@ -106,14 +101,13 @@ Prioritätsskala:
 |---|---|---:|---|
 | NFA-01 | Die Weboberfläche soll übersichtlich und demonstrierbar sein. | 1 | vorhanden |
 | NFA-02 | Die Anwendung soll vorhandene SQL-Dateien und Stored Procedures nutzen. | 1 | vorhanden |
-| NFA-03 | Die Datenbank liegt auf einer MariaDB auf einem VPS. | 1 | vorhanden |
-| NFA-04 | VPS bedeutet Virtual Private Server, also virtueller privater Server im Internet. | 1 | vorhanden |
-| NFA-05 | Der Zugriff auf Daten soll über die PHP-API erfolgen. | 1 | vorhanden |
-| NFA-06 | Der Datenaustausch zwischen API und Web-App soll über JSON erfolgen. | 2 | vorhanden |
-| NFA-07 | Vorhandene SQL-Dateien und Stored Procedures sollen fachlich den Businessprozessen zugeordnet werden. | 1 | zu dokumentieren |
-| NFA-08 | Die vorhandene Datenbanklogik soll in Web-App, BPMN und Präsentation nachvollziehbar in Szene gesetzt werden. | 1 | zu optimieren |
-| NFA-09 | Die vorhandenen Funktionen sollen wirtschaftlichen Nutzen sichtbar machen. | 2 | zu optimieren |
-| NFA-10 | Fehlerfälle sollen verständlich angezeigt werden. | 3 | optional |
+| NFA-03 | Die Datenbank liegt auf einer MariaDB-Datenbank. | 1 | vorhanden |
+| NFA-04 | Der Zugriff auf Daten soll über die PHP-API erfolgen. | 1 | vorhanden |
+| NFA-05 | Der Datenaustausch zwischen API und Web-App soll über JSON erfolgen. | 2 | vorhanden |
+| NFA-06 | Vorhandene SQL-Dateien und Stored Procedures sollen fachlich den Businessprozessen zugeordnet werden. | 1 | zu dokumentieren |
+| NFA-07 | Die vorhandene Datenbanklogik soll in Web-App, BPMN und Präsentation nachvollziehbar in Szene gesetzt werden. | 1 | zu optimieren |
+| NFA-08 | Die vorhandenen Funktionen sollen wirtschaftlichen Nutzen sichtbar machen. | 2 | zu optimieren |
+| NFA-09 | Fehlerfälle sollen verständlich angezeigt werden. | 3 | optional |
 
 ---
 
@@ -134,8 +128,8 @@ Restaufwand = geschätzter Aufwand ab aktuellem Projektstand
 | PH-06 | LH-14, LH-15 | Verkaufsentscheidungen werden zunächst aus vorhandenen Ressourcen- und Lagerdaten abgeleitet. Dadurch wird sichtbar, welche Ressourcen wirtschaftlich verwertet werden könnten. | `getRessourcenWithLager.sql`, `getRessourcesBelowMin.sql`, `getStorageResourceSummary.sql` | 1 PT |
 | PH-07 | LH-16 | Die vorhandene Web-App wird als zentrale Oberfläche für Dashboard, Tabellenansichten und Prozessdarstellung genutzt. | React, TypeScript, Vite, Tailwind CSS | 1 PT |
 | PH-08 | LH-17 | Die vorhandene PHP-API stellt Datenbankergebnisse für die Web-App bereit. | PHP-API, JSON, CSRF-Token | 1 PT |
-| PH-09 | LH-18, NFA-07 | Die vorhandenen SQL-Dateien und Stored Procedures werden den sechs Businessprozessen zugeordnet und dokumentiert. | SQL-Dateien / Stored Procedures / Doku / BPMN-Bezug | 1 PT |
-| PH-10 | NFA-08, NFA-09 | Die vorhandene Datenbanklogik wird fachlich optimiert und in Web-App, BPMN-Modellen und Präsentation als wirtschaftlich nutzbare Prozessunterstützung sichtbar gemacht. | MariaDB / SQL-Dateien / Stored Procedures / PHP-API | 2 PT |
+| PH-09 | LH-18, NFA-06 | Die vorhandenen SQL-Dateien und Stored Procedures werden den sechs Businessprozessen zugeordnet und dokumentiert. | SQL-Dateien / Stored Procedures / Doku / BPMN-Bezug | 1 PT |
+| PH-10 | NFA-07, NFA-08 | Die vorhandene Datenbanklogik wird fachlich optimiert und in Web-App, BPMN-Modellen und Präsentation als wirtschaftlich nutzbare Prozessunterstützung sichtbar gemacht. | MariaDB / SQL-Dateien / Stored Procedures / PHP-API | 2 PT |
 
 Geschätzter Restaufwand: 11 Personentage
 
@@ -194,8 +188,6 @@ Diese Punkte sind sinnvoll, aber nicht zwingend für die erste funktionsfähige 
 | Erweiterung | Nutzen |
 |---|---|
 | Vollständiges Verkaufsmodul | macht Ressourcenüberschüsse direkt abrechenbar |
-| Neue Verkaufstab|---|---|
-| Vollständiges Verkaufsmodul | macht Ressourcenüberschüsse direkt abrechenbar |
 | Neue Verkaufstabellen | ermöglicht saubere Dokumentation externer Verkäufe |
 | Erweiterte Dashboard-Kennzahlen | macht wirtschaftlichen Nutzen besser sichtbar |
 | Optimierte Stored-Procedures-Struktur | verbessert Wartbarkeit und Präsentierbarkeit |
@@ -215,8 +207,7 @@ Diese Punkte sind sinnvoll, aber nicht zwingend für die erste funktionsfähige 
 | Build Tool / Entwicklungsserver | Vite |
 | Styling | Tailwind CSS |
 | Backend / API | PHP-API |
-| Datenbank | MariaDB auf einem VPS |
-| VPS | Virtual Private Server, also ein virtueller privater Server im Internet |
+| Datenbank | MariaDB |
 | Datenbanklogik | vorhandene SQL-Dateien und Stored Procedures |
 | Datenaustausch | JSON |
 | Sicherheit | CSRF-Token für API-Anfragen |
@@ -227,7 +218,7 @@ Diese Punkte sind sinnvoll, aber nicht zwingend für die erste funktionsfähige 
 
 | Nicht im Kernumfang | Grund |
 |---|---|
-| Neues Oracle-Schema | Nicht notwendig, da bereits eine MariaDB auf einem VPS eingerichtet ist. |
+| Neues Oracle-Schema | Nicht notwendig, da bereits eine MariaDB-Datenbank eingerichtet ist. |
 | PL/SQL | Nicht passend, da PL/SQL Oracle-spezifisch ist. |
 | Komplett neue Datenbankstruktur | Nicht notwendig, weil bereits eine technische Grundlage vorhanden ist. |
 | Vollständiges Zahlungssystem | Verkauf wird zunächst wirtschaftlich vorbereitet, aber nicht vollständig abgerechnet. |
@@ -279,7 +270,7 @@ Mars Logistik Verwaltung [ALS] unterstützt die sechs festgelegten Businessproze
 
 Die Spezifikation wurde nicht auf einer leeren Planung aufgebaut, sondern aus dem bereits vorhandenen und überarbeiteten Projektstand weiterentwickelt.
 
-Bereits vorhanden sind eine Web-App, eine PHP-API, SQL-Abfragen, Stored Procedures, Datenbankstrukturen, technische Dokumentation und eine MariaDB auf einem Virtual Private Server. Diese Bestandteile wurden fachlich neu geordnet, optimiert und den sechs Businessprozessen zugeordnet.
+Bereits vorhanden sind eine Web-App, eine PHP-API, SQL-Abfragen, Stored Procedures, Datenbankstrukturen, technische Dokumentation und eine MariaDB-Datenbank. Diese Bestandteile wurden fachlich neu geordnet, optimiert und den sechs Businessprozessen zugeordnet.
 
 Der Schwerpunkt liegt nicht darin, alles neu zu entwickeln, sondern die vorhandenen Funktionen gezielt in Szene zu setzen. Die bestehenden SQL-Abfragen und Stored Procedures sollen die Geschäftsprozesse sichtbar unterstützen, wirtschaftlichen Nutzen erzeugen und die Logistikentscheidungen der Marskolonie datenbankgestützt verbessern.
 
