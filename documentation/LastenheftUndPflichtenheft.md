@@ -97,17 +97,28 @@ Prioritätsskala:
 
 ### 4.2 Nicht-funktionale Anforderungen
 
+Die nicht-funktionalen Anforderungen beschreiben die Qualitätsmerkmale des Systems. Sie legen fest, wie zuverlässig, nachvollziehbar, bedienbar und wartbar die Anwendung umgesetzt werden soll.
+
 | ID | Anforderung | Priorität | Status |
 |---|---|---:|---|
-| NFA-01 | Die Weboberfläche soll übersichtlich und demonstrierbar sein. | 1 | vorhanden |
-| NFA-02 | Die Anwendung soll vorhandene SQL-Dateien und Stored Procedures nutzen. | 1 | vorhanden |
-| NFA-03 | Die Datenbank liegt auf einer MariaDB-Datenbank. | 1 | vorhanden |
-| NFA-04 | Der Zugriff auf Daten soll über die PHP-API erfolgen. | 1 | vorhanden |
-| NFA-05 | Der Datenaustausch zwischen API und Web-App soll über JSON erfolgen. | 2 | vorhanden |
-| NFA-06 | Vorhandene SQL-Dateien und Stored Procedures sollen fachlich den Businessprozessen zugeordnet werden. | 1 | zu dokumentieren |
-| NFA-07 | Die vorhandene Datenbanklogik soll in Web-App, BPMN und Präsentation nachvollziehbar in Szene gesetzt werden. | 1 | zu optimieren |
-| NFA-08 | Die vorhandenen Funktionen sollen wirtschaftlichen Nutzen sichtbar machen. | 2 | zu optimieren |
-| NFA-09 | Fehlerfälle sollen verständlich angezeigt werden. | 3 | optional |
+| NFA-01 | Die Weboberfläche soll übersichtlich, konsistent und für eine Präsentation gut demonstrierbar sein. | 1 | vorhanden |
+| NFA-02 | Die Anwendung soll fachliche Ergebnisse nachvollziehbar darstellen, damit Ressourcen-, Missions-, Energie-, Lager-, Personal- und Verkaufsentscheidungen begründet werden können. | 1 | zu optimieren |
+| NFA-03 | Fehlerfälle sollen verständlich angezeigt werden, zum Beispiel bei fehlgeschlagenen Datenbankabfragen, ungültigen Eingaben oder nicht verfügbaren API-Daten. | 2 | teilweise vorhanden |
+| NFA-04 | Der Datenaustausch zwischen Web-App und API soll in einem einheitlichen JSON-Format erfolgen. | 1 | vorhanden |
+| NFA-05 | Der Zugriff auf Daten soll ausschließlich über die PHP-API erfolgen, damit die Weboberfläche nicht direkt auf die Datenbank zugreift. | 1 | vorhanden |
+| NFA-06 | Die vorhandene Datenbanklogik soll so eingebunden und dokumentiert sein, dass SQL-Dateien, Stored Procedures, Web-App und Businessprozesse fachlich zusammenpassen. | 1 | zu dokumentieren |
+| NFA-07 | Die Anwendung soll ohne besondere lokale Einrichtung über die bestehende Serverumgebung demonstrierbar sein. | 2 | vorhanden |
+| NFA-08 | Die Darstellung der Systemfunktionen soll den wirtschaftlichen Nutzen der Businessprozesse sichtbar machen, insbesondere durch Warnungen, Auswertungen und Entscheidungsgrundlagen. | 2 | zu optimieren |
+| NFA-09 | Die Struktur der Anwendung soll wartbar bleiben, indem Weboberfläche, PHP-API und Datenbanklogik klar voneinander getrennt sind. | 2 | teilweise vorhanden |
+
+#### Technische Rahmenbedingungen
+
+| Bereich | Festlegung |
+|---|---|
+| Datenbank | Die Anwendung nutzt eine MariaDB-Datenbank. |
+| Serverbetrieb | Die Datenbank wird auf einem Virtual Private Server (VPS) betrieben. Ein VPS ist ein virtueller privater Server im Internet. |
+| Datenzugriff | Die Web-App greift nicht direkt auf die Datenbank zu, sondern nutzt die vorhandene PHP-API. |
+| Datenbanklogik | Vorhandene SQL-Dateien und Stored Procedures werden weiterverwendet und den Businessprozessen zugeordnet. |
 
 ---
 
@@ -129,7 +140,7 @@ Restaufwand = geschätzter Aufwand ab aktuellem Projektstand
 | PH-07 | LH-16 | Die vorhandene Web-App wird als zentrale Oberfläche für Dashboard, Tabellenansichten und Prozessdarstellung genutzt. | React, TypeScript, Vite, Tailwind CSS | 1 PT |
 | PH-08 | LH-17 | Die vorhandene PHP-API stellt Datenbankergebnisse für die Web-App bereit. | PHP-API, JSON, CSRF-Token | 1 PT |
 | PH-09 | LH-18, NFA-06 | Die vorhandenen SQL-Dateien und Stored Procedures werden den sechs Businessprozessen zugeordnet und dokumentiert. | SQL-Dateien / Stored Procedures / Doku / BPMN-Bezug | 1 PT |
-| PH-10 | NFA-07, NFA-08 | Die vorhandene Datenbanklogik wird fachlich optimiert und in Web-App, BPMN-Modellen und Präsentation als wirtschaftlich nutzbare Prozessunterstützung sichtbar gemacht. | MariaDB / SQL-Dateien / Stored Procedures / PHP-API | 2 PT |
+| PH-10 | NFA-02, NFA-06, NFA-08 | Die vorhandene Datenbanklogik wird fachlich optimiert und in Web-App, BPMN-Modellen und Präsentation als wirtschaftlich nutzbare Prozessunterstützung sichtbar gemacht. | MariaDB / SQL-Dateien / Stored Procedures / PHP-API | 2 PT |
 
 Geschätzter Restaufwand: 11 Personentage
 
