@@ -1,4 +1,4 @@
-# Gesprächsprotokoll – 2. Termin mit Herrn Becking
+# Gesprächsprotokoll – 2. Termin mit Herrn Prof. Dr. Becking
 
 **Datum:** 06.05.2026  
 **Aufgeschrieben von:** Leonardo Parrino  
@@ -9,16 +9,16 @@
 
 ## 1. Anlass des Gesprächs
 
-Herr Becking war kurz bei uns und hat sich die bisher ausgewählten Geschäftsprozesse angeschaut.
+Herr Prof. Dr. Becking war kurz bei uns und hat sich die bisher ausgewählten Geschäftsprozesse angeschaut.
 
 Die Gruppe hatte insgesamt sechs mögliche Geschäftsprozesse vorbereitet.  
-Grundsätzlich fand Herr Becking alle sechs Prozesse sinnvoll, hat aber darauf hingewiesen, dass der Umfang für das Semesterprojekt zu groß werden könnte.
+Grundsätzlich fand Herr Prof. Dr. Becking alle sechs Prozesse sinnvoll, hat aber darauf hingewiesen, dass der Umfang für das Semesterprojekt zu groß werden könnte.
 
 ---
 
-## 2. Einschätzung von Herrn Becking
+## 2. Einschätzung von Herrn Prof. Dr. Becking
 
-Herr Becking meinte, dass wir uns besser auf **ein bis zwei zentrale Geschäftsprozesse** konzentrieren sollten.
+Herr Prof. Dr. Becking meinte, dass wir uns besser auf **ein bis zwei zentrale Geschäftsprozesse** konzentrieren sollten.
 
 Der Grund dafür ist, dass sechs Prozesse sehr umfangreich wären und später jeweils beschrieben, modelliert und technisch angebunden werden müssten.
 
