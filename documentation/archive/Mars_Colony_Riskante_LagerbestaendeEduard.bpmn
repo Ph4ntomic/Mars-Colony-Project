@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_MarsColony_FEFO" targetNamespace="https://github.com/CyZeTLC/Mars-Colony-Project/bpmn/fefo-risk-inventory" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.13.2">
+  <bpmn:collaboration id="Collaboration_MarsColony_FEFO">
+    <bpmn:participant id="Participant_MarsColony" name="Mars Colony - Lager- und Ressourcenmanagement" processRef="Process_FEFO_RiskInventory" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_FEFO_RiskInventory" name="Ablaufende oder riskante Lagerbestände priorisiert verbrauchen" isExecutable="false">
+    <bpmn:documentation>
+      Fachlicher Zweck: Wirtschaftliche Verluste vermeiden, indem ablaufende oder riskante Ressourcen frühzeitig erkannt,
+      nach FEFO priorisiert und anschließend verbraucht, umgelagert oder ersetzt/entsorgt werden.
+      Bezug zum Mars-Colony-Projekt: WebApp/PHP-API/SQL-Abfragen, insbesondere getRessourcesAtRisk.sql.
+    </bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_FEFO">
+      <bpmn:lane id="Lane_ProcurementDisposal" name="Einkauf / Recycling / Entsorgung">
+        <bpmn:flowNodeRef>Task_ReplaceRecycleDispose</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PlanReplacementDisposal</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Logistics" name="Logistik / Transport">
+        <bpmn:flowNodeRef>Task_PlanRelocation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1ja172q</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RelocateStock</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Production" name="Verbrauchseinheit / Produktion">
+        <bpmn:flowNodeRef>Task_ConsumeStock</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Disposition" name="Lagerleitung / Disposition">
+        <bpmn:flowNodeRef>Task_ReviewPriorityList</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ApproveConsumption</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_SelectMeasure</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="WebApp / Datenbank">
+        <bpmn:flowNodeRef>StartEvent_DailyCheck</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CheckAccess</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AccessValid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_LogAccessError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_QueryRiskResources</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_RiskResourcesFound</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_LogNoRisk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_NoRisk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_MeasureDone</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CalculateFEFO</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_RiskReduced</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_UpdateInventory</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_AccessError</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_DailyCheck" name="Tägliche Lagerprüfung">
+      <bpmn:outgoing>Flow_Start_To_CheckAccess</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Timer_DailyCheck" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_CheckAccess" name="API-Zugriff und&#10;CSRF-Token prüfen">
+      <bpmn:incoming>Flow_Start_To_CheckAccess</bpmn:incoming>
+      <bpmn:outgoing>Flow_CheckAccess_To_AccessValid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_AccessValid" name="Zugriff gültig?">
+      <bpmn:incoming>Flow_CheckAccess_To_AccessValid</bpmn:incoming>
+      <bpmn:outgoing>Flow_AccessValid_No_To_LogAccessError</bpmn:outgoing>
+      <bpmn:outgoing>Flow_AccessValid_Yes_To_QueryRiskResources</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_LogAccessError" name="Fehler protokollieren&#10;und Benutzer informieren">
+      <bpmn:incoming>Flow_AccessValid_No_To_LogAccessError</bpmn:incoming>
+      <bpmn:outgoing>Flow_LogAccessError_To_AccessError</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_QueryRiskResources" name="Riskante Ressourcen abfragen&#10;getRessourcesAtRisk.sql">
+      <bpmn:incoming>Flow_AccessValid_Yes_To_QueryRiskResources</bpmn:incoming>
+      <bpmn:outgoing>Flow_QueryRiskResources_To_RiskResourcesFound</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_RiskResourcesFound" name="Riskante Bestände vorhanden?">
+      <bpmn:incoming>Flow_QueryRiskResources_To_RiskResourcesFound</bpmn:incoming>
+      <bpmn:outgoing>Flow_RiskResourcesFound_No_To_LogNoRisk</bpmn:outgoing>
+      <bpmn:outgoing>Flow_RiskResourcesFound_Yes_To_CalculateFEFO</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_LogNoRisk" name="Prüfung protokollieren&#10;keine Maßnahme nötig">
+      <bpmn:incoming>Flow_RiskResourcesFound_No_To_LogNoRisk</bpmn:incoming>
+      <bpmn:outgoing>Flow_LogNoRisk_To_NoRisk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_NoRisk" name="Kein Risiko erkannt">
+      <bpmn:incoming>Flow_LogNoRisk_To_NoRisk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_ReviewPriorityList" name="Prioritätsliste prüfen&#10;und Maßnahme freigeben">
+      <bpmn:incoming>Flow_CalculateFEFO_To_ReviewPriorityList</bpmn:incoming>
+      <bpmn:outgoing>Flow_ReviewPriorityList_To_SelectMeasure</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_MeasureDone" name="Maßnahme abgeschlossen">
+      <bpmn:incoming>Flow_ConsumeStock_To_MeasureDone</bpmn:incoming>
+      <bpmn:incoming>Flow_RelocateStock_To_MeasureDone</bpmn:incoming>
+      <bpmn:incoming>Flow_ReplaceRecycleDispose_To_MeasureDone</bpmn:incoming>
+      <bpmn:outgoing>Flow_MeasureDone_To_UpdateInventory</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="Task_CalculateFEFO" name="Priorität berechnen&#10;Ablaufdatum, Menge, Standort, Bedarf">
+      <bpmn:incoming>Flow_RiskResourcesFound_Yes_To_CalculateFEFO</bpmn:incoming>
+      <bpmn:outgoing>Flow_CalculateFEFO_To_ReviewPriorityList</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:userTask id="Task_PlanRelocation" name="Umlagerung planen&#10;Ziel-Lager / Stadt wählen">
+      <bpmn:incoming>Flow_SelectMeasure_To_PlanRelocation</bpmn:incoming>
+      <bpmn:outgoing>Flow_0skk5tf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1ja172q" name="Umlagerung möglich?">
+      <bpmn:incoming>Flow_0skk5tf</bpmn:incoming>
+      <bpmn:outgoing>Flow_144mabz</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0f3n6df</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:manualTask id="Task_RelocateStock" name="Bestand umlagern&#10;Transport durchführen">
+      <bpmn:incoming>Flow_0f3n6df</bpmn:incoming>
+      <bpmn:outgoing>Flow_RelocateStock_To_MeasureDone</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Task_ReplaceRecycleDispose" name="Ersatz bestellen oder&#10;Bestand recyceln / entsorgen">
+      <bpmn:incoming>Flow_PlanReplacementDisposal_To_ReplaceRecycleDispose</bpmn:incoming>
+      <bpmn:outgoing>Flow_ReplaceRecycleDispose_To_MeasureDone</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Task_ConsumeStock" name="Bestand priorisiert verbrauchen&#10;älteste Charge zuerst">
+      <bpmn:incoming>Flow_ApproveConsumption_To_ConsumeStock</bpmn:incoming>
+      <bpmn:outgoing>Flow_ConsumeStock_To_MeasureDone</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:endEvent id="EndEvent_RiskReduced" name="Verlustrisiko reduziert">
+      <bpmn:incoming>Flow_UpdateInventory_To_RiskReduced</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_UpdateInventory" name="Bestand und Dashboard aktualisieren">
+      <bpmn:incoming>Flow_MeasureDone_To_UpdateInventory</bpmn:incoming>
+      <bpmn:outgoing>Flow_UpdateInventory_To_RiskReduced</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_AccessError" name="Prüfung abgebrochen">
+      <bpmn:incoming>Flow_LogAccessError_To_AccessError</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_PlanReplacementDisposal" name="Ersatz / Recycling /&#10;Entsorgung planen">
+      <bpmn:incoming>Flow_SelectMeasure_To_PlanReplacementDisposal</bpmn:incoming>
+      <bpmn:incoming>Flow_144mabz</bpmn:incoming>
+      <bpmn:outgoing>Flow_PlanReplacementDisposal_To_ReplaceRecycleDispose</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_ApproveConsumption" name="Verbrauchsauftrag freigeben">
+      <bpmn:incoming>Flow_SelectMeasure_To_ApproveConsumption</bpmn:incoming>
+      <bpmn:outgoing>Flow_ApproveConsumption_To_ConsumeStock</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_SelectMeasure" name="Welche Maßnahme?">
+      <bpmn:incoming>Flow_ReviewPriorityList_To_SelectMeasure</bpmn:incoming>
+      <bpmn:outgoing>Flow_SelectMeasure_To_ApproveConsumption</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SelectMeasure_To_PlanRelocation</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SelectMeasure_To_PlanReplacementDisposal</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_Start_To_CheckAccess" sourceRef="StartEvent_DailyCheck" targetRef="Task_CheckAccess" />
+    <bpmn:sequenceFlow id="Flow_CheckAccess_To_AccessValid" sourceRef="Task_CheckAccess" targetRef="Gateway_AccessValid" />
+    <bpmn:sequenceFlow id="Flow_AccessValid_No_To_LogAccessError" name="Nein" sourceRef="Gateway_AccessValid" targetRef="Task_LogAccessError" />
+    <bpmn:sequenceFlow id="Flow_AccessValid_Yes_To_QueryRiskResources" name="Ja" sourceRef="Gateway_AccessValid" targetRef="Task_QueryRiskResources" />
+    <bpmn:sequenceFlow id="Flow_LogAccessError_To_AccessError" sourceRef="Task_LogAccessError" targetRef="EndEvent_AccessError" />
+    <bpmn:sequenceFlow id="Flow_QueryRiskResources_To_RiskResourcesFound" sourceRef="Task_QueryRiskResources" targetRef="Gateway_RiskResourcesFound" />
+    <bpmn:sequenceFlow id="Flow_RiskResourcesFound_No_To_LogNoRisk" name="Nein" sourceRef="Gateway_RiskResourcesFound" targetRef="Task_LogNoRisk" />
+    <bpmn:sequenceFlow id="Flow_RiskResourcesFound_Yes_To_CalculateFEFO" name="Ja" sourceRef="Gateway_RiskResourcesFound" targetRef="Task_CalculateFEFO" />
+    <bpmn:sequenceFlow id="Flow_LogNoRisk_To_NoRisk" sourceRef="Task_LogNoRisk" targetRef="EndEvent_NoRisk" />
+    <bpmn:sequenceFlow id="Flow_CalculateFEFO_To_ReviewPriorityList" sourceRef="Task_CalculateFEFO" targetRef="Task_ReviewPriorityList" />
+    <bpmn:sequenceFlow id="Flow_ReviewPriorityList_To_SelectMeasure" sourceRef="Task_ReviewPriorityList" targetRef="Gateway_SelectMeasure" />
+    <bpmn:sequenceFlow id="Flow_ConsumeStock_To_MeasureDone" sourceRef="Task_ConsumeStock" targetRef="Gateway_MeasureDone" />
+    <bpmn:sequenceFlow id="Flow_RelocateStock_To_MeasureDone" sourceRef="Task_RelocateStock" targetRef="Gateway_MeasureDone" />
+    <bpmn:sequenceFlow id="Flow_ReplaceRecycleDispose_To_MeasureDone" sourceRef="Task_ReplaceRecycleDispose" targetRef="Gateway_MeasureDone" />
+    <bpmn:sequenceFlow id="Flow_MeasureDone_To_UpdateInventory" sourceRef="Gateway_MeasureDone" targetRef="Task_UpdateInventory" />
+    <bpmn:sequenceFlow id="Flow_SelectMeasure_To_PlanRelocation" name="Umlagern" sourceRef="Gateway_SelectMeasure" targetRef="Task_PlanRelocation" />
+    <bpmn:sequenceFlow id="Flow_0skk5tf" sourceRef="Task_PlanRelocation" targetRef="Gateway_1ja172q" />
+    <bpmn:sequenceFlow id="Flow_144mabz" name="Nein" sourceRef="Gateway_1ja172q" targetRef="Task_PlanReplacementDisposal" />
+    <bpmn:sequenceFlow id="Flow_0f3n6df" name="Ja" sourceRef="Gateway_1ja172q" targetRef="Task_RelocateStock" />
+    <bpmn:sequenceFlow id="Flow_PlanReplacementDisposal_To_ReplaceRecycleDispose" sourceRef="Task_PlanReplacementDisposal" targetRef="Task_ReplaceRecycleDispose" />
+    <bpmn:sequenceFlow id="Flow_ApproveConsumption_To_ConsumeStock" sourceRef="Task_ApproveConsumption" targetRef="Task_ConsumeStock" />
+    <bpmn:sequenceFlow id="Flow_UpdateInventory_To_RiskReduced" sourceRef="Task_UpdateInventory" targetRef="EndEvent_RiskReduced" />
+    <bpmn:sequenceFlow id="Flow_SelectMeasure_To_PlanReplacementDisposal" name="Ersetzen / entsorgen" sourceRef="Gateway_SelectMeasure" targetRef="Task_PlanReplacementDisposal" />
+    <bpmn:sequenceFlow id="Flow_SelectMeasure_To_ApproveConsumption" name="Verbrauchen" sourceRef="Gateway_SelectMeasure" targetRef="Task_ApproveConsumption" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_MarsColony_FEFO">
+    <bpmndi:BPMNPlane id="BPMNPlane_MarsColony_FEFO" bpmnElement="Collaboration_MarsColony_FEFO">
+      <bpmndi:BPMNShape id="Participant_MarsColony_di" bpmnElement="Participant_MarsColony" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="2808" height="900" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_ProcurementDisposal_di" bpmnElement="Lane_ProcurementDisposal" isHorizontal="true">
+        <dc:Bounds x="190" y="780" width="2778" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Logistics_di" bpmnElement="Lane_Logistics" isHorizontal="true">
+        <dc:Bounds x="190" y="630" width="2778" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Production_di" bpmnElement="Lane_Production" isHorizontal="true">
+        <dc:Bounds x="190" y="480" width="2778" height="150" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Disposition_di" bpmnElement="Lane_Disposition" isHorizontal="true">
+        <dc:Bounds x="190" y="320" width="2778" height="160" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="190" y="60" width="2778" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_DailyCheck_di" bpmnElement="StartEvent_DailyCheck">
+        <dc:Bounds x="280" y="170" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="265" y="206" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CheckAccess_di" bpmnElement="Task_CheckAccess">
+        <dc:Bounds x="380" y="148" width="170" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_AccessValid_di" bpmnElement="Gateway_AccessValid" isMarkerVisible="true">
+        <dc:Bounds x="620" y="163" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="612" y="213" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_LogAccessError_di" bpmnElement="Task_LogAccessError">
+        <dc:Bounds x="740" y="78" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_QueryRiskResources_di" bpmnElement="Task_QueryRiskResources">
+        <dc:Bounds x="740" y="188" width="210" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_RiskResourcesFound_di" bpmnElement="Gateway_RiskResourcesFound" isMarkerVisible="true">
+        <dc:Bounds x="1030" y="203" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1031" y="260" width="58" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_LogNoRisk_di" bpmnElement="Task_LogNoRisk">
+        <dc:Bounds x="1160" y="78" width="190" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_NoRisk_di" bpmnElement="EndEvent_NoRisk">
+        <dc:Bounds x="1420" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1410" y="136" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ReviewPriorityList_di" bpmnElement="Task_ReviewPriorityList">
+        <dc:Bounds x="1470" y="360" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_MeasureDone_di" bpmnElement="Gateway_MeasureDone" isMarkerVisible="true">
+        <dc:Bounds x="2510" y="203" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2498" y="253" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CalculateFEFO_di" bpmnElement="Task_CalculateFEFO">
+        <dc:Bounds x="1160" y="188" width="220" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PlanRelocation_di" bpmnElement="Task_PlanRelocation">
+        <dc:Bounds x="1870" y="665" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ja172q_di" bpmnElement="Gateway_1ja172q" isMarkerVisible="true">
+        <dc:Bounds x="2135" y="680" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2130" y="650" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RelocateStock_di" bpmnElement="Task_RelocateStock">
+        <dc:Bounds x="2220" y="665" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ReplaceRecycleDispose_di" bpmnElement="Task_ReplaceRecycleDispose">
+        <dc:Bounds x="2215" y="830" width="230" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConsumeStock_di" bpmnElement="Task_ConsumeStock">
+        <dc:Bounds x="2220" y="515" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_RiskReduced_di" bpmnElement="EndEvent_RiskReduced">
+        <dc:Bounds x="2872" y="210" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2860" y="246" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_UpdateInventory_di" bpmnElement="Task_UpdateInventory">
+        <dc:Bounds x="2615" y="188" width="210" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_AccessError_di" bpmnElement="EndEvent_AccessError">
+        <dc:Bounds x="982" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="967" y="136" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PlanReplacementDisposal_di" bpmnElement="Task_PlanReplacementDisposal">
+        <dc:Bounds x="1870" y="830" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ApproveConsumption_di" bpmnElement="Task_ApproveConsumption">
+        <dc:Bounds x="1885" y="360" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_SelectMeasure_di" bpmnElement="Gateway_SelectMeasure" isMarkerVisible="true">
+        <dc:Bounds x="1755" y="375" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1749" y="346" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_To_CheckAccess_di" bpmnElement="Flow_Start_To_CheckAccess">
+        <di:waypoint x="316" y="188" />
+        <di:waypoint x="380" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_CheckAccess_To_AccessValid_di" bpmnElement="Flow_CheckAccess_To_AccessValid">
+        <di:waypoint x="550" y="188" />
+        <di:waypoint x="620" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AccessValid_No_To_LogAccessError_di" bpmnElement="Flow_AccessValid_No_To_LogAccessError">
+        <di:waypoint x="645" y="163" />
+        <di:waypoint x="645" y="118" />
+        <di:waypoint x="740" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="649" y="133" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AccessValid_Yes_To_QueryRiskResources_di" bpmnElement="Flow_AccessValid_Yes_To_QueryRiskResources">
+        <di:waypoint x="670" y="188" />
+        <di:waypoint x="700" y="188" />
+        <di:waypoint x="700" y="228" />
+        <di:waypoint x="740" y="228" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="709" y="198" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_LogAccessError_To_AccessError_di" bpmnElement="Flow_LogAccessError_To_AccessError">
+        <di:waypoint x="920" y="118" />
+        <di:waypoint x="982" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_QueryRiskResources_To_RiskResourcesFound_di" bpmnElement="Flow_QueryRiskResources_To_RiskResourcesFound">
+        <di:waypoint x="950" y="228" />
+        <di:waypoint x="1030" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_RiskResourcesFound_No_To_LogNoRisk_di" bpmnElement="Flow_RiskResourcesFound_No_To_LogNoRisk">
+        <di:waypoint x="1055" y="203" />
+        <di:waypoint x="1055" y="118" />
+        <di:waypoint x="1160" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1059" y="163" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_RiskResourcesFound_Yes_To_CalculateFEFO_di" bpmnElement="Flow_RiskResourcesFound_Yes_To_CalculateFEFO">
+        <di:waypoint x="1080" y="228" />
+        <di:waypoint x="1160" y="228" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1104" y="214" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_LogNoRisk_To_NoRisk_di" bpmnElement="Flow_LogNoRisk_To_NoRisk">
+        <di:waypoint x="1350" y="118" />
+        <di:waypoint x="1420" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_CalculateFEFO_To_ReviewPriorityList_di" bpmnElement="Flow_CalculateFEFO_To_ReviewPriorityList">
+        <di:waypoint x="1380" y="228" />
+        <di:waypoint x="1430" y="228" />
+        <di:waypoint x="1430" y="400" />
+        <di:waypoint x="1470" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReviewPriorityList_To_SelectMeasure_di" bpmnElement="Flow_ReviewPriorityList_To_SelectMeasure">
+        <di:waypoint x="1690" y="400" />
+        <di:waypoint x="1755" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ConsumeStock_To_MeasureDone_di" bpmnElement="Flow_ConsumeStock_To_MeasureDone">
+        <di:waypoint x="2440" y="555" />
+        <di:waypoint x="2480" y="555" />
+        <di:waypoint x="2480" y="228" />
+        <di:waypoint x="2510" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_RelocateStock_To_MeasureDone_di" bpmnElement="Flow_RelocateStock_To_MeasureDone">
+        <di:waypoint x="2440" y="705" />
+        <di:waypoint x="2480" y="705" />
+        <di:waypoint x="2480" y="228" />
+        <di:waypoint x="2510" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReplaceRecycleDispose_To_MeasureDone_di" bpmnElement="Flow_ReplaceRecycleDispose_To_MeasureDone">
+        <di:waypoint x="2445" y="870" />
+        <di:waypoint x="2480" y="870" />
+        <di:waypoint x="2480" y="228" />
+        <di:waypoint x="2510" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_MeasureDone_To_UpdateInventory_di" bpmnElement="Flow_MeasureDone_To_UpdateInventory">
+        <di:waypoint x="2560" y="228" />
+        <di:waypoint x="2615" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SelectMeasure_To_PlanRelocation_di" bpmnElement="Flow_SelectMeasure_To_PlanRelocation">
+        <di:waypoint x="1780" y="425" />
+        <di:waypoint x="1780" y="705" />
+        <di:waypoint x="1870" y="705" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1799" y="683" width="48" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0skk5tf_di" bpmnElement="Flow_0skk5tf">
+        <di:waypoint x="2090" y="705" />
+        <di:waypoint x="2135" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_144mabz_di" bpmnElement="Flow_144mabz">
+        <di:waypoint x="2160" y="730" />
+        <di:waypoint x="2160" y="850" />
+        <di:waypoint x="2090" y="850" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2169" y="743" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f3n6df_di" bpmnElement="Flow_0f3n6df">
+        <di:waypoint x="2185" y="705" />
+        <di:waypoint x="2220" y="705" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2194" y="683" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_PlanReplacementDisposal_To_ReplaceRecycleDispose_di" bpmnElement="Flow_PlanReplacementDisposal_To_ReplaceRecycleDispose">
+        <di:waypoint x="2090" y="870" />
+        <di:waypoint x="2215" y="870" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ApproveConsumption_To_ConsumeStock_di" bpmnElement="Flow_ApproveConsumption_To_ConsumeStock">
+        <di:waypoint x="2075" y="400" />
+        <di:waypoint x="2160" y="400" />
+        <di:waypoint x="2160" y="555" />
+        <di:waypoint x="2220" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_UpdateInventory_To_RiskReduced_di" bpmnElement="Flow_UpdateInventory_To_RiskReduced">
+        <di:waypoint x="2825" y="228" />
+        <di:waypoint x="2872" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SelectMeasure_To_PlanReplacementDisposal_di" bpmnElement="Flow_SelectMeasure_To_PlanReplacementDisposal">
+        <di:waypoint x="1780" y="425" />
+        <di:waypoint x="1780" y="870" />
+        <di:waypoint x="1870" y="870" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1797" y="836" width="51" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SelectMeasure_To_ApproveConsumption_di" bpmnElement="Flow_SelectMeasure_To_ApproveConsumption">
+        <di:waypoint x="1805" y="400" />
+        <di:waypoint x="1885" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1808" y="413" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
