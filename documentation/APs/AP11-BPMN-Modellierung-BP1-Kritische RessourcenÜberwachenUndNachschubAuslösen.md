@@ -1,7 +1,7 @@
 # AP11: BPMN-Modellierung
 
 ## Prozess 1: Kritische Ressourcen überwachen und Nachschub auslösen
-
+![BPMN Notation](../docu-assets/1-mars-logistik-verwaltung-als-kritische-ressourcen-ueberwachen.png)
 ## Ziel
 
 Dieses Arbeitspaket beschreibt den Businessprozess „Kritische Ressourcen überwachen und Nachschub auslösen“ und bildet ihn als BPMN-Modell ab.
