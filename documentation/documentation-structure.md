@@ -91,6 +91,27 @@ documentation/
 
 ---
 
+## Kurze AP-Beschreibungen
+
+| AP | Beschreibung |
+|---:|---|
+| AP1 | Die Arbeitsgruppe wurde gebildet und das Projektteam festgelegt. |
+| AP2 | Kommunikationswege und Organisationstools wurden ausgewählt und eingerichtet. |
+| AP3 | Die Sprecherrolle bzw. Ansprechperson für das Projekt wurde festgelegt. |
+| AP4 | Eine geeignete Case Study für die Mars Logistik Verwaltung wurde ausgewählt. |
+| AP5 | Die Case Study wurde nach Feedback auf zwei zentrale Businessprozesse reduziert. |
+| AP6 | Verantwortlichkeiten und Aufgaben wurden im Team verteilt. |
+| AP7 | Der Datenbankentwurf wurde geprüft und für den Ressourcenverkauf erweitert. |
+| AP8 | DBMS, Infrastruktur und Prototyp-Grundlage wurden ausgewählt und dokumentiert. |
+| AP9 | Die vorhandene Implementierung wurde auf den reduzierten Projektfokus geprüft. |
+| AP10 | Die Use Cases wurden überarbeitet und den zwei Businessprozessen zugeordnet. |
+| AP11 | Die zwei ausgewählten Businessprozesse wurden beschrieben und als BPMN vorbereitet. |
+| AP12 | Lastenheft und Pflichtenheft wurden für den reduzierten Projektumfang formuliert. |
+| AP13 | Das Projektproposal wurde vortragsfähig vorbereitet und ausgearbeitet. |
+| AP14 | Die Entwicklungsmethode wurde ausgewählt und für das Projekt begründet. |
+
+---
+
 ## Archiv
 
 Der Ordner `archive/` enthält ältere oder nicht mehr zentrale Dateien. Diese Dateien bleiben zur Nachvollziehbarkeit erhalten, gehören aber nicht zum aktuellen Hauptstand der Dokumentation.
