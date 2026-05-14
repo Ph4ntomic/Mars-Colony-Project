@@ -23,4 +23,4 @@ Die ausführliche Spezifikation liegt in:
 
 ## Dauer
 
-Dauer: 3 Tage
+Dauer: 2 Tage

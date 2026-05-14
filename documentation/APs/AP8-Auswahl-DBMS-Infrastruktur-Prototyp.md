@@ -89,3 +89,7 @@ Unklare Punkte wurden bewusst offengelassen und als Ergänzungsfelder für Tom C
 ## 9. Kurzfazit
 
 AP8 dokumentiert die technische Grundlage, auf der WebApp, SQL-Abfragen und Businessprozesse aufbauen. Die finale Fassung sollte nach Bestätigung der offenen Infrastrukturdetails durch Tom Coombs / CyZeTLC ergänzt werden.
+
+## Dauer
+
+Dauer: 2 Tage

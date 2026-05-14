@@ -310,3 +310,7 @@ Für das Projektproposal sollten nicht alle Use Cases gleich stark präsentiert 
 Die Use Cases der Ares Logistik Verwaltung bilden zentrale Geschäftsprozesse einer Marskolonie ab. Im Fokus stehen Ressourcen, Lager, Energie, Fahrzeuge, Missionen, Städte, Bewohner und Mitarbeiter. Die Use Cases sind so gewählt, dass sie direkt auf vorhandene Tabellen, SQL-Abfragen und Seiten der aktuellen GitHub-Repo abbildbar sind.
 
 Der wichtigste fachliche Schwerpunkt liegt auf der Vermeidung wirtschaftlicher Schäden durch bessere Planung. Kritische Ressourcen, Energieengpässe, inaktive Fahrzeuge, fehlende Transportverbindungen und unklare Personalzuordnung verursachen in einer Marskolonie hohe Kosten. Die WebApp reduziert diese Risiken durch strukturierte Datenbankauswertungen und macht operative Entscheidungen nachvollziehbar.
+
+## Dauer
+
+Dauer: 2 Tage

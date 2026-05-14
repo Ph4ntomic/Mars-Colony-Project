@@ -87,3 +87,7 @@ Die Case Study wird damit bewusst auf diese zwei Prozesse reduziert. Use Cases, 
 ## 9. Kurzfazit
 
 Die zweite Revision sorgt dafür, dass die Case Study realistischer und klarer wird. Mars Logistik Verwaltung [ALS] konzentriert sich jetzt auf die Überwachung kritischer Ressourcen und die wirtschaftliche Nutzung überschüssiger Ressourcen, weil genau diese Prozesse nach dem Feedback als sinnvoller Hauptfokus ausgewählt wurden.
+
+## Dauer
+
+Dauer: 2 Tage

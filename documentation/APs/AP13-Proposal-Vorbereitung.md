@@ -34,6 +34,10 @@ Das Projektproposal ist in einem vortragsfähigen Zustand.
 
 Die Präsentation zeigt klar, warum das Projekt auf zwei Businessprozesse reduziert wurde und wie Case Study, Use Cases, BPMN, Spezifikation und Datenbank zusammenpassen.
 
+Die ausführlich ausgearbeitete Proposal-Fassung liegt in:
+
+`documentation/APs/AP13-Proposal-Ausgearbeitet.md`
+
 ## Abgrenzung
 
 Nicht im Mittelpunkt des Proposals stehen Transport, Energie, Personal, Städte oder Bewohnerverwaltung.
@@ -43,3 +47,5 @@ Diese Bereiche bleiben als mögliche spätere Erweiterungen erhalten, gehören a
 ## Dauer
 
 Dauer: 2 Tage
+
+Hinweis: Diese Dauer beschreibt AP13 insgesamt. Die ausgearbeitete Proposal-Fassung gehört zu diesem Aufwand.

@@ -107,4 +107,6 @@ Der Prozess ist fachlich sinnvoll, weil er den wirtschaftlichen Nutzen der Marsk
 
 ## Dauer
 
-Dauer: 2 bis 4 Tage
+Dauer: 1,5 Tage
+
+Hinweis: AP11 ist in zwei BPMN-Dateien aufgeteilt. Zusammen ergeben Prozess 1 und Prozess 2 einen Gesamtaufwand von 3 Tagen.

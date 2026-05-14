@@ -111,3 +111,7 @@ Diese ausgewählten Use Cases bilden den aktuellen Fokus. Sie wurden ausgewählt
 ## 10. Kurzfazit
 
 Die zweite Revision sorgt dafür, dass die Use Cases realistischer und klarer werden. AP10 zeigt jetzt nur noch die Systemhandlungen, die direkt zum aktuellen Fokus der Mars Logistik Verwaltung [ALS] gehören: kritische Ressourcen erkennen, Nachschubbedarf ableiten, Ressourcenüberschüsse sichtbar machen und deren wirtschaftliche Nutzung vorbereiten.
+
+## Dauer
+
+Dauer: 1 Tag

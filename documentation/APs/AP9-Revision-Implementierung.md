@@ -70,3 +70,7 @@ Damit kann die Anwendung in der Präsentation als datenbankgestützte Unterstüt
 ## 8. Kurzfazit
 
 AP9 zeigt, dass die vorhandene technische Grundlage nicht ersetzt werden muss. Die Implementierung wurde fachlich auf Ressourcenüberwachung und Ressourcenverkauf zugespitzt. Dadurch bleibt das Projekt realistisch, demonstrierbar und passend zur überarbeiteten Case Study.
+
+## Dauer
+
+Dauer: 2 Tage

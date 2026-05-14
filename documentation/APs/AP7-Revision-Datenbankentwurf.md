@@ -89,3 +89,7 @@ Die Datenbankstruktur bleibt damit realistisch, überschaubar und nah an der vor
 ## 10. Kurzfazit
 
 AP7 zeigt, dass der Datenbankentwurf nicht vollständig neu erstellt werden muss. Die vorhandene Struktur unterstützt den Ressourcenfokus bereits gut. Für den Verkauf überschüssiger Ressourcen wurden gezielt zusätzliche Tabellen ergänzt, ohne bestehende Projektbereiche unnötig umzubauen.
+
+## Dauer
+
+Dauer: 5 Tage
