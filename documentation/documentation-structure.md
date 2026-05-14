@@ -18,9 +18,8 @@ Der aktuelle Projektfokus liegt nach dem Feedback von Prof. Dr. Becking auf zwei
 documentation/
 ├── README.md
 ├── documentation-structure.md
-├── businessprozesse-v1.md
 ├── businessprozesse-v2.md
-├── datenbankabfragen.md
+├── datenbankabfragen-v2.md
 ├── lastenheft-und-pflichtenheft.md
 ├── APs/
 │   ├── Gruppenanmeldung.md
@@ -47,6 +46,8 @@ documentation/
 │   └── 1-mars-logistik-verwaltung-als-kritische-ressourcen-ueberwachen.png
 └── archive/
     ├── AP5-Revision-Case-Study.md
+    ├── businessprozesse-v1.md
+    ├── datenbankabfragen-v1.md
     ├── Mars_Colony_Riskante_LagerbestaendeEduard.bpmn
     └── diagramEduard.svg
 ```
@@ -65,7 +66,7 @@ documentation/
 | `lastenheft-und-pflichtenheft.md` | Ausführliche Spezifikation für den reduzierten Projektumfang. |
 | `APs/AP12-Spezifikation.md` | Arbeitspaket-Zusammenfassung zur Spezifikation. |
 | `APs/AP13-Proposal-Ausgearbeitet.md` | Ausgearbeitetes Projektproposal mit Projektplan, Aufwand und Kriterienbezug. |
-| `datenbankabfragen.md` | Dokumentation der vorhandenen SQL-Abfragen. |
+| `datenbankabfragen-v2.md` | Aktuelle fokussierte SQL-Dokumentation für die zwei ausgewählten Businessprozesse. |
 
 ---
 
@@ -97,6 +98,8 @@ Der Ordner `archive/` enthält ältere oder nicht mehr zentrale Dateien. Diese D
 | Datei | Bedeutung |
 |---|---|
 | `AP5-Revision-Case-Study.md` | ältere Case-Study-Revision |
+| `businessprozesse-v1.md` | ältere Businessprozess-Sammlung vor der Reduktion |
+| `datenbankabfragen-v1.md` | ältere vollständige SQL-Übersicht vor der Zwei-Prozess-Revision |
 | `Mars_Colony_Riskante_LagerbestaendeEduard.bpmn` | älteres BPMN-Modell |
 | `diagramEduard.svg` | ältere Diagrammdatei |
 

@@ -1,4 +1,6 @@
-﻿# 6. Datenbankabfragen (SQL)
+﻿# Datenbankabfragen v1 – vollständige SQL-Übersicht
+
+Archivstand: ursprüngliche breite Übersicht vor der Reduktion auf zwei Businessprozesse.
 
 Die folgenden SQL-Skripte sind als einzelne, klar getrennte Abfragen aufgebaut und passen gut zur Projektidee der Marskolonie: operative Steuerung, Bewohnerverwaltung, Personalübersicht, Lagerlogistik und Infrastrukturkontrolle.
 
