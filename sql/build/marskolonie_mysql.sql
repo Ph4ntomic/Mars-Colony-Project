@@ -106,6 +106,72 @@ create table IST_GELAGERT_IN
 );
 
 /*==============================================================*/
+/* Table: EXTERNES_UNTERNEHMEN                                  */
+/*==============================================================*/
+create table EXTERNES_UNTERNEHMEN
+(
+   UNTERNEHMEN_ID       numeric(8,0) not null  comment '',
+   NAME                 text  comment '',
+   BRANCHE              text  comment '',
+   KONTAKT_NAME         text  comment '',
+   KONTAKT_EMAIL        varchar(255)  comment '',
+   STATUS               text  comment '',
+   primary key (UNTERNEHMEN_ID)
+);
+
+/*==============================================================*/
+/* Table: RESSOURCEN_UEBERSCHUSS_BEWERTUNG                      */
+/*==============================================================*/
+create table RESSOURCEN_UEBERSCHUSS_BEWERTUNG
+(
+   BEWERTUNG_ID         numeric(8,0) not null  comment '',
+   RESSOURCE_ID         numeric(8,0) not null  comment '',
+   LAGER_ID             numeric(8,0) not null  comment '',
+   BEWERTET_VON         numeric(8,0)  comment '',
+   AKTUELLE_MENGE       numeric(12,2)  comment '',
+   MINDESTRESERVE       numeric(12,2)  comment '',
+   VERKAUFBARE_MENGE    numeric(12,2)  comment '',
+   EINHEIT              text  comment '',
+   BEWERTUNGSDATUM      datetime  comment '',
+   STATUS               text  comment '',
+   BEGRUENDUNG          text  comment '',
+   primary key (BEWERTUNG_ID)
+);
+
+/*==============================================================*/
+/* Table: RESSOURCEN_VERKAUF                                    */
+/*==============================================================*/
+create table RESSOURCEN_VERKAUF
+(
+   VERKAUF_ID           numeric(8,0) not null  comment '',
+   UNTERNEHMEN_ID       numeric(8,0) not null  comment '',
+   ERSTELLT_VON         numeric(8,0)  comment '',
+   ERSTELLT_AM          datetime  comment '',
+   STATUS               text  comment '',
+   WAEHRUNG             varchar(3)  comment '',
+   GESAMTWERT           numeric(12,2)  comment '',
+   BEMERKUNG            text  comment '',
+   primary key (VERKAUF_ID)
+);
+
+/*==============================================================*/
+/* Table: RESSOURCEN_VERKAUF_POSITION                           */
+/*==============================================================*/
+create table RESSOURCEN_VERKAUF_POSITION
+(
+   VERKAUF_POSITION_ID  numeric(8,0) not null  comment '',
+   VERKAUF_ID           numeric(8,0) not null  comment '',
+   BEWERTUNG_ID         numeric(8,0)  comment '',
+   RESSOURCE_ID         numeric(8,0) not null  comment '',
+   LAGER_ID             numeric(8,0) not null  comment '',
+   MENGE                numeric(12,2)  comment '',
+   EINHEIT              text  comment '',
+   EINZELPREIS          numeric(12,2)  comment '',
+   POSITIONSWERT        numeric(12,2)  comment '',
+   primary key (VERKAUF_POSITION_ID)
+);
+
+/*==============================================================*/
 /* Table: KOORDINATE                                            */
 /*==============================================================*/
 create table KOORDINATE
@@ -384,3 +450,23 @@ alter table VERSORGT_STADT add constraint FK_VERSORGT_VERSORGT__STADT foreign ke
 alter table VERSORGT_STADT add constraint FK_VERSORGT_VERSORGT__ENERGIEQ foreign key (EQ_ID)
       references ENERGIEQUELLE (EQ_ID) on delete restrict on update restrict;
 
+alter table RESSOURCEN_UEBERSCHUSS_BEWERTUNG add constraint FK_RUB_BEWERTET_VON_MITARBEI foreign key (BEWERTET_VON)
+      references MITARBEITER (MITARBEITER_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_UEBERSCHUSS_BEWERTUNG add constraint FK_RUB_IST_GELAGERT_IN foreign key (LAGER_ID, RESSOURCE_ID)
+      references IST_GELAGERT_IN (LAGER_ID, RESSOURCE_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_VERKAUF add constraint FK_RV_EXTER_UNTERNEHMEN foreign key (UNTERNEHMEN_ID)
+      references EXTERNES_UNTERNEHMEN (UNTERNEHMEN_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_VERKAUF add constraint FK_RV_ERSTELLT_VON_MITARBEI foreign key (ERSTELLT_VON)
+      references MITARBEITER (MITARBEITER_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_VERKAUF_POSITION add constraint FK_RVP_VERKAUF foreign key (VERKAUF_ID)
+      references RESSOURCEN_VERKAUF (VERKAUF_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_VERKAUF_POSITION add constraint FK_RVP_BEWERTUNG foreign key (BEWERTUNG_ID)
+      references RESSOURCEN_UEBERSCHUSS_BEWERTUNG (BEWERTUNG_ID) on delete restrict on update restrict;
+
+alter table RESSOURCEN_VERKAUF_POSITION add constraint FK_RVP_IST_GELAGERT_IN foreign key (LAGER_ID, RESSOURCE_ID)
+      references IST_GELAGERT_IN (LAGER_ID, RESSOURCE_ID) on delete restrict on update restrict;
