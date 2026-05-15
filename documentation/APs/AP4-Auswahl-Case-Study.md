@@ -1,4 +1,7 @@
 # AP4 – Auswahl Case Study
+
+> Hinweis zur Einordnung: Diese Datei dokumentiert die ursprüngliche breite Auswahl der Case Study. Nach dem zweiten Gespräch mit Prof. Dr. Becking wurde der Projektfokus in `AP5-Revision-Case-Study-v2.md` und `AP10-Revision-Use-Cases.md` bewusst auf zwei Businessprozesse reduziert: kritische Ressourcen überwachen und Nachschub auslösen sowie überschüssige Ressourcen an externe Unternehmen verkaufen.
+
 ## Case Study: Ares Logistik Verwaltung – Datenbankgestützte Steuerung einer Marskolonie
 
 Die Projektgruppe legt als Case Study die **Ares Logistik Verwaltung** fest. Das Projekt bildet eine wirtschaftlich betriebene Marskolonie ab, deren Überleben und Wachstum von zuverlässig gesteuerter Logistik abhängt. Im Mittelpunkt stehen Ressourcen, Lager, Energieversorgung, Transportwege, Fahrzeuge, Raumfahrzeuge, Städte, Bewohner, Mitarbeiter und Abteilungen.
@@ -307,3 +310,7 @@ Für das Projektproposal sollten nicht alle Use Cases gleich stark präsentiert 
 Die Use Cases der Ares Logistik Verwaltung bilden zentrale Geschäftsprozesse einer Marskolonie ab. Im Fokus stehen Ressourcen, Lager, Energie, Fahrzeuge, Missionen, Städte, Bewohner und Mitarbeiter. Die Use Cases sind so gewählt, dass sie direkt auf vorhandene Tabellen, SQL-Abfragen und Seiten der aktuellen GitHub-Repo abbildbar sind.
 
 Der wichtigste fachliche Schwerpunkt liegt auf der Vermeidung wirtschaftlicher Schäden durch bessere Planung. Kritische Ressourcen, Energieengpässe, inaktive Fahrzeuge, fehlende Transportverbindungen und unklare Personalzuordnung verursachen in einer Marskolonie hohe Kosten. Die WebApp reduziert diese Risiken durch strukturierte Datenbankauswertungen und macht operative Entscheidungen nachvollziehbar.
+
+## Dauer
+
+Dauer: 2 Tage

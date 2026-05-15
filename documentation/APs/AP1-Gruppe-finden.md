@@ -11,4 +11,7 @@ Leonardo Parrino (Matrikelnr.: 501 970 39)
 Nikita Töws (Matrikelnr.: 502 144 71)
 
 Sergiu Curmei (Matrikelnr.: 50213544)
- 
+
+## Dauer
+
+Dauer: 2 Tage

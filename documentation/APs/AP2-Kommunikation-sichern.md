@@ -9,3 +9,7 @@ Discord: Als Hauptkommunikationskanal für ausführliche Team-Meetings, Voice-Ch
 GitHub: Für die gemeinsame Code-Entwicklung, Versionskontrolle und technische Zusammenarbeit.
 
 ClickUp: Für das zentrale Projekt- und Aufgabenmanagement (Verwaltung von To-dos, Fristen und Verantwortlichkeiten).
+
+## Dauer
+
+Dauer: 2 Tage
