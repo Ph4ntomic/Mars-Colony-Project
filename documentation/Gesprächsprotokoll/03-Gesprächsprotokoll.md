@@ -60,7 +60,7 @@ Gleichzeitig soll die BPMN-Modellierung für die Endabgabe voraussichtlich noch 
 
 Dabei wurde deutlich, dass die BPMN-Darstellung nicht der kritischste Punkt ist, weil die technische Umsetzung hinter dem Projekt bereits stark wirkt.
 
-Trotzdem strebt die Gruppe an, auch bei der BPMN-Modellierung das bestmögliche Ergebnis zu erreichen.
+Trotzdem strebt die Gruppe an, auch bei der BPMN-Modellierung das bestmögliche Ergebnis zu erreichen. Die BPMN-Modelle sollen deshalb im Rahmen der geplanten technischen Umsetzung nochmals angeschaut, angepasst, detaillierter visualisiert und fachlich verfeinert werden. Dabei soll die BPMN-Modellierung nicht unnötig verkompliziert werden, da die Weboberfläche bereits einen starken Eindruck macht und die Modelle am Ende realistisch in die technische Umsetzung eingebunden werden müssen.
 
 ---
 
@@ -71,6 +71,8 @@ Ein besonders wichtiger Punkt war der Datenbankzugriff über **Stored Procedures
 Herr Prof. Dr. Becking hat deutlich gemacht, dass der Zugriff auf die Datenbank nicht direkt über beliebige SQL-Abfragen aus der Anwendung heraus erfolgen soll.
 
 Stattdessen soll die Anwendung die benötigten Datenbankfunktionen über Stored Procedures nutzen.
+
+Ein großer Teil dieses Ansatzes wurde im Projekt bereits über Stored Procedures umgesetzt. Im Vortrag wurde dieser Punkt jedoch nicht ausdrücklich erwähnt, weshalb er in der weiteren Dokumentation klarer herausgestellt werden soll.
 
 Das bedeutet für die weitere Umsetzung:
 
@@ -102,7 +104,7 @@ Besonders wichtig sind dabei:
 
 1. Herrn Prof. Dr. Becking klar zeigen, dass Lastenheft und Pflichtenheft bereits ausführlich vorhanden sind
 2. Lastenheft und Pflichtenheft später vollständig mit abgeben
-3. BPMN-Modellierung für die Endabgabe genauer beschreiben
+3. BPMN-Modellierung für die Endabgabe genauer beschreiben und insbesondere die beiden BPMN-Modelle weiter verfeinern
 4. Businessprozesse, Datenbank, API und Weboberfläche weiterhin klar zusammenführen
 5. Datenbankzugriffe konsequent über Stored Procedures planen
 6. die nächsten Projektschritte sauber dokumentieren
@@ -123,7 +125,7 @@ Das Projekt hat bereits eine starke technische Grundlage.
 
 Lastenheft und Pflichtenheft sind bereits ausführlich vorhanden, müssen aber gegenüber Herrn Prof. Dr. Becking klar als bestehende Detaildokumente kommuniziert werden.
 
-Die BPMN-Modellierung soll für die Endabgabe noch detaillierter beschrieben werden, obwohl die technische Umsetzung des Projekts bereits positiv wirkt.
+Die BPMN-Modellierung soll für die Endabgabe noch detaillierter beschrieben werden, obwohl die technische Umsetzung des Projekts bereits positiv wirkt. Die Gruppe wird die BPMN-Modelle voraussichtlich noch einmal prüfen, an die geplante technische Umsetzung anpassen, mehr Details visualisieren und die Darstellung weiter verfeinern.
 
 Der wichtigste technische Punkt ist, dass der Zugriff auf die Datenbank über Stored Procedures erfolgen soll.
 
