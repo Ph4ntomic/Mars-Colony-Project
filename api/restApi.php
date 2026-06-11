@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $json = json_decode("{}", true);
 
+const SQL_QUERY_BASE_PATH = "../sql/queries/";
+
 function sendResponse(array $data, int $httpCode = 200)
 {
     http_response_code($httpCode);
@@ -25,11 +27,11 @@ function sendResponse(array $data, int $httpCode = 200)
 
 function getSqlQueryFiles(string $basePath): array
 {
-    $allowedDirectories = ['', 'bp1', 'bp2', 'shared'];
+    $allowedDirectories = ['bp1', 'bp2', 'shared', 'general'];
     $files = [];
 
     foreach ($allowedDirectories as $directory) {
-        $path = $basePath . $directory;
+        $path = rtrim($basePath, '/\\') . '/' . $directory;
         if (!is_dir($path)) {
             continue;
         }
@@ -51,6 +53,11 @@ function getSqlQueryFiles(string $basePath): array
 function resolveSqlQueryFile(string $basePath, string $requestedFile): ?string
 {
     $requestedFile = ltrim(str_replace('\\', '/', $requestedFile), '/');
+    if (strpos($requestedFile, 'sql/queries/') === 0) {
+        $requestedFile = substr($requestedFile, strlen('sql/queries/'));
+    } elseif (strpos($requestedFile, 'queries/') === 0) {
+        $requestedFile = substr($requestedFile, strlen('queries/'));
+    }
 
     if ($requestedFile === '' || strpos($requestedFile, '..') !== false || !preg_match('/^[A-Za-z0-9_\/.-]+\.sql$/', $requestedFile)) {
         return null;
@@ -111,7 +118,7 @@ switch ($action) {
         if (!isset($_GET['file'])) {
             sendResponse(["error" => 400, "message" => "SQL file not specified!"], 400);
         }
-        $sqlFile = resolveSqlQueryFile("../sql/", $_GET['file']);
+        $sqlFile = resolveSqlQueryFile(SQL_QUERY_BASE_PATH, $_GET['file']);
         if ($sqlFile === null) {
             sendResponse(["error" => 400, "message" => "SQL file not found!"], 400);
         }
@@ -119,11 +126,11 @@ switch ($action) {
         break;
 
     case "get_active_vehicles_count":
-        $response['active_vehicles'] = runSqlFile("../sql/getActiveVehiclesCount.sql");
+        $response['active_vehicles'] = runSqlFile(SQL_QUERY_BASE_PATH . "general/getActiveVehicles.sql");
         break;
 
     case "get_citizens_count":
-        $response['citizens_count'] = runSqlFile("../sql/getCitizensCount.sql");
+        $response['citizens_count'] = runSqlFile(SQL_QUERY_BASE_PATH . "general/getCitizensCount.sql");
         break;
     
     case "search_citizens_by_name":
@@ -131,20 +138,20 @@ switch ($action) {
             sendResponse(["error" => 400, "message" => "Name parameter is missing!"], 400);
         }
         $name = $_GET['name'];
-        $response['result'] = runSqlFile("../sql/getAllCitizensByName.sql", [$name]);
+        $response['result'] = runSqlFile(SQL_QUERY_BASE_PATH . "general/getAllCitizensByName.sql", [$name]);
         break;
 
     case "get_dashboard_stats":
         $response = [
-            "citizens_count" => runSqlFile("../sql/getCitizensCount.sql"),
-            "cities_count" => runSqlFile("../sql/getCitiesCount.sql"),
-            "vehicles" => runSqlFile("../sql/getActiveVehicles.sql"),
-            "energy_power" => runSqlFile("../sql/getCurrentEnergieLeistung.sql")
+            "citizens_count" => runSqlFile(SQL_QUERY_BASE_PATH . "general/getCitizensCount.sql"),
+            "cities_count" => runSqlFile(SQL_QUERY_BASE_PATH . "general/getCitiesCount.sql"),
+            "vehicles" => runSqlFile(SQL_QUERY_BASE_PATH . "general/getActiveVehicles.sql"),
+            "energy_power" => runSqlFile(SQL_QUERY_BASE_PATH . "general/getCurrentEnergieLeistung.sql")
         ];
         break;
 
     case "get_all_tables":
-        $path = "../sql/";
+        $path = SQL_QUERY_BASE_PATH;
         $files = getSqlQueryFiles($path);
         $allTables = [];
 
@@ -161,7 +168,7 @@ switch ($action) {
         break;
 
     case "get_sql_files":
-        $path = "../sql/";
+        $path = SQL_QUERY_BASE_PATH;
         $files = getSqlQueryFiles($path);
         $fileData = "";
         foreach ($files as $relativePath => $filePath) {
