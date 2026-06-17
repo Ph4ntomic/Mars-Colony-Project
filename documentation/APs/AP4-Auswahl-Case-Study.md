@@ -12,15 +12,15 @@ Damit ist die Case Study fachlich passend für ein Datenbankanwendungsprojekt, w
 
 | Geschäftsbereich | Bedeutung in der Marskolonie | Bezug zur aktuellen Repo |
 |---|---|---|
-| Ressourcenmanagement | Kontrolle von Sauerstoff, Wasser, Treibstoff, Nahrung, Ersatzteilen und Baumaterialien | `getRessourcenWithLager.sql`, `getRessourcesBelowMin.sql`, `getRessourcesAtRisk.sql`, `getRessourceLog.sql` |
-| Lagerverwaltung | Überwachung von Lagerorten, Kapazitäten und kritischen Beständen | `getAllLager.sql`, `getStorageResourceSummary.sql`, `getLagerVersorgungAtRisk.sql` |
-| Transportlogistik | Planung und Kontrolle von Transportwegen zwischen Städten/Sektoren | `getMissionsBericht.sql`, `getCitiesWithoutTransportConnection.sql` |
-| Flottenmanagement | Kontrolle aktiver/inaktiver Fahrzeuge und Raumfahrzeuge | `getActiveVehicles.sql`, `getFlotte.sql`, `getVehiclesByStatus.sql`, `getLowTreibstoff.sql` |
-| Energieversorgung | Überwachung aktueller Energieerzeugung und Versorgungslücken | `getCurrentEnergieLeistung.sql`, `getEnergySourcesByCity.sql`, `getCitiesWithoutEnergySource.sql` |
-| Stadtverwaltung | Verwaltung von Städten, Koordinaten, Einwohnerzahlen und Infrastruktur | `getCitiesWithStats.sql`, `getCitiesWithKoords.sql`, `getCitiesCount.sql` |
-| Bewohnerverwaltung | Verwaltung der Koloniebewohner und ihrer Zuordnung zu Städten/Adressen | `getAllCitizens.sql`, `getAllCitizensByName.sql`, `getBewohnerAtAddress.sql`, `getResidentCountByAddress.sql` |
-| Personalverwaltung | Verwaltung von Mitarbeitern, Rollen, Berufen, Abteilungen und Gehältern | `getAllEmployees.sql`, `getEmployeeProfile.sql`, `getMitarbeiterRolle.sql`, `getMitarbeiterByBeruf.sql`, `getAvgWorkTimeByBeruf.sql` |
-| Abteilungs- und Ressourcenabhängigkeit | Analyse, welche Abteilungen von welchen Ressourcen abhängig sind | `getDepartmentResourceDependencies.sql`, `getDepartmentsWithLeaders.sql`, `getEmployeeCountByDepartment.sql` |
+| Ressourcenmanagement | Kontrolle von Sauerstoff, Wasser, Treibstoff, Nahrung, Ersatzteilen und Baumaterialien | `sql/queries/shared/getRessourcenWithLager.sql`, `sql/queries/bp1/getRessourcesBelowMin.sql`, `sql/queries/bp1/getRessourcesAtRisk.sql`, `sql/queries/general/getRessourceLog.sql` |
+| Lagerverwaltung | Überwachung von Lagerorten, Kapazitäten und kritischen Beständen | `sql/queries/general/getAllLager.sql`, `sql/queries/shared/getStorageResourceSummary.sql`, `sql/queries/general/getLagerVersorgungAtRisk.sql` |
+| Transportlogistik | Planung und Kontrolle von Transportwegen zwischen Städten/Sektoren | `sql/queries/general/getMissionsBericht.sql`, `sql/queries/general/getCitiesWithoutTransportConnection.sql` |
+| Flottenmanagement | Kontrolle aktiver/inaktiver Fahrzeuge und Raumfahrzeuge | `sql/queries/general/getActiveVehicles.sql`, `sql/queries/general/getFlotte.sql`, `sql/queries/general/getVehiclesByStatus.sql`, `sql/queries/general/getLowTreibstoff.sql` |
+| Energieversorgung | Überwachung aktueller Energieerzeugung und Versorgungslücken | `sql/queries/general/getCurrentEnergieLeistung.sql`, `sql/queries/general/getEnergySourcesByCity.sql`, `sql/queries/general/getCitiesWithoutEnergySource.sql` |
+| Stadtverwaltung | Verwaltung von Städten, Koordinaten, Einwohnerzahlen und Infrastruktur | `sql/queries/general/getCitiesWithStats.sql`, `sql/queries/general/getCitiesWithKoords.sql`, `sql/queries/general/getCitiesCount.sql` |
+| Bewohnerverwaltung | Verwaltung der Koloniebewohner und ihrer Zuordnung zu Städten/Adressen | `sql/queries/general/getAllCitizens.sql`, `sql/queries/general/getAllCitizensByName.sql`, `sql/queries/general/getBewohnerAtAddress.sql`, `sql/queries/general/getResidentCountByAddress.sql` |
+| Personalverwaltung | Verwaltung von Mitarbeitern, Rollen, Berufen, Abteilungen und Gehältern | `sql/queries/general/getAllEmployees.sql`, `sql/queries/general/getEmployeeProfile.sql`, `sql/queries/general/getMitarbeiterRolle.sql`, `sql/queries/general/getMitarbeiterByBeruf.sql`, `sql/queries/general/getAvgWorkTimeByBeruf.sql` |
+| Abteilungs- und Ressourcenabhängigkeit | Analyse, welche Abteilungen von welchen Ressourcen abhängig sind | `sql/queries/general/getDepartmentResourceDependencies.sql`, `sql/queries/general/getDepartmentsWithLeaders.sql`, `sql/queries/general/getEmployeeCountByDepartment.sql` |
 
 ## Geschäftsmodell
 
@@ -71,7 +71,7 @@ Die folgenden Use Cases leiten sich aus der Case Study und den vorhandenen SQL-A
 |---|---|
 | Primärer Akteur | Logistikoffizier |
 | Ziel | Kritische Ressourcen frühzeitig erkennen |
-| Repo-Bezug | `getRessourcesBelowMin.sql`, `getRessourcenWithLager.sql`, `getStorageResourceSummary.sql` |
+| Repo-Bezug | `sql/queries/bp1/getRessourcesBelowMin.sql`, `sql/queries/shared/getRessourcenWithLager.sql`, `sql/queries/shared/getStorageResourceSummary.sql` |
 | WebApp-Bezug | `Ressources` |
 | Wirtschaftlicher Nutzen | Vermeidung von Notfalllieferungen und Produktionsausfällen |
 
@@ -99,7 +99,7 @@ Das System zeigt alle Ressourcen an, deren Bestand kritisch ist. Dadurch kann di
 |---|---|
 | Primärer Akteur | Infrastrukturmanager |
 | Ziel | Lager und Energiequellen auf Risiko prüfen |
-| Repo-Bezug | `getLagerVersorgungAtRisk.sql`, `getCurrentEnergieLeistung.sql`, `getEnergySourcesByCity.sql`, `getCitiesWithoutEnergySource.sql` |
+| Repo-Bezug | `sql/queries/general/getLagerVersorgungAtRisk.sql`, `sql/queries/general/getCurrentEnergieLeistung.sql`, `sql/queries/general/getEnergySourcesByCity.sql`, `sql/queries/general/getCitiesWithoutEnergySource.sql` |
 | WebApp-Bezug | `Overview`, `Cities`, `Ressources` |
 | Wirtschaftlicher Nutzen | Schutz kritischer Infrastruktur und Vermeidung teurer Ausfälle |
 
@@ -127,7 +127,7 @@ Kritische Infrastruktur wird sichtbar. Das reduziert das Risiko, dass Lager, St�
 |---|---|
 | Primärer Akteur | Flottenmanager |
 | Ziel | Einsatzbereitschaft von Fahrzeugen und Raumfahrzeugen prüfen |
-| Repo-Bezug | `getActiveVehicles.sql`, `getFlotte.sql`, `getVehiclesByStatus.sql`, `getLowTreibstoff.sql` |
+| Repo-Bezug | `sql/queries/general/getActiveVehicles.sql`, `sql/queries/general/getFlotte.sql`, `sql/queries/general/getVehiclesByStatus.sql`, `sql/queries/general/getLowTreibstoff.sql` |
 | WebApp-Bezug | `Vehicles` |
 | Wirtschaftlicher Nutzen | bessere Fahrzeugauslastung, weniger Leerlauf, geringere Missionskosten |
 
@@ -156,7 +156,7 @@ Die Kolonie erkennt, welche Fahrzeuge einsatzbereit sind und welche nicht. Missi
 |---|---|
 | Primärer Akteur | Missionsplaner |
 | Ziel | Laufende und abgeschlossene Transporte nachvollziehen |
-| Repo-Bezug | `getMissionsBericht.sql`, `getCitiesWithoutTransportConnection.sql`, `getRessourceLog.sql` |
+| Repo-Bezug | `sql/queries/general/getMissionsBericht.sql`, `sql/queries/general/getCitiesWithoutTransportConnection.sql`, `sql/queries/general/getRessourceLog.sql` |
 | WebApp-Bezug | `Overview`, später mögliche Seite `Missions` |
 | Wirtschaftlicher Nutzen | geringere Transportkosten und bessere Versorgungssicherheit |
 
@@ -184,7 +184,7 @@ Transporte werden nachvollziehbar. Städte ohne Verbindung werden erkannt. Dadur
 |---|---|
 | Primärer Akteur | Kolonieverwaltung |
 | Ziel | Städte, Bewohnerzahlen und Adressdaten verwalten |
-| Repo-Bezug | `getCitiesWithStats.sql`, `getCitiesWithKoords.sql`, `getCitizensCount.sql`, `getAllCitizens.sql`, `getBewohnerAtAddress.sql`, `getResidentCountByAddress.sql` |
+| Repo-Bezug | `sql/queries/general/getCitiesWithStats.sql`, `sql/queries/general/getCitiesWithKoords.sql`, `sql/queries/general/getCitizensCount.sql`, `sql/queries/general/getAllCitizens.sql`, `sql/queries/general/getBewohnerAtAddress.sql`, `sql/queries/general/getResidentCountByAddress.sql` |
 | WebApp-Bezug | `Cities`, `Citizens`, `city/:name` |
 | Wirtschaftlicher Nutzen | bessere Ressourcenverteilung pro Stadt und Bevölkerungsgruppe |
 
@@ -212,7 +212,7 @@ Die Kolonie erkennt, wo viele Bewohner leben und welche Städte besondere Versor
 |---|---|
 | Primärer Akteur | Personalverwaltung |
 | Ziel | Mitarbeiter, Rollen, Berufe und Abteilungen auswerten |
-| Repo-Bezug | `getAllEmployees.sql`, `getEmployeeProfile.sql`, `getMitarbeiterRolle.sql`, `getMitarbeiterByBeruf.sql`, `getAvgWorkTimeByBeruf.sql`, `getDepartmentsWithLeaders.sql`, `getEmployeeCountByDepartment.sql` |
+| Repo-Bezug | `sql/queries/general/getAllEmployees.sql`, `sql/queries/general/getEmployeeProfile.sql`, `sql/queries/general/getMitarbeiterRolle.sql`, `sql/queries/general/getMitarbeiterByBeruf.sql`, `sql/queries/general/getAvgWorkTimeByBeruf.sql`, `sql/queries/general/getDepartmentsWithLeaders.sql`, `sql/queries/general/getEmployeeCountByDepartment.sql` |
 | WebApp-Bezug | `Employees` |
 | Wirtschaftlicher Nutzen | effizientere Personalplanung und geringere Fehlbesetzung |
 
@@ -240,7 +240,7 @@ Personal wird nicht isoliert betrachtet, sondern als Teil der Kolonie-Logistik. 
 |---|---|
 | Primärer Akteur | Betriebsleitung |
 | Ziel | Erkennen, welche Abteilungen von welchen Ressourcen abhängig sind |
-| Repo-Bezug | `getDepartmentResourceDependencies.sql` |
+| Repo-Bezug | `sql/queries/general/getDepartmentResourceDependencies.sql` |
 | WebApp-Bezug | später `Departments` oder Dashboard-Erweiterung |
 | Wirtschaftlicher Nutzen | bessere Priorisierung knapper Ressourcen |
 

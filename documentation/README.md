@@ -94,10 +94,10 @@ Generiert einen neuen CSRF-Token.
 ```
 
 #### 2. get_sql_result
-Führt eine spezifische SQL-Datei aus und gibt das Ergebnis zurück.
+Führt eine spezifische SQL-Datei nach bestehender API-Logik aus und gibt das Ergebnis zurück.
 
 **Parameter:**
-- `file`: Name der SQL-Datei (z.B. "getCitizensCount.sql")
+- `file`: Dateiname der SQL-Datei, z.B. `getCitizensCount.sql`
 
 **Antwort:**
 ```json

@@ -1,35 +1,78 @@
-_______________________________________________________________
-getEnergySourcesByCity:
-Zeigt welche Stadt von welcher Energiequelle versorgt wird 
-und wie viel Leistung die Quelle momentan + maximal liefert
-_______________________________________________________________
-getDepartmentsWithLeaders.sql
-Zeigt alle Abteilungen mit Leitung und Login / Welche Abteilungen gibt es und wer leitet sie?
-_______________________________________________________________
-getDepartmentResourceDependencies.sql
-Zeigt welche Abteilung mit welchen Ressourcen verknüpft/zugeordnet ist 
-_______________________________________________________________
-getEmployeeCountByDepartment.sql
-Sie nimmt alle Abteilungen aus ABTEILUNG, verbindet dazu passende Mitarbeiter aus MITARBEITER, 
-zählt die Mitarbeiter pro Abteilung und sortiert die größte Abteilung nach oben.
-_______________________________________________________________
-getCitiesWithoutEnergySource.sql
-Die Abfrage zeigt Städte, die keiner Energiequelle zugeordnet sind. Das ist simpel
-aber fachlich sehr stark, weil eine Mars-Stadt ohne Energieversorgung ein echtes Problem wäre.
-_______________________________________________________________
-getResidentCountByAddress.sql
-Die Abfrage zeigt, wie viele Bewohner an welcher Adresse wohnen. Das ist leicht, aber sinnvoll, 
-weil man damit sieht, welche Wohnbereiche stark belegt sind. 
-(Maybe auch cool wenn man Ressourcen trackt)
+SQL-Ordnerstruktur
+==================
 
-_______________________________________________________________
-Lagerübersicht mit Ressourcenmenge
-getStorageResourceSummary.sql
-Die Abfrage zeigt pro Lager, wie viele verschiedene Ressourcen dort liegen 
-und wie viel Menge, Gewicht und Volumen zusammenkommen. Sehr passend für Ressourcenverwaltung.
-COUNT = zählt Zeilen
-SUM = addiert Zahlen
+sql/queries/
+Normale SELECT-Abfragen fuer fachliche Auswertungen.
 
-_______________________________________________________________
-getResidentCountByCity.sql
+sql/queries/bp1/
+Abfragen fuer den Businessprozess "Kritische Ressourcen ueberwachen und Nachschub ausloesen".
 
+- sql/queries/bp1/getRessourcesBelowMin.sql
+  Erkennt Ressourcen unter Mindestbestand und berechnet Fehlmenge,
+  Fehlmengen-Prozent und Handlungsprioritaet.
+
+- sql/queries/bp1/getRessourcesAtRisk.sql
+  Erkennt abgelaufene oder innerhalb von 30 Tagen ablaufende Ressourcen
+  und gibt Risikostatus sowie empfohlene Massnahme aus.
+
+- sql/queries/bp1/getNachschubanforderungen.sql
+  Bereitet Nachschubanforderungen fachlich vor und berechnet
+  Anforderungsmenge, Sicherheitsreserve, interne Verfuegbarkeit,
+  Anforderungsgrund und empfohlene Massnahme.
+
+sql/queries/bp2/
+Abfragen fuer den Businessprozess "Ueberschuessige Ressourcen an externe Unternehmen verkaufen".
+
+- sql/queries/bp2/getRessourcenUeberschuss.sql
+  Erkennt Ressourcen oberhalb der internen Mindestreserve und berechnet
+  die fachlich verkaufbare Menge.
+
+- sql/queries/bp2/getVerkaufspotenzial.sql
+  Bewertet moegliche Ueberschuesse mit vorhandenen Ueberschussbewertungen
+  und liefert Verkaufspotenzial-Status sowie empfohlene Massnahme.
+
+- sql/queries/bp2/getExterneAbgabeVorbereitung.sql
+  Zeigt vorbereitete externe Abgaben mit Unternehmen, Verkaufspositionen,
+  freigegebener Menge, Positionswert, Gesamtwert und Abgabe-Status.
+
+sql/queries/shared/
+Prozessuebergreifende Abfragen, die BP1 und BP2 fachlich stuetzen.
+
+- sql/queries/shared/getRessourcenWithLager.sql
+  Zeigt Ressourcen mit Lagerbezug.
+
+- sql/queries/shared/getStorageResourceSummary.sql
+  Zeigt Lageruebersichten mit Ressourcenanzahl, Gesamtmenge, Gewicht
+  und Volumen.
+
+sql/queries/general/
+Allgemeine Bestandsabfragen der WebApp, zum Beispiel fuer Dashboard,
+Bewohner, Mitarbeitende, Fahrzeuge, Energie, Staedte und Abteilungen.
+
+sql/storedProcedure/
+Stored-Procedure-Versionen der SQL-Logik.
+
+- sql/storedProcedure/bp1/
+  Procedures fuer BP1.
+
+- sql/storedProcedure/bp2/
+  Procedures fuer BP2.
+
+- sql/storedProcedure/shared/
+  Prozessuebergreifende Procedures.
+
+- sql/storedProcedure/general/
+  Allgemeine Procedures der bestehenden WebApp.
+
+sql/build/
+Build- und Importskripte fuer Datenbankstrukturen und Beispieldaten.
+
+sql/sem2/
+Alte bzw. semesterbezogene Zusatznotizen.
+
+API-Hinweis
+===========
+
+API-Routing und Prisma-Anbindung werden separat gepflegt. Diese SQL-Struktur
+beschreibt nur Ablage und fachliche Zuordnung der Dateien. Sie aendert keine
+restApi-Pfadlogik.
