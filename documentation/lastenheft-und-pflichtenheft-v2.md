@@ -14,7 +14,7 @@ Dieses Dokument beschreibt, welche Funktionen Mars Logistik Verwaltung [ALS] im 
 
 Das Lastenheft beschreibt die Anforderungen aus Sicht der Kolonieleitung.
 
-Das Pflichtenheft beschreibt die technische Umsetzung mit den bereits vorhandenen und weiterentwickelten Bestandteilen aus Web-App, PHP-REST-API, MariaDB/MySQL, SQL-Dateien, Stored Procedures, Session-Handling und CSRF-Schutz.
+Das Pflichtenheft beschreibt die technische Umsetzung mit den bereits vorhandenen und weiterentwickelten Bestandteilen aus Web-App, PHP-REST-API, MariaDB, SQL-Dateien, Stored Procedures, Session-Handling und CSRF-Schutz.
 
 Die Spezifikation wurde nach dem Feedback von Prof. Dr. Becking enger gefasst. Ziel ist es nicht mehr, möglichst viele Geschäftsbereiche der Marskolonie gleichzeitig abzubilden. Stattdessen werden die vorhandenen technischen Funktionen den zwei ausgewählten Businessprozessen zugeordnet und deren wirtschaftlicher Nutzen sichtbar gemacht.
 
@@ -36,7 +36,7 @@ Das Projekt basiert auf folgenden vorhandenen Bestandteilen:
 | PHP-REST-API | vorhanden |
 | SQL-Dateien | vorhanden |
 | Stored Procedures | für BP1, BP2, gemeinsame und allgemeine Abfragen vorbereitet |
-| MariaDB/MySQL-Datenbank | vorhanden |
+| MariaDB-Datenbank | vorhanden |
 | Login / Sicherheit | Session, Login-Ablaufzeit und CSRF-Token vorhanden |
 | Businessprozesse | auf zwei Hauptprozesse reduziert |
 | BPMN-Modelle | passend zu den zwei Hauptprozessen vorbereitet |
@@ -157,7 +157,7 @@ REST-API / PHP-Backend
 Stored Procedures und SQL-Abfragen
     |
     v
-MariaDB/MySQL-Datenbank
+MariaDB-Datenbank
 ```
 
 Das Frontend sendet Anfragen an die REST-API und übergibt dabei Parameter wie Endpunkt, Query-Name und Session-Informationen. Das PHP-Backend prüft die Anfrage, validiert Session und CSRF-Token, führt die passende SQL-Abfrage oder Stored Procedure aus und gibt das Ergebnis als JSON zurück.
@@ -232,7 +232,7 @@ Diese Punkte sind sinnvoll, aber nicht zwingend für die aktuelle Version.
 | Styling | Tailwind CSS |
 | Backend / API | PHP-REST-API |
 | Geplante Backend-Weiterentwicklung | Next.js-basierte API-Struktur |
-| Datenbank | MariaDB / MySQL |
+| Datenbank | MariaDB |
 | Datenbanklogik | SQL-Dateien und Stored Procedures |
 | Datenaustausch | JSON |
 | Sicherheit | Login, Session, CSRF-Token, Ablaufzeiten |
@@ -296,7 +296,7 @@ Gesamtaufwand AP12: 4 Personentage
 
 Mars Logistik Verwaltung [ALS] unterstützt im aktuellen Projektfokus zwei festgelegte Businessprozesse: kritische Ressourcen überwachen und Nachschub auslösen sowie überschüssige Ressourcen an externe Unternehmen verkaufen.
 
-Die Spezifikation wurde nicht auf einer leeren Planung aufgebaut, sondern aus dem bereits vorhandenen und überarbeiteten Projektstand weiterentwickelt. Vorhanden sind eine Web-App, eine PHP-REST-API, SQL-Abfragen, Stored Procedures, Datenbankstrukturen, technische Dokumentation und eine MariaDB/MySQL-Datenbank.
+Die Spezifikation wurde nicht auf einer leeren Planung aufgebaut, sondern aus dem bereits vorhandenen und überarbeiteten Projektstand weiterentwickelt. Vorhanden sind eine Web-App, eine PHP-REST-API, SQL-Abfragen, Stored Procedures, Datenbankstrukturen, technische Dokumentation und eine MariaDB-Datenbank.
 
 Der Schwerpunkt liegt nicht darin, alle vorhandenen Projektbereiche gleich stark umzusetzen. Stattdessen werden die bestehenden Ressourcen- und Lagerdaten gezielt genutzt, um Engpässe früher sichtbar zu machen und Ressourcenüberschüsse wirtschaftlich bewerten zu können. Die technische Architektur trennt Frontend, REST-API, Backend und Datenbanklogik nachvollziehbar voneinander.
 
