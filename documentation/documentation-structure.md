@@ -1,6 +1,6 @@
 # Dokumentationsstruktur
 
-Stand: 14.05.2026
+Stand: 23.06.2026
 
 Die Dokumentation befindet sich im Ordner `documentation/`.  
 Der aktuelle Projektfokus liegt nach dem Feedback von Prof. Dr. Becking auf zwei Businessprozessen:
@@ -19,7 +19,7 @@ documentation/
 ├── README.md
 ├── documentation-structure.md
 ├── businessprozesse-v2.md
-├── datenbankabfragen-v2.md
+├── datenbankabfragen-v4.md
 ├── lastenheft-und-pflichtenheft-v2.md
 ├── APs/
 │   ├── Gruppenanmeldung.md
@@ -48,6 +48,8 @@ documentation/
     ├── AP5-Revision-Case-Study.md
     ├── businessprozesse-v1.md
     ├── datenbankabfragen-v1.md
+    ├── datenbankabfragen-v2.md
+    ├── datenbankabfragen-v3.md
     ├── lastenheft-und-pflichtenheft-v1.md
     ├── Mars_Colony_Riskante_LagerbestaendeEduard.bpmn
     └── diagramEduard.svg
@@ -67,7 +69,7 @@ documentation/
 | `lastenheft-und-pflichtenheft-v2.md` | Aktuelle Spezifikation für den reduzierten Projektumfang. |
 | `APs/AP12-Spezifikation.md` | Arbeitspaket-Zusammenfassung zur Spezifikation. |
 | `APs/AP13-Proposal-Ausgearbeitet.md` | Ausgearbeitetes Projektproposal mit Projektplan, Aufwand und Kriterienbezug. |
-| `datenbankabfragen-v2.md` | Aktuelle fokussierte SQL-Dokumentation für die zwei ausgewählten Businessprozesse. |
+| `datenbankabfragen-v4.md` | Kurze BP2-Erklärung der drei Verkaufsqueries mit erwarteten Ergebnissen, SQL-Dateien und Stored Procedures. |
 
 ---
 
@@ -122,6 +124,8 @@ Der Ordner `archive/` enthält ältere oder nicht mehr zentrale Dateien. Diese D
 | `AP5-Revision-Case-Study.md` | ältere Case-Study-Revision |
 | `businessprozesse-v1.md` | ältere Businessprozess-Sammlung vor der Reduktion |
 | `datenbankabfragen-v1.md` | ältere vollständige SQL-Übersicht vor der Zwei-Prozess-Revision |
+| `datenbankabfragen-v2.md` | ältere fokussierte SQL-Dokumentation für die zwei ausgewählten Businessprozesse |
+| `datenbankabfragen-v3.md` | ältere SQL-Dokumentation mit Erklärung der Ordnerstruktur |
 | `lastenheft-und-pflichtenheft-v1.md` | ältere Spezifikationsfassung vor Version 2 |
 | `Mars_Colony_Riskante_LagerbestaendeEduard.bpmn` | älteres BPMN-Modell |
 | `diagramEduard.svg` | ältere Diagrammdatei |
