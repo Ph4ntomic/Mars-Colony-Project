@@ -20,7 +20,7 @@ Businessprozesse BP1 und BP2
 Stored Procedures
     |
     v
-MySQL-Datenbank
+MariaDB-Datenbank
 ```
 
 Im Mittelpunkt stehen die zwei ausgewählten Businessprozesse:
@@ -37,7 +37,7 @@ Die Webanwendung stellt die fachlichen Funktionen für diese Prozesse bereit. Di
 | Frontend | React mit TypeScript und Vite |
 | API / Backend | PHP-REST-API |
 | Datenzugriff | SQL-Abfragen und Stored Procedures |
-| Datenbank | MySQL-Datenbank mit Ressourcen-, Lager- und Bestandsdaten |
+| Datenbank | MariaDB-Datenbank mit Ressourcen-, Lager- und Bestandsdaten |
 | Sicherheit | Login, Session, CSRF-Token und Ablaufzeiten |
 
 Das Frontend sendet Anfragen an die REST-API und übergibt dabei Parameter wie den gewünschten Endpunkt, Query-Namen oder Session-Informationen.
