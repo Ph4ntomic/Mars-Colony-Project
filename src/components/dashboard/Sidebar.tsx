@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AuthService } from '../../utils/AuthService';
 import { NavLink } from 'react-router-dom';
 
-export type Section = 'overview' | 'cities' | 'inhabitants' | 'employees' | 'vehicles' | 'sql' | 'ressources';
+export type Section = 'overview' | 'cities' | 'inhabitants' | 'employees' | 'vehicles' | 'sql' | 'ressources' | 'sales';
 
 const handleLogout = () => {
     AuthService.logout();
@@ -56,6 +56,13 @@ const Icon: React.FC<{ name: Section | 'logout' | 'toggle'; className?: string }
                     <circle cx="18.5" cy="17.5" r="1.5" strokeWidth="1.2" />
                 </svg>
             );
+        case 'sales':
+            return (
+                <svg {...common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                    <line x1="7" y1="7" x2="7.01" y2="7" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+            );
         case 'sql':
             return (
                 <svg {...common} viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -92,6 +99,7 @@ const Sidebar = () => {
         { id: 'employees', label: 'Mitarbeiter-Datenbank', path: '/employees' },
         { id: 'vehicles', label: 'Fahrzeugflotte', path: '/vehicles' },
         { id: 'ressources', label: 'Ressourcen & Lager', path: '/ressources' },
+        { id: 'sales', label: 'Verkauf', path: '/sales' },
         { id: 'sql', label: 'SQL-Queries', path: '/sql' },
     ];
 
@@ -141,8 +149,8 @@ const Sidebar = () => {
                                     <>
                                         <span
                                             className={`flex items-center justify-center w-10 h-10 rounded-md ${isActive
-                                                    ? "bg-gradient-to-br from-mars-accent to-mars-red-deep text-white"
-                                                    : "bg-white/3 text-gray-200 group-hover:bg-white/5"
+                                                ? "bg-gradient-to-br from-mars-accent to-mars-red-deep text-white"
+                                                : "bg-white/3 text-gray-200 group-hover:bg-white/5"
                                                 }`}
                                         >
                                             <Icon name={item.id} className="text-inherit" />
