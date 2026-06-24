@@ -19,7 +19,7 @@ Für die Abschlusspräsentation soll ein durchgehendes Beispiel anhand eines aus
 
 Die Präsentation soll den vollständigen Zusammenhang darstellen:
 
-**Use Case → Businessprozess → BPMN-Modell → SQL-Stored-Procedures**
+**Use Case → Businessprozess → BPMN-Modell → Stored Procedures**
 
 ---
 
@@ -28,3 +28,15 @@ Die Präsentation soll den vollständigen Zusammenhang darstellen:
 Die Gruppe hat sich für **Businessprozess 1 „Kritische Ressourcen überwachen und Nachschub auslösen“** entschieden.
 
 Dieser Prozess wird als zentrales Beispiel für die Abschlusspräsentation verwendet und von der fachlichen Beschreibung bis zur technischen Umsetzung durchgehend vorgestellt.
+
+---
+
+## 4. Konsequenzen für die Abschlusspräsentation
+
+Die Abschlusspräsentation wird nicht breit über alle Projektteile aufgebaut, sondern anhand eines durchgehenden Beispiels strukturiert.
+
+Als Leitlinie für die Präsentation gilt:
+
+**Use Case → Businessprozess → BPMN-Modell → Stored Procedures → Applikationsbezug**
+
+Dadurch soll nachvollziehbar gezeigt werden, wie ein fachlicher Anwendungsfall in einen modellierten Geschäftsprozess und anschließend in eine technische Datenbankumsetzung überführt wird.
