@@ -77,7 +77,7 @@ switch ($action) {
     case "get_citizens_count":
         $response['citizens_count'] = runSqlFile("../sql/getCitizensCount.sql");
         break;
-    
+
     case "search_citizens_by_name":
         if (!isset($_GET['name'])) {
             sendResponse(["error" => 400, "message" => "Name parameter is missing!"], 400);
@@ -101,12 +101,29 @@ switch ($action) {
         $allTables = [];
 
         foreach ($files as $file) {
-            $queryResult = runSqlFile($path . $file);
-            $tableName = pathinfo($file, PATHINFO_FILENAME);
-            $allTables[$tableName] = [
-                "result" => $queryResult,
-                "sql" => file_get_contents($path . $file)
-            ];
+            $fullPath = $path . $file;
+
+            if (is_dir($fullPath) || !is_file($fullPath)) {
+                continue;
+            }
+
+            try {
+                $sqlContent = file_get_contents($fullPath);
+
+                if (empty(trim($sqlContent))) {
+                    continue;
+                }
+
+                $queryResult = runSqlFile($fullPath);
+
+                $tableName = pathinfo($file, PATHINFO_FILENAME);
+                $allTables[$tableName] = [
+                    "result" => $queryResult,
+                    "sql" => $sqlContent
+                ];
+            } catch (\Throwable $e) {
+                continue;
+            }
         }
 
         $response['tables'] = $allTables;
