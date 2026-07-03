@@ -15,7 +15,7 @@ documentation/
 ├── lastenheft-und-pflichtenheft-v2.md
 ├── APs/
 │   ├── Gruppenanmeldung.md
-│   └── AP1 ... AP19
+│   └── AP1 ... AP23
 ├── Gesprächsprotokoll/
 │   ├── 01-Gesprächsprotokoll.md
 │   ├── 02-Gesprächsprotokoll.md
@@ -63,6 +63,10 @@ Die ausführbaren BPMN-Dateien liegen zentral im Repository-Ordner `bpmn/`. Der 
 | 17 | Implementierungsvorbereitung |
 | 18 | Dokumentationsmethode |
 | 19 | Zwischenvortrag |
+| 20 | Applikation fertigstellen |
+| 21 | Software testen und mit der Spezifikation abgleichen |
+| 22 | Abschlussvorstellung vorbereiten |
+| 23 | Projektbericht erstellen |
 
 ## Statusregeln
 
