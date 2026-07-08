@@ -11,6 +11,7 @@ import {
     Tooltip,
     XAxis,
     YAxis,
+    type TooltipContentProps,
 } from 'recharts';
 import { GraphSkeleton } from '../ui/Skeleton';
 
@@ -135,6 +136,62 @@ function getStockColor(percentage: number) {
     }
 
     return '#22c55e';
+}
+
+function getStockStatus(percentage: number) {
+    if (percentage < 100) {
+        return {
+            label: 'kritisch',
+            text: 'unter Mindestbestand - Nachschub einplanen.',
+            color: 'text-red-400',
+        };
+    }
+
+    if (percentage < 150) {
+        return {
+            label: 'knapp',
+            text: 'Reserve knapp - weiter beobachten.',
+            color: 'text-orange-400',
+        };
+    }
+
+    return {
+        label: 'stabil',
+        text: 'Bestand reicht aktuell aus.',
+        color: 'text-green-400',
+    };
+}
+
+function StockLevelTooltip({
+    active,
+    payload,
+}: TooltipContentProps) {
+    const stock = payload?.[0]?.payload as StockLevel | undefined;
+
+    if (!active || !stock) {
+        return null;
+    }
+
+    const status = getStockStatus(stock.percentage);
+
+    return (
+        <div className="max-w-[220px] rounded-md border border-gray-700 bg-[#111113]/95 px-3 py-2 text-xs shadow-lg">
+            <div className="mb-1 flex items-center justify-between gap-3">
+                <span className="text-sm font-semibold text-white">
+                    {stock.resource}
+                </span>
+                <span className={`font-semibold ${status.color}`}>
+                    {status.label}
+                </span>
+            </div>
+            <div className="text-gray-300">
+                {stock.currentAmount} / {stock.minimumAmount} {stock.unit}
+            </div>
+            <div className="mt-1 text-gray-400">
+                {stock.percentage}% der Mindestreserve - {status.text}
+            </div>
+        </div>
+    );
 }
 
 export function ResourceConsumptionChart({
@@ -301,6 +358,12 @@ export function ResourceStockLevelChart({
                             axisLine={false}
                             tickLine={false}
                             tick={{ fill: '#d1d5db', fontSize: 12 }}
+                        />
+                        <Tooltip
+                            cursor={false}
+                            shared={false}
+                            content={(props) => <StockLevelTooltip {...props} />}
+                            isAnimationActive={false}
                         />
                         <ReferenceLine
                             x={100}
