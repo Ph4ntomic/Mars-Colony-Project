@@ -60,6 +60,42 @@ switch ($action) {
 
     case "get_sql_result":
         if (!isset($_GET['file'])) {
+            sendResponse([
+                "error" => 400,
+                "message" => "Stored Procedure not specified!"
+            ], 400);
+        }
+
+        $procedure = preg_replace('/\.sql$/i', '', $_GET['file']);
+        
+        if (empty($procedure)) {
+            sendResponse([
+                "error" => 400,
+                "message" => "Invalid Stored Procedure name!"
+            ], 400);
+        }
+
+        try {
+            $stmt = $pdo->prepare("CALL `$procedure`()");
+            $stmt->execute();
+
+            $response['result'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            while ($stmt->nextRowset()) {
+            }
+
+            $stmt->closeCursor();
+        } catch (PDOException $e) {
+            sendResponse([
+                "error" => 500,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+
+        break;
+
+    case "get_sql_result_old":
+        if (!isset($_GET['file'])) {
             sendResponse(["error" => 400, "message" => "SQL file not specified!"], 400);
         }
         $file = basename($_GET['file']);
@@ -77,7 +113,7 @@ switch ($action) {
     case "get_citizens_count":
         $response['citizens_count'] = runSqlFile("../sql/getCitizensCount.sql");
         break;
-    
+
     case "search_citizens_by_name":
         if (!isset($_GET['name'])) {
             sendResponse(["error" => 400, "message" => "Name parameter is missing!"], 400);
@@ -101,12 +137,29 @@ switch ($action) {
         $allTables = [];
 
         foreach ($files as $file) {
-            $queryResult = runSqlFile($path . $file);
-            $tableName = pathinfo($file, PATHINFO_FILENAME);
-            $allTables[$tableName] = [
-                "result" => $queryResult,
-                "sql" => file_get_contents($path . $file)
-            ];
+            $fullPath = $path . $file;
+
+            if (is_dir($fullPath) || !is_file($fullPath)) {
+                continue;
+            }
+
+            try {
+                $sqlContent = file_get_contents($fullPath);
+
+                if (empty(trim($sqlContent))) {
+                    continue;
+                }
+
+                $queryResult = runSqlFile($fullPath);
+
+                $tableName = pathinfo($file, PATHINFO_FILENAME);
+                $allTables[$tableName] = [
+                    "result" => $queryResult,
+                    "sql" => $sqlContent
+                ];
+            } catch (\Throwable $e) {
+                continue;
+            }
         }
 
         $response['tables'] = $allTables;
