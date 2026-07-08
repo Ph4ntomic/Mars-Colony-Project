@@ -199,7 +199,7 @@ export function ResourceConsumptionChart({
                     Keine Verbrauchsdaten für {selectedResource} vorhanden.
                 </div>
             ) : (
-                <div className="h-[300px] w-full">
+                <div className="resource-chart h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart
                             data={chartData}
@@ -227,6 +227,7 @@ export function ResourceConsumptionChart({
                                 width={60}
                             />
                             <Tooltip
+                                cursor={false}
                                 labelFormatter={(period) =>
                                     formatPeriod(String(period), selectedRange)
                                 }
@@ -273,7 +274,7 @@ export function ResourceStockLevelChart({
 
     return (
         <div>
-            <div className="h-[320px] w-full">
+            <div className="resource-chart h-[320px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
@@ -301,13 +302,6 @@ export function ResourceStockLevelChart({
                             tickLine={false}
                             tick={{ fill: '#d1d5db', fontSize: 12 }}
                         />
-                        <Tooltip
-                            contentStyle={{
-                                background: '#18181b',
-                                border: '1px solid #374151',
-                                borderRadius: 8,
-                            }}
-                        />
                         <ReferenceLine
                             x={100}
                             stroke="#f97316"
@@ -320,6 +314,7 @@ export function ResourceStockLevelChart({
                             unit="%"
                             radius={[0, 6, 6, 0]}
                             animationDuration={700}
+                            activeBar={false}
                         >
                             {data.map((entry) => (
                                 <Cell
