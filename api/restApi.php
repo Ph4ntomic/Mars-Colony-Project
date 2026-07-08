@@ -60,6 +60,42 @@ switch ($action) {
 
     case "get_sql_result":
         if (!isset($_GET['file'])) {
+            sendResponse([
+                "error" => 400,
+                "message" => "Stored Procedure not specified!"
+            ], 400);
+        }
+
+        $procedure = preg_replace('/\.sql$/i', '', $_GET['file']);
+        
+        if (empty($procedure)) {
+            sendResponse([
+                "error" => 400,
+                "message" => "Invalid Stored Procedure name!"
+            ], 400);
+        }
+
+        try {
+            $stmt = $pdo->prepare("CALL `$procedure`()");
+            $stmt->execute();
+
+            $response['result'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            while ($stmt->nextRowset()) {
+            }
+
+            $stmt->closeCursor();
+        } catch (PDOException $e) {
+            sendResponse([
+                "error" => 500,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+
+        break;
+
+    case "get_sql_result_old":
+        if (!isset($_GET['file'])) {
             sendResponse(["error" => 400, "message" => "SQL file not specified!"], 400);
         }
         $file = basename($_GET['file']);
