@@ -12,17 +12,29 @@ Die Software wurde technisch geprüft und am **29.06.2026** im Projektstand vorg
 
 Die Vorstellung diente gleichzeitig als praktischer Funktionstest und als Grundlage für die weitere Vorbereitung der Abschlusspräsentation.
 
+Am **08.07.2026** wurde der finale Repository-Stand zusätzlich lokal mit TypeScript-Prüfung, Produktionsbuild und ESLint geprüft.
+
 ## Prüfergebnisse
 
 | Prüfung | Ergebnis |
 |---|---|
-| TypeScript-Typprüfung | erfolgreich |
-| Produktionsbuild | erfolgreich |
+| TypeScript-Typprüfung | erfolgreich (`npm run type-check`) |
+| Produktionsbuild | erfolgreich (`npm run build`) |
 | Start und Darstellung der Webanwendung | erfolgreich |
 | Dashboard und Ressourcendiagramme | erfolgreich vorgestellt |
 | Datenbank-, Query- und Stored-Procedure-Struktur | geprüft und dokumentiert |
 | BP1-Bezug zwischen BPMN, Datenbank und Anwendung | nachvollziehbar dargestellt |
 | Dokumentationslinks und Struktur | geprüft |
+| ESLint | 7 Errors und 1 Warning im finalen Repo-Stand; keine Blockade für TypeScript-Prüfung oder Produktionsbuild |
+
+Beim Produktionsbuild wurden zusätzlich Warnungen zu veralteten Browserslist-Daten, `@tailwind`-At-Rules im Minifier und einem großen JavaScript-Chunk ausgegeben. Der Build wurde trotzdem erfolgreich erzeugt.
+
+Die ESLint-Abweichungen betreffen:
+
+- `no-explicit-any` in `StatusCard.tsx`, `SqlOverview.tsx` und `Vehicles.tsx`,
+- eine ungenutzte Variable in `Vehicles.tsx`,
+- `var` und eine nicht weiter verwendete Zuweisung in `restApi.ts`,
+- eine Hook-Abhängigkeitswarnung in `Restock.tsx`.
 
 ## Konsequenzen aus der Vorstellung
 
