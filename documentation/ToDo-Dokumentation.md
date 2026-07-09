@@ -1,126 +1,51 @@
-# To-do – Dokumentation der Stored-Procedure-Anbindung
+# To-do - Dokumentation der Stored-Procedure-Anbindung
 
-Status: offen
+Status: final eingeordnet; technische Haertungspunkte offen
+Stand: 08.07.2026
 
-Ziel ist, die Projektdokumentation nach der produktiven Anbindung und erfolgreichen Prüfung der Stored Procedures auf den tatsächlichen Implementierungsstand zu bringen.
+Dieses Dokument haelt fest, wie die urspruengliche To-do-Liste zur Stored-Procedure-Anbindung im finalen Repository-Stand einzuordnen ist.
 
-> Die folgenden Punkte erst abhaken, wenn die jeweilige Aussage durch Code, Datenbankstand und Tests nachweisbar ist.
+## Aktueller Ist-Stand
 
----
+| Bereich | Stand |
+|---|---|
+| Hauptpfad in `api/restApi.php` | `get_sql_result` reduziert den Parameter `file` auf den Procedure-Namen und fuehrt `CALL <Procedure>()` ueber PDO aus. |
+| Rueckgabeformat | Erfolgreiche Aufrufe liefern JSON mit `result`. |
+| CSRF | Alle Aktionen ausser `generate_csrf` erwarten `X-CSRF-Token`. |
+| Alte SQL-Dateipfade | `get_sql_result_old`, `get_all_tables`, `get_sql_files` und einzelne Dashboard-/Suchaktionen nutzen weiterhin `runSqlFile()`. |
+| Procedure-Dateien | 38 Dateien unter `sql/storedProcedure/`, gespiegelt zu 38 lesbaren Query-Dateien unter `sql/queries/`. |
+| Direkte Diagrammabfragen | `sql/getResourceConsumptionHistory.sql` und `sql/getResourceStockLevels.sql` liegen weiter als direkte SQL-Dateien vor. |
+| Feste BP1-API-Actions | Nicht umgesetzt; der aktuelle Stand nutzt den generischen `get_sql_result`-Pfad. |
+| Procedure-Whitelist | Nicht umgesetzt; das bleibt ein sinnvoller Haertungspunkt. |
+| Fehlerformat | Aktuell wird bei Procedure-Fehlern ein JSON-Fehler mit HTTP 500 und Datenbankmeldung geliefert, aber kein eigenes Fehlercode-Schema. |
 
-## 1. Technische Dokumentation
+## Dokumentation aktualisiert
 
-- [ ] Ist-Architektur auf den produktiven Aufruf von Stored Procedures aktualisieren.
-- [ ] Alte Aussage „Die API verwendet ausschließlich SQL-Dateien“ entfernen oder historisch einordnen.
-- [ ] Neue feste BP1-API-Actions dokumentieren.
-- [ ] Zuordnung der API-Actions zu den Stored Procedures dokumentieren.
-- [ ] Procedure-Whitelist und ihre Sicherheitsfunktion erklären.
-- [ ] Festhalten, dass keine Procedure-Namen aus URL-Parametern ausgeführt werden.
-- [ ] Erfolgreiches JSON-Antwortformat dokumentieren.
-- [ ] Fehlerformat und HTTP-Statuscodes dokumentieren.
-- [ ] CSRF-Schutz der neuen Endpunkte beschreiben.
-- [ ] Import der Procedure-Definitionen in MariaDB dokumentieren.
-- [ ] Benötigte Datenbankrechte wie `CREATE ROUTINE` und `EXECUTE` dokumentieren.
-- [ ] Deployment- und Aktualisierungsablauf dokumentieren.
-- [ ] Beschreiben, wie der Importstatus der Procedures geprüft wird.
-- [ ] Beispielaufrufe für API und Datenbank ergänzen.
+- `README.md`
+- `documentation/README.md`
+- `documentation/datenbankabfragen-v4.md`
+- `documentation/lastenheft-und-pflichtenheft-v2.md`
+- `documentation/APs/AP8-Auswahl-DBMS-Infrastruktur-Prototyp.md`
+- `documentation/APs/AP9-Revision-Implementierung.md`
+- `documentation/APs/AP10-Revision-Use-Cases.md`
+- `documentation/APs/AP11-BPMN-Modellierung-BP1-Kritische RessourcenÜberwachenUndNachschubAuslösen.md`
+- `documentation/APs/AP11-BPMN-Modellierung-BP2-Ueberschuessige-Ressourcen-an-externe-Unternehmen-verkaufen.md`
+- `documentation/APs/AP16-Architektur-Entwurf.md`
+- `documentation/APs/AP17-Implementierung-vorbereitet.md`
+- `documentation/APs/AP20-Applikation-fertiggestellt.md`
+- `documentation/APs/AP21-Software-getestet.md`
+- `documentation/APs/AP22-Vorstellung-vorbereitet.md`
+- `documentation/APs/AP23-Projektbericht-erstellen.md`
+- `documentation/APs/APFinalALS.md`
 
-### Zu dokumentierende BP1-Zuordnung
+## Verbleibende technische Restpunkte
 
-| API-Action | Stored Procedure | Zweck |
-|---|---|---|
-| `get_bp1_resources_below_min` | `getRessourcesBelowMin()` | Ressourcen unter Mindestbestand anzeigen |
-| `get_bp1_resources_at_risk` | `getRessourcesAtRisk()` | Ablauf- und Bestandsrisiken anzeigen |
-| `get_bp1_replenishment_requirements` | `getNachschubanforderungen()` | Nachschubbedarf und Maßnahme berechnen |
-| `get_bp1_resources_with_storage` | `getRessourcenWithLager()` | Ressourcen mit Lagerbezug anzeigen |
+Diese Punkte sind keine Dokumentationsblocker, sondern moegliche technische Nacharbeiten:
 
-### Vorgesehenes Erfolgsformat
+- Explizite Whitelist fuer erlaubte Procedure-Namen in `get_sql_result` ergaenzen.
+- Dashboard-Diagrammabfragen entweder als Stored Procedures bereitstellen oder konsequent ueber den SQL-Datei-Fallback fuehren.
+- Aeltere `runSqlFile()`-Aktionen vereinheitlichen oder klar als Legacy-Endpunkte kennzeichnen.
+- Einheitliches Fehlercode-Schema fuer fehlgeschlagene Procedure-Aufrufe definieren.
+- Importablauf der Stored Procedures fuer eine frische MariaDB-Instanz dokumentieren oder automatisieren.
 
-```json
-{
-  "result": []
-}
-```
-
-### Vorgesehenes Fehlerformat
-
-```json
-{
-  "error": 500,
-  "code": "STORED_PROCEDURE_FAILED",
-  "message": "Die Datenbankfunktion konnte nicht ausgeführt werden."
-}
-```
-
----
-
-## 2. Projektdokumentation
-
-- [ ] [`README.md`](README.md) aktualisieren.
-- [ ] [`datenbankabfragen-v4.md`](datenbankabfragen-v4.md) aktualisieren.
-- [ ] [`APs/AP16-Architektur-Entwurf.md`](APs/AP16-Architektur-Entwurf.md) aktualisieren.
-- [ ] [`lastenheft-und-pflichtenheft-v2.md`](lastenheft-und-pflichtenheft-v2.md) aktualisieren.
-- [ ] [`APs/AP20-Applikation-fertiggestellt.md`](APs/AP20-Applikation-fertiggestellt.md) um die Umsetzung ergänzen.
-- [ ] [`APs/AP21-Software-getestet.md`](APs/AP21-Software-getestet.md) um die Testergebnisse ergänzen.
-- [ ] Neue Projektentscheidung zur produktiven Procedure-Anbindung anlegen.
-- [ ] Neue Projektentscheidung in [`projektentscheidungen/README.md`](projektentscheidungen/README.md) aufnehmen.
-- [ ] Bekannte technische Abgrenzung „Procedure-Anbindung offen“ als erledigt markieren.
-- [ ] Prüfen, ob weitere aktuelle AP-Dokumente die alte Architektur beschreiben.
-- [ ] Widersprüche zwischen aktuellem Code und Dokumentation beseitigen.
-- [ ] Historische Dokumente unter `archive/` unverändert lassen.
-
-### Vorgesehene neue Projektentscheidung
-
-```text
-documentation/projektentscheidungen/
-04 - YYYY-MM-DD-stored-procedures-produktiv-angebunden.md
-```
-
-Sie soll mindestens enthalten:
-
-- Datum und Status der Entscheidung
-- eingebundene Stored Procedures
-- neue API-Actions
-- Sicherheitskonzept mit Whitelist und CSRF
-- durchgeführte Tests
-- verbleibende Abgrenzungen
-
----
-
-## 3. Präsentationsdokumentation
-
-### Freigabebedingung
-
-Dieser Abschnitt darf erst bearbeitet werden, wenn:
-
-- [ ] die Procedures in der Präsentationsdatenbank importiert sind,
-- [ ] die API-Actions erfolgreich getestet wurden,
-- [ ] das Frontend die erwarteten Ergebnisse anzeigt,
-- [ ] TypeScript-Prüfung und Produktionsbuild erfolgreich sind,
-- [ ] die vollständige Live-Demo erfolgreich durchgespielt wurde.
-
-### Änderungen nach erfolgreicher Freigabe
-
-- [ ] [`Abschlusspraesentation-Leitfaden-BP1.md`](Abschlusspraesentation-Leitfaden-BP1.md) aktualisieren.
-- [ ] Ist-/Soll-Architektur durch die neue tatsächliche Ist-Architektur ersetzen.
-- [ ] Formulierung „Procedure-Anbindung noch offen“ entfernen.
-- [ ] Live-Aufruf der Procedure in den Demoablauf aufnehmen.
-- [ ] Nur tatsächlich getestete Ergebniswerte verwenden.
-- [ ] Wasserbeispiel mit dem realen API-Ergebnis abgleichen.
-- [ ] Screenshots und Demo-Fallback nach der neuen Umsetzung aktualisieren.
-- [ ] Keine Funktionen darstellen, die nicht erfolgreich getestet wurden.
-- [ ] Alle Sprechertexte auf den neuen technischen Stand prüfen.
-- [ ] Professor-Vorgabe „Use Case → Businessprozess → BPMN → Stored Procedures → Applikationsbezug“ erneut abgleichen.
-
----
-
-## 4. Abschlusskontrolle
-
-- [ ] Alle geänderten Dokumente nennen denselben technischen Ist-Stand.
-- [ ] MariaDB/MySQL bleibt als aktuelle Datenbanklinie dokumentiert.
-- [ ] PHP-REST-API mit PDO bleibt korrekt beschrieben.
-- [ ] Procedure-Dateien, importierte Procedures und API-Anbindung werden begrifflich getrennt.
-- [ ] Keine Zugangsdaten, Passwörter oder Tokens wurden dokumentiert.
-- [ ] Alle relativen Markdown-Links funktionieren.
-- [ ] Rechtschreibung und Formatierung wurden geprüft.
-- [ ] Änderungen wurden von mindestens einer zweiten Person gegengelesen.
+Historische Dateien unter `documentation/archive/` bleiben grundsaetzlich als Entwicklungshistorie erhalten. Eine alte Formulierung zu Prognosefunktionen wurde sprachlich neutralisiert.

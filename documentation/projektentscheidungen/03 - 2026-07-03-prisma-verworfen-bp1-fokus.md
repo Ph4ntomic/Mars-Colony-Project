@@ -25,6 +25,8 @@ Der vorhandene Projektumfang reicht dafür bereits aus. Eine zusätzliche Backen
 - BP1 wird für die Abschlusspräsentation vollständig und nachvollziehbar vorbereitet.
 - Das PHP-Backend bleibt bestehen.
 - MariaDB/MySQL bleibt die aktuelle Datenbanklinie.
-- Die vorhandenen Stored Procedures sollen in die bestehende PHP-API eingebunden werden.
+- Die vorhandenen Stored Procedures werden im finalen API-Stand generisch über `get_sql_result` aufgerufen.
 - Prisma ist nicht Bestandteil des aktuellen Projektumfangs.
 - BP2 bleibt dokumentiert, steht in der Präsentation aber nicht im Mittelpunkt.
+
+Aktueller Abgleich vom 08.07.2026: Der Procedure-Hauptpfad ist vorhanden. Ältere SQL-Dateipfade existieren weiterhin und werden als Alt-/Fallbackpfade dokumentiert.

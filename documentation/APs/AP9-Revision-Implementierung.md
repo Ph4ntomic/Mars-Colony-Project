@@ -21,7 +21,7 @@ Die Implementierung soll diese Prozesse nachvollziehbar unterstützen, ohne den 
 | API | Eine PHP-API ist vorhanden und stellt Daten im JSON-Format bereit. |
 | Datenbank | MariaDB/MySQL wird als aktuelle Datenbanklinie verwendet. |
 | SQL-Dateien | SQL-Build-Dateien und fachliche Abfragen sind im Repository vorhanden. |
-| Stored Procedures | 38 passende Stored Procedures sind vorhanden; die API-Anbindung ist offen. |
+| Stored Procedures | 38 passende Stored Procedures sind vorhanden; `get_sql_result` ruft sie im aktuellen API-Stand generisch per `CALL` auf. |
 | Testdaten | In `sql/build/mysql.sql` sind Beispieldaten für die Demonstration enthalten. |
 
 ## 3. Bewertung nach Feedback
@@ -40,8 +40,10 @@ Die Implementierung soll diese Prozesse nachvollziehbar unterstützen, ohne den 
 | SQL-Build-Skripte | Verkaufstabellen in `marskolonie_mysql.sql` und `mysql.sql` ergänzt. | Prozess 6 kann datenbankseitig abgebildet werden. |
 | Beispieldaten | Seed-Daten für externe Unternehmen, Überschussbewertungen und Verkaufspositionen ergänzt. | Der Verkaufsprozess ist in einer Präsentation leichter erklärbar. |
 | BP1-Dashboard | Ressourcenverbrauch und Bestand gegen Mindestbestand ergänzt. | Der Applikationsbezug von BP1 ist direkt sichtbar. |
+| BP1-Nachbestellung | Seite `Restock` ergänzt und mit `getNachschubanforderungen()` verbunden. | Nachschubbedarf wird als filterbare Kartenansicht mit Detaildialog sichtbar. |
 | Bestandsbewegungen | `BESTANDSBEWEGUNG` in `mysql.sql` sowie `resourceGraphsMigration.sql` ergänzt. | Verbrauchsdaten können über zwölf Monate demonstriert werden. |
 | Ressourcenbezug | Verkaufspositionen beziehen sich auf konkrete Ressourcen und Lager. | Die Verbindung zwischen Lagerbestand und Verkauf bleibt nachvollziehbar. |
+| BP2-Verkaufsansicht | Seite `Sales` mit drei Schritten für Überschuss, Verkaufspotenzial und externe Abgabe ergänzt. | Prozess 6 ist nicht nur datenbankseitig, sondern auch als UI-Ansicht nachvollziehbar. |
 | Dokumentation | AP5, AP10, AP11, AP12 und AP13 wurden auf den Zwei-Prozess-Fokus ausgerichtet. | Implementierung und Dokumentation erzählen dieselbe fachliche Linie. |
 
 ## 5. Technische Unterstützung der Use Cases
@@ -50,14 +52,16 @@ Die Implementierung soll diese Prozesse nachvollziehbar unterstützen, ohne den 
 |---|---|
 | Ressourcenbestand anzeigen | Vorhandene Ressourcen- und Lagerdaten in `RESSOURCE`, `LAGER` und `IST_GELAGERT_IN`. |
 | Kritische Ressourcen anzeigen | Vergleich von `MENGE` und `MIN_SCHWELLENWERT` in `RESSOURCE`. |
-| Nachschubbedarf erkennen | Ableitung aus kritischen Beständen und Lagerbezug. |
+| Nachschubbedarf erkennen | `getNachschubanforderungen()` mit Karten-, Filter- und Detailansicht in `Restock`. |
 | Überschüssige Ressourcen anzeigen | Ableitung aus Menge, Mindestreserve und Lagerdaten. |
-| Verkaufspotenzial bewerten | Tabelle `RESSOURCEN_UEBERSCHUSS_BEWERTUNG`. |
-| Externe Abgabe vorbereiten | Tabellen `RESSOURCEN_VERKAUF` und `RESSOURCEN_VERKAUF_POSITION`. |
+| Verkaufspotenzial bewerten | Tabelle `RESSOURCEN_UEBERSCHUSS_BEWERTUNG` und Ansicht `Sales`. |
+| Externe Abgabe vorbereiten | Tabellen `RESSOURCEN_VERKAUF` und `RESSOURCEN_VERKAUF_POSITION` sowie dritter Schritt der Verkaufsansicht. |
 
 ## 6. Bewusste Abgrenzung
 
 Nicht umgesetzt wird ein vollständiges Verkaufs- und Zahlungssystem mit Rechnung, Vertrag und Zahlungsstatus.
+
+Die Nachschubseite stellt Anforderungen und empfohlene Maßnahmen dar. Die Aktionsbuttons im Detaildialog lösen im aktuellen Frontend nur einen Demo-/Debug-Status aus; es wird kein dauerhafter Nachschubauftrag in der Datenbank gespeichert.
 
 Nicht weiter ausgebaut werden außerdem Transportplanung, Energieverteilung, Personalplanung und vollständige Bewohnerverwaltung. Diese Bereiche bleiben als spätere Erweiterungen möglich, gehören aber nicht zum aktuellen Fokus.
 
@@ -65,9 +69,9 @@ Nicht weiter ausgebaut werden außerdem Transportplanung, Energieverteilung, Per
 
 Die Implementierung passt zum reduzierten Projektumfang.
 
-Prozess 1 wird durch vorhandene Ressourcen-, Lager- und Mindestbestandsdaten unterstützt. Prozess 6 wurde durch neue Verkaufstabellen und Seed-Daten ergänzt.
+Prozess 1 wird durch Ressourcen-, Lager- und Mindestbestandsdaten sowie durch Dashboard-, Ressourcen- und Nachbestellungsansichten unterstützt. Prozess 6 wurde durch Verkaufstabellen, Seed-Daten und eine dreistufige Verkaufsansicht ergänzt.
 
-Die aktuelle PHP-API führt weiterhin SQL-Dateien aus. Die Stored Procedures sind vollständig vorbereitet, müssen gemäß Gesprächsprotokoll 03 aber noch produktiv angebunden werden.
+Die aktuelle PHP-API ruft Stored Procedures über `get_sql_result` generisch per `CALL` auf. Für ältere SQL-Datei-Zugriffe existieren weiterhin `get_sql_result_old` und einzelne `runSqlFile()`-Pfadstellen.
 
 Damit kann die Anwendung in der Präsentation als datenbankgestützte Unterstützung der zwei ausgewählten Businessprozesse erklärt werden.
 

@@ -15,7 +15,7 @@ Der Bericht setzt sich aus den im Repository gepflegten Unterlagen zusammen:
 - Case Study, Businessprozesse und Use Cases
 - BPMN-Dokumentation und finales BP1-Modell v11
 - Lastenheft und Pflichtenheft
-- Architektur-, Datenbank- und SQL-Dokumentation
+- Architektur-, Datenbank-, Stored-Procedure- und SQL-Dokumentation
 - Projektentscheidungen
 - Test- und Abnahmeergebnisse
 
@@ -26,8 +26,8 @@ Historische Fassungen aus `documentation/archive/` bleiben zur Nachvollziehbarke
 1. Projektkontext und Zielsetzung
 2. Organisation und methodisches Vorgehen
 3. Anforderungen und ausgewählte Businessprozesse
-4. Datenbankentwurf und Stored Procedures
-5. Softwarearchitektur und Implementierung
+4. Datenbankentwurf, Stored Procedures und API-Anbindung
+5. Softwarearchitektur, Implementierung und Webansichten
 6. BPMN-Modellierung und Applikationsbezug
 7. Tests und Abgleich mit dem Pflichtenheft
 8. Projektverlauf, Entscheidungen und Herausforderungen

@@ -37,7 +37,7 @@ BP2 bleibt Bestandteil des Projekts und wird zur Einordnung kurz erwähnt.
 - finales BPMN-v11-Modell
 - relevante Tabellen, Queries und Stored Procedures
 - Architektur aus Webanwendung, PHP-API und MariaDB/MySQL
-- Ressourcenansichten und Diagramme
+- Dashboard, Ressourcenansichten, Nachbestellungsseite und BP2-Verkaufsansicht
 - wichtige Projektentscheidungen und Abgrenzungen
 - Projektergebnis und Fazit
 

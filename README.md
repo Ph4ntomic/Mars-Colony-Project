@@ -26,7 +26,7 @@ Use Case → Businessprozess → BPMN-Modell → Stored Procedures → Applikati
 | Oberfläche | Tailwind CSS 3, Material UI, Recharts |
 | Backend | PHP mit PDO und JSON-REST-API |
 | Datenbank | MariaDB/MySQL; Oracle-Skripte bleiben als Alt-/Alternativstand erhalten |
-| Datenbanklogik | SQL-Abfragen und 38 zugeordnete Stored Procedures |
+| Datenbanklogik | 38 SQL-Abfragen, 38 zugeordnete Stored Procedures und 2 direkte Diagrammabfragen |
 | Sicherheit | Login, Session und CSRF-Token |
 
 ## Lokaler Start
@@ -50,7 +50,7 @@ Für die vollständige Anwendung werden zusätzlich PHP, eine konfigurierte Date
 - `sql/queries/`: lesbare Abfragen nach `bp1`, `bp2`, `shared` und `general`
 - `sql/storedProcedure/`: passende Stored-Procedure-Varianten
 
-Die zwei Abfragen für die BP1-Diagramme liegen direkt unter `sql/`, da die aktuelle API nur dort einzelne Dateien auflöst.
+Die zwei Abfragen für die BP1-Diagramme liegen direkt unter `sql/`. Der aktuelle API-Hauptpfad `get_sql_result` erwartet dagegen importierte Stored Procedures und ruft sie per `CALL` auf; ältere SQL-Datei-Ausführung bleibt über `get_sql_result_old` beziehungsweise einzelne Alt-Aktionen im Backend vorhanden.
 
 ## API
 
@@ -63,7 +63,7 @@ X-CSRF-Token: {token}
 
 `generate_csrf` benötigt keinen Token. Alle anderen Aktionen erwarten ihn im HTTP-Header `X-CSRF-Token`; ein Token ist 24 Stunden gültig.
 
-Wichtiger Implementierungsstand: Die Stored Procedures sind vollständig vorbereitet, die PHP-API führt im aktuellen Repository jedoch noch SQL-Dateien über PDO aus. Die Umstellung des produktiven Datenzugriffs auf Stored-Procedure-Aufrufe bleibt offen und folgt aus dem Feedback im dritten Gesprächsprotokoll.
+Wichtiger Implementierungsstand: `get_sql_result` ruft im aktuellen Repository Stored Procedures über PDO per `CALL` auf. Der Parameter `file=getNachschubanforderungen.sql` wird dabei zum Procedure-Namen `getNachschubanforderungen()` reduziert. Eine feste Procedure-Whitelist ist nicht umgesetzt; ältere SQL-Datei-Pfade existieren weiterhin als Fallback bzw. Altstand.
 
 ## Dokumentation
 
