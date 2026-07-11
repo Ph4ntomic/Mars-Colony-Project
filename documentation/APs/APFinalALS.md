@@ -1,7 +1,7 @@
 # APFinalALS – Gesamtübersicht der Arbeitspakete
 
 Status: abgeschlossen
-Stand: 03.07.2026
+Stand: 08.07.2026
 Projekt: Mars Logistik Verwaltung [ALS]
 
 Dieses Dokument bündelt den vollständigen Projektkontext und die Ergebnisse der Arbeitspakete AP1 bis AP23. Es ist so aufgebaut, dass es einzeln heruntergeladen und ohne die übrige Repository-Struktur gelesen werden kann.
@@ -55,7 +55,7 @@ Die Links zu Einzeldateien sind optionale Vertiefungen, falls das Dokument inner
 | Schwerpunkt der Abschlusspräsentation | BP1 – Kritische Ressourcen überwachen und Nachschub auslösen |
 | Status | Projektumfang, Anwendung, Tests, Präsentation und Dokumentation abgeschlossen |
 
-Die Anwendung verbindet eine Weboberfläche mit einer PHP-REST-API und einer MariaDB-/MySQL-Datenbank. Ressourcen-, Lager-, Stadt-, Bewohner-, Mitarbeiter- und Fahrzeugdaten können ausgewertet und in Dashboard- oder Tabellenansichten dargestellt werden.
+Die Anwendung verbindet eine Weboberfläche mit einer PHP-REST-API und einer MariaDB-/MySQL-Datenbank. Ressourcen-, Lager-, Stadt-, Bewohner-, Mitarbeiter-, Fahrzeug-, Nachschub- und Verkaufsdaten können ausgewertet und in Dashboard-, Prozess- oder Tabellenansichten dargestellt werden.
 
 Die Gesprächsprotokolle mit Prof. Dr. Becking bildeten die Referenz für die schrittweise Eingrenzung des Projekts. Aus einem zunächst breiten Verwaltungsansatz wurden zwei zentrale Businessprozesse ausgewählt. Für die Abschlusspräsentation wurde BP1 als durchgehendes Beispiel priorisiert.
 
@@ -110,7 +110,7 @@ Leonardo legte die Präsentationen mit Canva Pro an und lud das Team ein. Die Vo
 
 **Kritische Ressourcen überwachen und Nachschub auslösen**
 
-BP1 dient der Versorgungssicherheit. Bestände werden mit Mindestwerten verglichen, Risiken bewertet und Nachschubmaßnahmen vorbereitet.
+BP1 dient der Versorgungssicherheit. Bestände werden mit Mindestwerten verglichen, Risiken bewertet und Nachschubmaßnahmen vorbereitet. Im finalen Webstand wird dieser Bezug durch Dashboarddiagramme, Ressourcen-/Lageransichten und eine Nachbestellungsseite sichtbar.
 
 Der Ablauf des finalen BPMN-v11-Modells:
 
@@ -129,7 +129,7 @@ Der Ablauf des finalen BPMN-v11-Modells:
 
 **Überschüssige Ressourcen an externe Unternehmen verkaufen**
 
-BP2 bewertet, welche Ressourcen nach Mindestreserve und Sicherheitspuffer extern abgegeben werden können. Verkaufstabellen, Überschussbewertungen und vorbereitete Verkaufspositionen bilden den Prozess datenbankseitig ab. Ein vollständiges Zahlungs- oder Vertragsmodul gehört nicht zum finalen Umfang.
+BP2 bewertet, welche Ressourcen nach Mindestreserve und Sicherheitspuffer extern abgegeben werden können. Verkaufstabellen, Überschussbewertungen und vorbereitete Verkaufspositionen bilden den Prozess datenbankseitig ab. Zusätzlich zeigt die Webanwendung eine dreistufige Verkaufsansicht für Überschuss, Verkaufspotenzial und externe Abgabe. Ein vollständiges Zahlungs- oder Vertragsmodul gehört nicht zum finalen Umfang.
 
 ### Präsentationsleitlinie
 
@@ -154,6 +154,7 @@ BP1 wird vollständig entlang dieser Kette vorgestellt. BP2 bleibt Bestandteil d
 | Datenbank | MariaDB/MySQL |
 | Datenaustausch | JSON |
 | Sicherheit | Login, PHP-Session und CSRF-Token |
+| Datenbanklogik | 38 Query-Dateien, 38 Stored Procedures und 2 direkte Diagrammabfragen |
 | Modellierung | PowerDesigner und BPMN |
 
 ### Architektur
@@ -165,15 +166,15 @@ React-/TypeScript-Webanwendung
             v
        PHP-REST-API
             |
-            | PDO + runSqlFile()
+            | PDO + CALL <Procedure>()
             v
-        SQL-Dateien
+        Stored Procedures
             |
             v
     MariaDB-/MySQL-Datenbank
 ```
 
-Das Frontend greift nicht direkt auf die Datenbank zu. Die PHP-API prüft Anfragen und CSRF-Token, führt freigegebene SQL-Dateien aus und liefert JSON-Antworten.
+Das Frontend greift nicht direkt auf die Datenbank zu. Die PHP-API prüft Anfragen und CSRF-Token, ruft im Hauptpfad `get_sql_result` Stored Procedures per `CALL` auf und liefert JSON-Antworten. Ältere SQL-Dateipfade existieren weiterhin über `get_sql_result_old` und einzelne `runSqlFile()`-Aktionen.
 
 ### Datenbanklogik
 
@@ -183,6 +184,11 @@ Im Repository bestehen 38 fachliche Query-Dateien und 38 passende Stored Procedu
 - `bp2` für Überschüsse und externe Abgaben,
 - `shared` für gemeinsame Ressourcen- und Lagerlogik,
 - `general` für die übrigen Verwaltungsansichten.
+
+Zusätzlich liegen zwei direkte Diagrammabfragen unter `sql/`:
+
+- `getResourceConsumptionHistory.sql`,
+- `getResourceStockLevels.sql`.
 
 Für BP1 sind insbesondere relevant:
 
@@ -205,25 +211,25 @@ Für BP2 sind insbesondere relevant:
 
 ### Bekannte technische Abgrenzung
 
-Die Stored Procedures wurden vollständig vorbereitet und fachlich zugeordnet. Im finalen Stand führt die PHP-API weiterhin SQL-Dateien über PDO aus. Die nicht umgesetzte produktive Procedure-Anbindung ist transparent als Abgrenzung des vereinbarten Projektumfangs dokumentiert.
+Die Stored Procedures wurden vollständig vorbereitet, fachlich zugeordnet und im aktuellen API-Hauptpfad generisch über `get_sql_result` aufrufbar gemacht. Als technische Abgrenzung bleiben eine explizite Procedure-Whitelist, die Vereinheitlichung älterer SQL-Dateipfade und eine dauerhafte Speicherung ausgelöster Nachschubmaßnahmen außerhalb des finalen Kernumfangs.
 
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="abschlussstand"></a>
 ## Test- und Abschlussstand
 
-Die Software wurde technisch geprüft und am **29.06.2026** vorgestellt. Diese Vorstellung diente zugleich als praktischer Funktionstest und als Ausgangspunkt für die Abschlusspräsentation.
+Die Software wurde technisch geprüft und am **29.06.2026** vorgestellt. Diese Vorstellung diente zugleich als praktischer Funktionstest und als Ausgangspunkt für die Abschlusspräsentation. Der finale Repository-Stand wurde am **08.07.2026** zusätzlich lokal geprüft.
 
 | Prüfung | Ergebnis |
 |---|---|
-| TypeScript-Typprüfung | erfolgreich |
-| Produktionsbuild | erfolgreich |
+| TypeScript-Typprüfung | erfolgreich am 08.07.2026 |
+| Produktionsbuild | erfolgreich am 08.07.2026; Warnungen zu Browserslist, Tailwind-At-Rules und Chunkgröße |
 | Webanwendung und Dashboard | erfolgreich vorgestellt |
 | Ressourcendiagramme | erfolgreich vorgestellt |
 | Query-/Stored-Procedure-Struktur | geprüft und dokumentiert |
 | BP1-Zusammenhang | nachvollziehbar dargestellt |
 | Dokumentationslinks | geprüft |
-| ESLint | sieben bekannte Abweichungen; keine Blockade für Build oder Präsentation |
+| ESLint | 7 Errors und 1 Warning; keine Blockade für TypeScript-Prüfung oder Produktionsbuild |
 
 Nach der Vorstellung wurden Dokumentation und Folientexte bereinigt, die Abschlusspräsentation in Canva erstellt und die Vortragsteile im Team verteilt.
 
@@ -285,28 +291,28 @@ Der Datenbankentwurf wurde für BP1 und BP2 geprüft und um Bestandsbewegungen, 
 <a id="ap8"></a>
 ## AP8 – DBMS, Infrastruktur und Prototyp auswählen
 
-MariaDB/MySQL, PHP-REST-API und React/TypeScript wurden als technische Projektlinie festgelegt und der Prototyp eingeordnet.
+MariaDB/MySQL, PHP-REST-API und React/TypeScript wurden als technische Projektlinie festgelegt. Der finale Prototyp umfasst Dashboard, Ressourcen, Nachbestellung, Verkauf, Fahrzeuge, Mitarbeitende, Städte, Bewohner und SQL-Übersicht.
 
 [Detaildokument AP8](AP8-Auswahl-DBMS-Infrastruktur-Prototyp.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap9"></a>
 ## AP9 – Implementierung revidieren
 
-Die vorhandene Implementierung wurde auf den Zwei-Prozess-Fokus ausgerichtet und um BP1-Diagramme sowie BP2-Datenbankstrukturen ergänzt.
+Die vorhandene Implementierung wurde auf den Zwei-Prozess-Fokus ausgerichtet und um BP1-Diagramme, eine Nachbestellungsansicht, BP2-Datenbankstrukturen und eine Verkaufsansicht ergänzt.
 
 [Detaildokument AP9](AP9-Revision-Implementierung.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap10"></a>
 ## AP10 – Use Cases revidieren
 
-Die Use Cases wurden auf BP1 und BP2 reduziert. Für die Abschlusspräsentation stehen die BP1-Use-Cases im Mittelpunkt.
+Die Use Cases wurden auf BP1 und BP2 reduziert. Für die Abschlusspräsentation stehen die BP1-Use-Cases im Mittelpunkt; Nachschubbedarf und BP2-Verkaufsentscheidungen sind im finalen Webstand sichtbar, aber ohne dauerhafte Bestell- oder Zahlungsabwicklung.
 
 [Detaildokument AP10](AP10-Revision-Use-Cases.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap11"></a>
 ## AP11 – BPMN modellieren
 
-BP1 wurde als finales BPMN-v11-Modell ausgearbeitet. BP2 bleibt als fachlich beschriebener zweiter Prozess dokumentiert.
+BP1 wurde als finales BPMN-v11-Modell ausgearbeitet. BP2 bleibt als fachlich beschriebener zweiter Prozess dokumentiert und wird über Datenbanklogik sowie Verkaufsansicht unterstützt.
 
 [BP1-Dokumentation](AP11-BPMN-Modellierung-BP1-Kritische%20RessourcenÜberwachenUndNachschubAuslösen.md) · [BP2-Dokumentation](AP11-BPMN-Modellierung-BP2-Ueberschuessige-Ressourcen-an-externe-Unternehmen-verkaufen.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
@@ -341,14 +347,14 @@ Dokumentations-, Organisations- und Technikaufgaben wurden nachvollziehbar den V
 <a id="ap16"></a>
 ## AP16 – Architektur entwerfen
 
-Ist- und Soll-Architektur wurden dokumentiert. Die fehlende produktive Stored-Procedure-Anbindung ist als technische Abgrenzung festgehalten.
+Die Architektur wurde als Frontend, PHP-REST-API, Stored-Procedure-Hauptpfad, ältere SQL-Fallbacks und MariaDB/MySQL dokumentiert. Offene technische Härtungspunkte sind Whitelist, Fehlerformat und Vereinheitlichung alter SQL-Pfade.
 
 [Detaildokument AP16](AP16-Architektur-Entwurf.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap17"></a>
 ## AP17 – Implementierung vorbereiten
 
-Frontend, Backend, Datenbank, SQL-Struktur und Arbeitsumgebung wurden für die Umsetzung vorbereitet.
+Frontend, Backend, Datenbank, SQL-/Stored-Procedure-Struktur und Arbeitsumgebung wurden für die Umsetzung vorbereitet. Der finale Stand enthält zusätzlich Nachbestellungs- und Verkaufsansichten.
 
 [Detaildokument AP17](AP17-Implementierung-vorbereitet.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
@@ -369,28 +375,28 @@ Der Zwischenvortrag wurde über eine gemeinsam bearbeitete Canva-Präsentation v
 <a id="ap20"></a>
 ## AP20 – Applikation fertigstellen
 
-Die Applikation wurde für den vereinbarten Projektumfang fertiggestellt und mit BPMN, Datenbanklogik und Dokumentation zusammengeführt.
+Die Applikation wurde für den vereinbarten Projektumfang fertiggestellt und mit BPMN, Datenbanklogik, Procedure-API, Nachbestellung, Verkauf und Dokumentation zusammengeführt.
 
 [Detaildokument AP20](AP20-Applikation-fertiggestellt.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap21"></a>
 ## AP21 – Software testen
 
-Die Software wurde geprüft und am 29.06.2026 vorgestellt. Bekannte Lint-Abweichungen sind dokumentiert und blockieren Build oder Präsentation nicht.
+Die Software wurde geprüft und am 29.06.2026 vorgestellt. Am 08.07.2026 waren TypeScript-Prüfung und Produktionsbuild erfolgreich; ESLint meldete 7 Errors und 1 Warning, die Build und Präsentationsfähigkeit nicht blockieren.
 
 [Detaildokument AP21](AP21-Software-getestet.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap22"></a>
 ## AP22 – Vorstellung vorbereiten
 
-Die Abschlusspräsentation wurde in Canva angelegt, im Team geteilt und anhand des BP1-Ablaufs vorbereitet.
+Die Abschlusspräsentation wurde in Canva angelegt, im Team geteilt und anhand des BP1-Ablaufs mit Dashboard, Nachbestellungsansicht, BPMN und Stored Procedures vorbereitet.
 
 [Detaildokument AP22](AP22-Vorstellung-vorbereitet.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 <a id="ap23"></a>
 ## AP23 – Projektbericht erstellen
 
-Die Projektdokumentation wurde vollständig zusammengeführt, bereinigt und für die externe PDF- und ILIAS-Abgabe vorbereitet.
+Die Projektdokumentation wurde vollständig zusammengeführt, auf den finalen Repository-Stand gebracht und für die externe PDF- und ILIAS-Abgabe vorbereitet.
 
 [Detaildokument AP23](AP23-Projektbericht-erstellen.md) · [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
@@ -406,6 +412,7 @@ Dieser Abschnitt ist nur relevant, wenn `APFinalALS.md` innerhalb des vollständ
 - [Businessprozesse](../businessprozesse-v2.md)
 - [Datenbankabfragen](../datenbankabfragen-v4.md)
 - [Lastenheft und Pflichtenheft](../lastenheft-und-pflichtenheft-v2.md)
+- [Procedure-Abschlussnotiz](../ToDo-Dokumentation.md)
 - [Gesprächsprotokolle](../Gesprächsprotokoll/)
 - [Projektentscheidungen](../projektentscheidungen/)
 

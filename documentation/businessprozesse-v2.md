@@ -1,6 +1,6 @@
 # Ausgewählte Businessprozesse – Version 2
 
-Stand: 03.07.2026
+Stand: 08.07.2026
 
 Nach Rücksprache mit Herrn Prof. Dr. Becking wurde die ursprüngliche Auswahl von sechs Businessprozessen noch einmal reflektiert und fachlich geprüft.
 

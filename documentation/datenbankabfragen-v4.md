@@ -1,12 +1,12 @@
 # Datenbankabfragen v4
 
-Stand: 03.07.2026
+Stand: 08.07.2026
 
 Diese Datei ist eine Arbeitsübersicht für die SQL-Abfragen der Mars Logistik Verwaltung [ALS]. Sie erklärt kurz, welche Abfragen es gibt, was sie fachlich machen und wie sie zu den Businessprozessen passen.
 
 Zu allen SQL-Abfragen unter `sql/queries/` gibt es eine passende Stored Procedure unter `sql/storedProcedure/`. Die normalen Query-Dateien bleiben als lesbare SELECT-Versionen für Dokumentation, Tests und Verständnis erhalten.
 
-Gemäß dem dritten Gesprächsprotokoll sollen produktive Datenbankzugriffe über Stored Procedures erfolgen. Im finalen Code führt `api/restApi.php` über `runSqlFile()` jedoch SQL-Dateien aus. Die fehlende Procedure-Anbindung ist fachlich vorbereitet und als bekannte technische Abgrenzung dokumentiert.
+Gemäß dem dritten Gesprächsprotokoll sollen produktive Datenbankzugriffe über Stored Procedures erfolgen. Im aktuellen Code ruft `api/restApi.php` über `get_sql_result` Stored Procedures per `CALL` auf. Der Parameter `file` wird dabei auf den Procedure-Namen reduziert, zum Beispiel `getNachschubanforderungen.sql` zu `getNachschubanforderungen()`. Ältere SQL-Datei-Ausführung bleibt über `get_sql_result_old` und einzelne `runSqlFile()`-Aktionen als Alt-/Fallbackpfad vorhanden.
 
 Geprüfter Stand:
 
@@ -28,13 +28,13 @@ C:\Users\leona\Documents\GitHub\Mars-Colony-Project\sql
 | Bereich | Zweck |
 |---|---|
 | `sql/build/` | Enthält Build-, Import- und Migrationsskripte. `mysql.sql` enthält den vollständigen Demo-Import; `marskolonie_mysql.sql` das erzeugte Schema; `resourceGraphsMigration.sql` ergänzt Diagrammdaten in einer bestehenden Datenbank. |
-| `sql/getResourceConsumptionHistory.sql`, `sql/getResourceStockLevels.sql` | Aktuell von der Dashboard-API geladene BP1-Abfragen für Ressourcenverbrauch und Bestand gegen Mindestbestand. |
+| `sql/getResourceConsumptionHistory.sql`, `sql/getResourceStockLevels.sql` | Direkte BP1-Diagrammabfragen für Ressourcenverbrauch und Bestand gegen Mindestbestand; im aktuellen `get_sql_result`-Pfad wären dafür gleichnamige importierte Procedures erforderlich. |
 | `sql/queries/` | Enthält lesbare SQL-Abfragen. Diese Dateien zeigen, welche Daten fachlich abgefragt werden. |
 | `sql/storedProcedure/` | Enthält die Stored-Procedure-Versionen der Abfragen. Diese Variante ist für die Ausführung über die Datenbank gedacht. |
 | `sql/sem2/` | Enthält ältere bzw. semesterbezogene Zusatznotizen. Für die aktuellen BP1- und BP2-Abfragen ist der Ordner nicht zentral. |
 | `sql/sqlOverview.txt` | Kurze technische Übersicht über die SQL-Ordnerstruktur. |
 
-Die beiden Diagrammabfragen liegen ausnahmsweise direkt unter `sql/`, weil `get_sql_result` im aktuellen PHP-Code nur direkte Dateien dieses Ordners freigibt. Die übrigen fachlichen Abfragen liegen strukturiert in Unterordnern; deren produktive API-Auflösung bzw. Stored-Procedure-Anbindung ist noch zu vereinheitlichen.
+Die beiden Diagrammabfragen liegen ausnahmsweise direkt unter `sql/`, weil sie als direkte SQL-Dateien für Dashboarddaten vorliegen. Der aktuelle `get_sql_result`-Pfad liest diese Dateien jedoch nicht mehr aus, sondern interpretiert den Dateinamen als Procedure-Namen. Für eine frische Datenbank müssen daher entweder gleichnamige Procedures bereitstehen oder die ältere SQL-Datei-Route gezielt verwendet werden.
 
 Stored-Procedure-Pfad:
 
@@ -287,12 +287,13 @@ Die `general`-Queries gehören zur allgemeinen WebApp. Sie sind technisch vorhan
 
 Die wichtigen Prozessabfragen liegen in `bp1`, `bp2` und `shared`. Die `general`-Abfragen bleiben als technische Unterstützung der WebApp erhalten.
 
-Für die Zielarchitektur gilt:
+Für den aktuellen Repository-Stand gilt:
 
 ```text
 Lesbare Abfrage:           sql/queries/...
-Vorgesehene DB-Ausführung: sql/storedProcedure/...
-Aktueller PHP-Ist-Stand:   SQL-Dateien über runSqlFile()
+Procedure-Definition:      sql/storedProcedure/...
+Aktueller API-Hauptpfad:   get_sql_result → CALL <Procedure>()
+Ältere SQL-Dateipfade:     get_sql_result_old und einzelne runSqlFile()-Aktionen
 ```
 
-Damit ist nachvollziehbar, was eine Abfrage fachlich macht, welche Stored Procedure vorgesehen ist und welche Integrationsarbeit in der API noch offen ist.
+Damit ist nachvollziehbar, was eine Abfrage fachlich macht, welche Stored Procedure vorgesehen ist und welche älteren SQL-Dateipfade im Code noch existieren.

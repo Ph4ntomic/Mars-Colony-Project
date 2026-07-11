@@ -11,16 +11,18 @@ Die wesentlichen Implementierungen des Anforderungskatalogs wurden gemäß Laste
 | Bereich | Ergebnis |
 |---|---|
 | Webanwendung | React-/TypeScript-Anwendung mit Dashboard und Verwaltungsseiten vorhanden |
-| BP1-Applikationsbezug | Ressourcenverbrauch und Bestand gegen Mindestbestand im Dashboard dargestellt |
+| BP1-Applikationsbezug | Ressourcenverbrauch und Bestand gegen Mindestbestand im Dashboard, Ressourcen-/Lageransichten und Nachbestellungsseite vorhanden |
 | BP1-Datenbanklogik | Queries und Stored Procedures für kritische Ressourcen und Nachschub vorhanden |
 | BP1-BPMN | finales Modell v11 vorhanden |
-| BP2-Datenbanklogik | Überschuss-, Bewertungs- und Verkaufstabellen sowie Stored Procedures vorhanden |
-| Backend | PHP-REST-API mit PDO, Session und CSRF-Schutz vorhanden |
+| BP2-Datenbanklogik | Überschuss-, Bewertungs- und Verkaufstabellen, Stored Procedures und dreistufige Verkaufsansicht vorhanden |
+| Backend | PHP-REST-API mit PDO, generischem Procedure-Aufruf, Session und CSRF-Schutz vorhanden |
 | Dokumentation | Implementierung, Architektur und Datenbanklogik dem Projektumfang zugeordnet |
 
 ## Abgleich mit der Spezifikation
 
-Die Anwendung bildet die wesentlichen Anforderungen des Projekts ab. BP1 ist als vollständiger Zusammenhang aus Use Case, Businessprozess, BPMN-Modell, Datenbanklogik und Applikationsbezug vorbereitet. BP2 bleibt als zweiter Businessprozess datenbankseitig und fachlich dokumentiert.
+Die Anwendung bildet die wesentlichen Anforderungen des Projekts ab. BP1 ist als vollständiger Zusammenhang aus Use Case, Businessprozess, BPMN-Modell, Datenbanklogik und Applikationsbezug vorbereitet. BP2 bleibt als zweiter Businessprozess datenbankseitig, fachlich und über die Verkaufsansicht dokumentiert.
+
+Nicht Bestandteil des finalen Kernumfangs sind eine dauerhafte Speicherung ausgelöster Nachschubaktionen, ein vollständiges Bestellwesen sowie Rechnungs-, Vertrags- oder Zahlungsfunktionen für BP2.
 
 ## Technische Abgrenzung
 

@@ -81,9 +81,13 @@ Konkret umgesetzte Stored Procedures für BP2:
 
 ## Bezug zur Webanwendung
 
-Die Webanwendung kann den Prozess über eine Ressourcen- oder Lagerübersicht sichtbar machen.
+Die Webanwendung macht BP2 im aktuellen Stand über die Seite `Sales` sichtbar. Dort werden die drei fachlichen Schritte als umschaltbare Ansichten dargestellt:
 
-Mögliche Anzeigen:
+- Überschuss und Bestand prüfen,
+- Verkaufspotenzial bewerten,
+- externe Abgabe vorbereiten.
+
+Ergänzend liefern Ressourcen- und Lagerübersichten die Bestandsgrundlage.
 
 | Anzeige | Nutzen |
 |---|---|

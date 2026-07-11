@@ -16,6 +16,10 @@ Das aktuelle ausführbare Modell liegt unter:
 
 [`../../bpmn/BP1V2Update_Kritische_Ressourcen_v11_final.bpmn`](../../bpmn/BP1V2Update_Kritische_Ressourcen_v11_final.bpmn)
 
+Die zugehörige finale Exportgrafik liegt unter:
+
+![BPMN BP1 kritische Ressourcen v11 final](../docu-assets/bpmnBP1V2Update_Kritische_Ressourcen_v11_final.png)
+
 Die älteren Dateien `v01` bis `v10` dokumentieren die Entwicklung des Modells.
 
 ## Beteiligte
@@ -63,7 +67,7 @@ Die älteren Dateien `v01` bis `v10` dokumentieren die Entwicklung des Modells.
 | `getNachschubanforderungen()` | Bedarf, interne Verfügbarkeit und empfohlene Maßnahme ableiten |
 | `getRessourcenWithLager()` | Ressourcen einem Lager zuordnen |
 
-Die Dateien liegen unter `sql/storedProcedure/bp1/` und `sql/storedProcedure/shared/`. Entsprechend dem dritten Gesprächsprotokoll sollen sie den Datenbankzugriff bilden. Die aktuelle PHP-API verwendet dafür noch SQL-Dateien; die Stored-Procedure-Anbindung ist offen.
+Die Dateien liegen unter `sql/storedProcedure/bp1/` und `sql/storedProcedure/shared/`. Entsprechend dem dritten Gesprächsprotokoll bilden sie die zentrale Datenbanklogik. Im aktuellen API-Stand ruft `get_sql_result` diese Procedures generisch per `CALL` auf, sofern die jeweilige Procedure in der MariaDB importiert ist.
 
 ## Applikationsbezug
 
@@ -73,7 +77,9 @@ Das Dashboard zeigt bereits:
 - Bestand relativ zum Mindestbestand,
 - allgemeine Koloniekennzahlen.
 
-Die Ressourcenseite enthält Ansichten für kritische Ressourcen, Lager und Bestände. Ein vollständiger UI-Ablauf für Nachschubauftrag, externe Rückmeldung und Eskalation ist nicht implementiert; diese Schritte werden im BPMN fachlich modelliert.
+Die Ressourcenseite enthält Ansichten für kritische Ressourcen, Lager und Bestände. Zusätzlich zeigt die Nachbestellungsseite die aus `getNachschubanforderungen()` abgeleiteten Anforderungen als Karten mit Priorität, empfohlener Maßnahme, Suche, Filterung und Detaildialog.
+
+Ein vollständig persistenter Ablauf für Nachschubauftrag, externe Rückmeldung und Eskalation ist nicht implementiert; diese Schritte werden im BPMN fachlich modelliert. Die Aktionsbuttons der Nachbestellungsseite erzeugen im aktuellen Frontend nur einen Demo-/Debug-Status.
 
 ## Ergebnis
 

@@ -92,7 +92,12 @@ Alte bzw. semesterbezogene Zusatznotizen.
 API-Hinweis
 ===========
 
-Die aktuelle PHP-API fuehrt SQL-Dateien ueber PDO und runSqlFile() aus.
-Die 38 passenden Stored Procedures sind vorbereitet. Ihre fehlende produktive
-Anbindung in restApi.php ist als technische Abgrenzung des finalen
-Projektumfangs dokumentiert.
+Die aktuelle PHP-API ruft im Hauptpfad get_sql_result Stored Procedures
+ueber PDO per CALL auf. Der Parameter file wird dabei zum Procedure-Namen
+reduziert, zum Beispiel getNachschubanforderungen.sql zu
+getNachschubanforderungen().
+
+Alte SQL-Dateipfade existieren weiterhin ueber get_sql_result_old,
+get_all_tables, get_sql_files und einzelne runSqlFile()-Aktionen. Die
+38 passenden Stored Procedures sind gemaess Gespraechsprotokoll 03 die
+zentrale Datenbanklogik fuer produktive Datenbankzugriffe.

@@ -1,6 +1,6 @@
 # Projektdokumentation
 
-Stand: 03.07.2026
+Stand: 08.07.2026
 
 Diese Dokumentation beschreibt den aktuellen Stand der **Mars Logistik Verwaltung [ALS]**. Verbindliche Referenz für fachliche Entscheidungen und Prioritäten sind die Gesprächsprotokolle.
 
@@ -23,7 +23,6 @@ BP2 bleibt Teil des Projekts und der Dokumentation, steht in der Abschlusspräse
 
 | Dokument | Inhalt |
 |---|---|
-| [`APs/APFinalALS.md`](APs/APFinalALS.md) | Klickbarer Gesamteinstieg in AP1 bis AP23 |
 | [`Gesprächsprotokoll/`](Gesprächsprotokoll/) | Referenz für Feedback und Projektentscheidungen |
 | [`businessprozesse-v2.md`](businessprozesse-v2.md) | Auswahl und Priorisierung der Businessprozesse |
 | [`APs/AP10-Revision-Use-Cases.md`](APs/AP10-Revision-Use-Cases.md) | Use Cases für BP1 und BP2 |
@@ -42,11 +41,11 @@ BP2 bleibt Teil des Projekts und der Dokumentation, steht in der Abschlusspräse
 | Backend | PHP-REST-API mit PDO |
 | Datenbank | MariaDB/MySQL |
 | Sicherheit | Login, PHP-Session und CSRF-Token im Header `X-CSRF-Token` |
-| Datenbanklogik | 38 Query-Dateien und 38 passende Stored Procedures |
+| Datenbanklogik | 38 Query-Dateien, 38 passende Stored Procedures und 2 direkte Diagrammabfragen |
 
-Die Webanwendung enthält Dashboard, Ressourcen-, Fahrzeug-, Mitarbeiter-, Bürger-, Städte- und SQL-Ansichten. Neu im BP1-Bezug sind Diagramme für Ressourcenverbrauch sowie Bestand gegen Mindestbestand.
+Die Webanwendung enthält Dashboard, Ressourcen-, Nachbestellungs-, Verkaufs-, Fahrzeug-, Mitarbeiter-, Bürger-, Städte- und SQL-Ansichten. Im BP1-Bezug sind Diagramme für Ressourcenverbrauch, Bestand gegen Mindestbestand sowie eine Nachschubansicht vorhanden. BP2 wird über eine dreistufige Verkaufsansicht sichtbar.
 
-Die Stored Procedures bilden gemäß Gesprächsprotokoll 03 die Zielarchitektur für Datenbankzugriffe. Die finale PHP-API führt im vorliegenden Projektstand weiterhin SQL-Dateien aus. Diese Abweichung ist als bekannte technische Abgrenzung des abgeschlossenen Projektumfangs dokumentiert.
+Die Stored Procedures bilden gemäß Gesprächsprotokoll 03 die zentrale Datenbanklogik. Die aktuelle PHP-API ruft über `get_sql_result` Stored Procedures per `CALL` auf. Ältere SQL-Datei-Ausführung bleibt über `get_sql_result_old` und einzelne `runSqlFile()`-Aktionen als Alt-/Fallbackpfad im Code vorhanden.
 
 ## Datenbank einrichten
 

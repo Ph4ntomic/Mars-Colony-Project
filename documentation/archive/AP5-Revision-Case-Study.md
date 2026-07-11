@@ -92,7 +92,7 @@ Die Case Study wird bewusst auf ein realistisches Semesterprojekt begrenzt.
 Nicht im Muss-Umfang enthalten:
 
 1. echte Zahlungsabwicklung,
-2. vollständige KI-Prognosen,
+2. vollständige automatisierte Prognosen,
 3. echte Live-Sensordaten,
 4. produktives Raumfahrt-Sicherheitssystem,
 5. vollständige Rollen- und Rechteverwaltung,
@@ -110,5 +110,3 @@ Die vorhandene GitHub-Repo bildet dafür bereits eine geeignete technische Grund
 
 **Ergebnis AP5:**  
 Die alte Case Study wurde überprüft, erweitert und auf die aktuelle Repo-Struktur sowie auf wirtschaftlich relevante Geschäftsprozesse ausgerichtet.
-
- 

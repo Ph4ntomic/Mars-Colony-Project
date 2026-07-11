@@ -19,4 +19,4 @@ Die REST-API-Änderungen wurden mit Commit `accdd43` wieder entfernt. Die SQL-/B
 
 ## Aktueller Stand
 
-Eine Prisma-Umstellung ist nicht Teil des Repository-Stands. Das Backend bleibt eine PHP-REST-API mit PDO. Datenbankzugriffe sollen gemäß Gesprächsprotokoll 03 künftig über die vorhandenen Stored Procedures erfolgen.
+Eine Prisma-Umstellung ist nicht Teil des Repository-Stands. Das Backend bleibt eine PHP-REST-API mit PDO. Der aktuelle Hauptpfad `get_sql_result` ruft Stored Procedures generisch per `CALL` auf; ältere SQL-Dateipfade bleiben als Alt-/Fallbackpfade vorhanden.

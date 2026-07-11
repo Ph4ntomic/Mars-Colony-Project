@@ -37,15 +37,13 @@ BP2 bleibt Bestandteil des Projekts und wird zur Einordnung kurz erwähnt.
 - finales BPMN-v11-Modell
 - relevante Tabellen, Queries und Stored Procedures
 - Architektur aus Webanwendung, PHP-API und MariaDB/MySQL
-- Ressourcenansichten und Diagramme
+- Dashboard, Ressourcenansichten, Nachbestellungsseite und BP2-Verkaufsansicht
 - wichtige Projektentscheidungen und Abgrenzungen
 - Projektergebnis und Fazit
 
 ## Ergebnis
 
 Die Abschlusspräsentation ist als gemeinsam bearbeitbare Canva-Präsentation angelegt, im Team geteilt und inhaltlich vorbereitet. Vortragsteile, Folientexte und Dokumentationsgrundlagen wurden aufeinander abgestimmt.
-
-Die Canva-Datei und die finale ILIAS-Abgabe werden extern verwaltet; ein öffentlicher Freigabelink wird nicht im Repository gespeichert.
 
 ## Dauer
 

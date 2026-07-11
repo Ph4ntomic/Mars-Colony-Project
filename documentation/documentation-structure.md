@@ -1,6 +1,6 @@
 # Dokumentationsstruktur
 
-Stand: 03.07.2026
+Stand: 08.07.2026
 
 Die Gesprächsprotokolle sind die Referenz für Projektumfang und Prioritäten. Aktuell bleiben BP1 und BP2 Bestandteil des Projekts; für die Abschlusspräsentation hat BP1 Vorrang.
 
@@ -15,7 +15,6 @@ documentation/
 ├── lastenheft-und-pflichtenheft-v2.md
 ├── APs/
 │   ├── Gruppenanmeldung.md
-│   ├── APFinalALS.md
 │   └── AP1 ... AP23
 ├── Gesprächsprotokoll/
 │   ├── 01-Gesprächsprotokoll.md
@@ -26,7 +25,8 @@ documentation/
 │   ├── README.md
 │   ├── 01 - 2026-06-11-prisma-und-rest-api.md
 │   ├── 02 - 2026-06-24-bp1-fokus-abschlusspräsentation.md
-│   └── 03 - 2026-07-03-prisma-verworfen-bp1-fokus.md
+│   ├── 03 - 2026-07-03-prisma-verworfen-bp1-fokus.md
+│   └── 04 - 2026-07-08-generischer-stored-procedure-aufruf.md
 ├── docu-assets/
 └── archive/
 ```
@@ -37,15 +37,16 @@ Die ausführbaren BPMN-Dateien liegen zentral im Repository-Ordner `bpmn/`. Der 
 
 | Datei | Zweck |
 |---|---|
-| `APs/APFinalALS.md` | Klickbare Gesamtübersicht aller Arbeitspakete |
 | `businessprozesse-v2.md` | Zwei-Prozess-Umfang und BP1-Priorität |
 | `APs/AP10-Revision-Use-Cases.md` | Use Cases für BP1 und BP2 |
 | `APs/AP11-BPMN-Modellierung-BP1-...md` | Fachliche Beschreibung des finalen BP1-BPMN |
 | `APs/AP11-BPMN-Modellierung-BP2-...md` | Fachliche Vorbereitung für BP2 |
 | `lastenheft-und-pflichtenheft-v2.md` | Aktuelle Spezifikation |
 | `datenbankabfragen-v4.md` | Query-/Stored-Procedure-Zuordnung und Diagrammabfragen |
+| `ToDo-Dokumentation.md` | Abschlussnotiz zur Procedure-Anbindung und zu verbleibenden technischen Härtungspunkten |
 | `projektentscheidungen/02 - ...md` | BP1-Fokus der Abschlusspräsentation |
 | `projektentscheidungen/03 - ...md` | Verzicht auf Prisma zugunsten des BP1-Fokus |
+| `projektentscheidungen/04 - ...md` | Finaler API-Ist-Stand mit generischem Stored-Procedure-Aufruf |
 
 ## Arbeitspakete
 
