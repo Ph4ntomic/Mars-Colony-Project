@@ -10,7 +10,7 @@ Zieldauer: **exakt 20:00 Minuten**
 
 Präsentationsfokus: **BP1 – Kritische Ressourcen überwachen und Nachschub auslösen**
 
-Stand: **03.07.2026**
+Stand: **08.07.2026**
 
 ---
 
@@ -50,7 +50,7 @@ Das durchgehende Beispiel verwendet vorhandene Seed-Daten und die vorhandene Ber
 | Intern zusätzlich verfügbar | 0 L | durch `getNachschubanforderungen()` berechenbar |
 | Empfohlene Maßnahme | Externen Nachschub anfordern | durch `getNachschubanforderungen()` ableitbar |
 
-Wichtig: Die Werte ab „Fehlmenge“ sind keine gespeicherten Seed-Datensätze und werden aktuell nicht in der Webanwendung angezeigt. Sie ergeben sich zur Laufzeit aus der vorhandenen Query-/Procedure-Definition. Ein Nachschubauftrag wird dabei weder gespeichert noch automatisch ausgelöst.
+Wichtig: Die Werte ab „Fehlmenge“ sind keine gespeicherten Seed-Datensätze. Sie ergeben sich zur Laufzeit aus der vorhandenen Query-/Procedure-Definition und werden in der Nachbestellungsansicht sichtbar, sofern die Procedure in der verwendeten Datenbank importiert ist. Ein Nachschubauftrag wird dabei weder dauerhaft gespeichert noch automatisch ausgelöst.
 
 ---
 
@@ -202,7 +202,7 @@ Eine einfache Use-Case-Karte mit der Kolonieleitung links und dem System rechts.
 
 Damit die Datenbanklogik eine sinnvolle Empfehlung berechnen kann, benötigt sie nicht nur die aktuelle Menge. Sie braucht außerdem Mindestbestand, Verbrauch pro Sol, Priorität, Ablaufdatum und Lagerbezug. Das Ergebnis ist keine vollautomatische Bestellung, sondern eine nachvollziehbare Entscheidungsgrundlage: Ist eine interne Lösung möglich oder muss externer Nachschub angefordert werden?
 
-Im aktuellen Stand zeigt die Anwendung den kritischen Bestand. Die weiterführende Nachschubempfehlung liegt als Datenbanklogik vor, ist aber noch nicht als eigener UI-Ablauf angebunden. Die Use Cases ‚Ressourcenbestand anzeigen‘ und ‚Kritische Ressourcen anzeigen‘ sind dabei die sichtbaren Vorstufen unseres ausgewählten Leit-Use-Cases.“
+Im aktuellen Stand zeigt die Anwendung den kritischen Bestand und zusätzlich die aus der Procedure abgeleiteten Nachschubanforderungen in einer eigenen Nachbestellungsansicht. Die Use Cases ‚Ressourcenbestand anzeigen‘ und ‚Kritische Ressourcen anzeigen‘ sind dabei die sichtbaren Vorstufen unseres ausgewählten Leit-Use-Cases.“
 
 ### Übergang
 
@@ -535,7 +535,7 @@ EXTERNEN_NACHSCHUB_ANFORDERN
 
 Kleine Fußnote:
 
-> Die 380 L werden aktuell weder gespeichert noch in der Web-App angezeigt.
+> Die 380 L werden berechnet und in der Nachbestellungsansicht angezeigt, aber nicht als Auftrag gespeichert.
 
 ### Visual
 
@@ -551,7 +551,7 @@ Die vorhandene Nachschublogik ergänzt zur reinen Fehlmenge einen Sicherheitspuf
 
 Die Procedure prüft außerdem weitere nutzbare Bestände desselben Ressourcentyps. Im Beispieldatensatz sind intern keine zusätzlichen Wassermengen vorhanden. Damit ist die Anforderungspriorität hoch und die empfohlene Maßnahme lautet ‚externen Nachschub anfordern‘.
 
-Im Dashboard wird der Ausgangszustand als 90 Prozent des Mindestbestands rot dargestellt. Die weiterführenden 380 Liter sind dagegen ein berechnetes Ergebnis der vorhandenen SQL-Logik und noch keine Anzeige oder gespeicherte Anforderung in der Web-App.“
+Im Dashboard wird der Ausgangszustand als 90 Prozent des Mindestbestands rot dargestellt. Die weiterführenden 380 Liter sind ein berechnetes Ergebnis der vorhandenen Datenbanklogik und werden in der Nachbestellungsansicht als vorbereitete Anforderung sichtbar, aber noch nicht dauerhaft als Auftrag gespeichert.“
 
 ### Übergang
 
@@ -577,29 +577,29 @@ MariaDB / MySQL
 
 **Oberfläche:** Tailwind CSS · Material UI · Recharts
 
-**Ist-Stand**
-
-```text
-PHP-API → freigegebene SQL-Dateien → MariaDB
-```
-
-**Ziel gemäß Feedback**
+**Aktueller Hauptpfad**
 
 ```text
 PHP-API → Stored Procedures → MariaDB
 ```
 
+**Alt-/Fallbackpfade**
+
+```text
+PHP-API → einzelne SQL-Dateien → MariaDB
+```
+
 ### Visual
 
-Zwei kleine Architekturpfade nebeneinander. Ist-Stand grau/blau, Zielpfad orange. Nicht so darstellen, als sei die Procedure-Anbindung bereits produktiv umgesetzt.
+Zwei kleine Architekturpfade nebeneinander. Hauptpfad farblich hervorheben, Alt-/Fallbackpfade zurückhaltend darstellen.
 
 ### Sprechertext
 
 „Das Frontend ist mit React, TypeScript und Vite umgesetzt. Tailwind CSS und Material UI strukturieren die Oberfläche; Recharts visualisiert Verbrauch und Mindestbestände. Das Frontend kommuniziert über HTTPS und JSON mit einer PHP-REST-API. Geschützte Aufrufe verwenden PHP-Session und einen CSRF-Token im Header. Der Datenbankzugriff erfolgt über PDO auf MariaDB beziehungsweise MySQL.
 
-An dieser Stelle trennen wir bewusst Ist- und Zielarchitektur. Im Repository liegen 38 Procedure-Definitionen vor, die den fachlichen Funktionen zugeordnet sind. Die produktive PHP-API führt im aktuellen Projektstand jedoch weiterhin freigegebene SQL-Dateien über `runSqlFile()` aus. Die vom Professor gewünschte direkte Procedure-Anbindung ist vorbereitet, wurde aber nicht mehr in den finalen API-Stand integriert.
+Im Repository liegen 38 Procedure-Definitionen vor, die den fachlichen Funktionen zugeordnet sind. Die PHP-API ruft im aktuellen Hauptpfad über `get_sql_result` Stored Procedures per `CALL` auf. Daneben existieren ältere SQL-Dateipfade, etwa `get_sql_result_old` und einzelne `runSqlFile()`-Aktionen.
 
-Diese Abgrenzung ist wichtig: In der folgenden Demo zeigen wir den realen Applikationsstand und behaupten keine bereits umgesetzte Integration.“
+Diese Abgrenzung ist wichtig: In der folgenden Demo zeigen wir den realen Applikationsstand und unterscheiden zwischen Procedure-Hauptpfad und älteren Fallbacks.“
 
 ### Übergang
 
@@ -618,7 +618,7 @@ Diese Abgrenzung ist wichtig: In der folgenden Demo zeigen wir den realen Applik
 1. Bestand gegen Mindestbestand
 2. Verbrauch im Zeitverlauf
 3. Ressourcen- und Lagerbezug
-4. Ergebnis der Nachschublogik
+4. Nachbestellungsansicht mit Ergebnis der Nachschublogik
 
 Kleine Fußzeile:
 
@@ -686,22 +686,18 @@ Kleine Fußzeile:
 - Nicht öffnen.
 - Stattdessen auf Folie 4 zurückgreifen oder einen vorbereiteten Screenshot des Lagerbezugs einblenden.
 
-#### 18:05–18:35 – Vorhandene Nachschublogik zeigen
+#### 18:05–18:35 – Nachbestellungsansicht zeigen
 
 **Aktion**
 
-- Wenn die Procedure vorab nachweislich in die Präsentationsdatenbank importiert und getestet wurde: vorbereiteten Datenbank-Tab öffnen und ausführen:
-
-```sql
-CALL getNachschubanforderungen();
-```
-
-- Andernfalls nicht so tun, als sei sie live angebunden. Stattdessen die vorhandene Procedure-Datei und die daraus nachvollziehbar berechnete Ergebniskarte aus Folie 10 zeigen.
-- Nur die Wasserzeile beziehungsweise das Wasser-Beispiel hervorheben.
+- Wenn die Procedure vorab nachweislich in die Präsentationsdatenbank importiert und getestet wurde: Seite „Nachbestellung“ öffnen.
+- Wasserzeile beziehungsweise Wasserkarte hervorheben.
+- Priorität, Anforderungsmenge, interne Verfügbarkeit und empfohlene Maßnahme zeigen.
+- Die Aktionsbuttons nur als Demo-/Statusfunktion erklären, nicht als dauerhaft gespeicherten Auftrag.
 
 **Sprechertext**
 
-„Die vorhandene Procedure-Logik berechnet für Wasser 380 Liter Anforderungsmenge, hohe Priorität, keine zusätzliche interne Verfügbarkeit und deshalb die Empfehlung, externen Nachschub anzufordern. Dieses Ergebnis ist noch nicht in die Web-App integriert und wird nicht als Auftrag gespeichert.“
+„Die vorhandene Procedure-Logik berechnet für Wasser 380 Liter Anforderungsmenge, hohe Priorität, keine zusätzliche interne Verfügbarkeit und deshalb die Empfehlung, externen Nachschub anzufordern. Die Nachbestellungsseite macht dieses Ergebnis sichtbar. Die Aktion wird im aktuellen Stand aber nicht als Auftrag in der Datenbank gespeichert.“
 
 #### 18:35–18:45 – Demo abschließen
 
@@ -727,15 +723,17 @@ CALL getNachschubanforderungen();
 - finales BPMN-v11-Modell
 - BP1-Queries und Procedure-Definitionen im Repository vorhanden
 - Ressourcenverbrauch und Mindestbestand im Dashboard sichtbar
+- Nachschubanforderungen in eigener Ansicht nachvollziehbar
 
 ### Bewusste Abgrenzung
 
 - kein vollständig automatischer Bestellprozess
-- Procedure-Anbindung in der PHP-API noch offen
+- keine dauerhafte Auftrags- oder Statusspeicherung
+- generischer Procedure-Aufruf noch ohne explizite Whitelist
 
 ### Ausblick
 
-1. API direkt auf Stored Procedures umstellen
+1. Procedure-Whitelist und ältere SQL-Fallbacks vereinheitlichen
 2. Nachschubanforderungen mit Status dauerhaft speichern
 3. Benachrichtigungen, reale Sensorik und Prognosen ergänzen
 
@@ -752,13 +750,13 @@ Use Case ✓ → Businessprozess ✓ → BPMN ✓
 → Stored Procedures ✓ → Applikationsbezug ✓
 ```
 
-Bei „Procedure-Anbindung“ bewusst ein offenes Pfeilsymbol statt eines Hakens verwenden.
+Bei „persistenter Auftragsspeicherung“ bewusst ein offenes Pfeilsymbol statt eines Hakens verwenden.
 
 ### Sprechertext
 
 „Unser wichtigstes Ergebnis ist nicht nur eine zusätzliche Anzeige. Wir haben BP1 als zusammenhängende Kette ausgearbeitet: vom Use Case der Kolonieleitung über den fachlichen Prozess und das BPMN-v11-Modell bis zu den Stored Procedures und dem sichtbaren Applikationsbezug.
 
-Bewusst außerhalb des finalen Umfangs bleiben ein vollständig automatisierter Bestellablauf und die direkte Procedure-Anbindung der PHP-API. Der nächste technische Schritt ist deshalb klar: Die API ruft die vorhandenen Procedures direkt auf. Danach könnten Nachschubanforderungen dauerhaft mit Status gespeichert und später durch Benachrichtigungen, reale Sensorik oder Prognosen erweitert werden.
+Bewusst außerhalb des finalen Umfangs bleiben ein vollständig automatisierter Bestellablauf, eine dauerhafte Auftragsspeicherung und die technische Härtung des generischen Procedure-Aufrufs durch eine explizite Whitelist. Danach könnten Nachschubanforderungen mit Status gespeichert und später durch Benachrichtigungen, reale Sensorik oder Prognosen erweitert werden.
 
 Das Feedback im Semester hat unseren Projektverlauf sinnvoll verändert: Statt viele Bereiche oberflächlich zu zeigen, konzentrieren wir uns auf einen fachlich und technisch nachvollziehbaren Prozess. Unsere wichtigste Erkenntnis lautet daher: Die Oberfläche folgt dem Prozess – und aus einem Messwert wird eine begründete Versorgungsentscheidung.“
 
@@ -791,7 +789,7 @@ Die Namen können nach den tatsächlichen Vortragsteilen eingesetzt werden.
 - Login, Session und CSRF-Token testen.
 - Dashboardabfragen und beide Ressourcendiagramme prüfen.
 - Wasserwerte 900 L, 1.000 L und 90 % kontrollieren.
-- Importstatus von `getNachschubanforderungen()` prüfen und die Procedure nur bei erfolgreichem Import in der verwendeten MariaDB testen.
+- Importstatus von `getNachschubanforderungen()` prüfen und die Nachbestellungsseite nur bei erfolgreichem Procedure-Aufruf in der verwendeten MariaDB live zeigen.
 - Nur die für die Demo benötigten Browser-Tabs geöffnet lassen.
 - Browserzoom und Beamerauflösung testen.
 - Benachrichtigungen und Passwortmanager-Pop-ups deaktivieren.
@@ -800,7 +798,7 @@ Die Namen können nach den tatsächlichen Vortragsteilen eingesetzt werden.
 
 ## Kritischer Repository-Hinweis zur Ressourcenseite
 
-`src/pages/Ressources.tsx` fordert aktuell diese Dateien an:
+`src/pages/Ressources.tsx` fordert aktuell diese Procedure-Namen an:
 
 ```text
 getRessourcesAtRisk.sql
@@ -808,13 +806,13 @@ getAllLager.sql
 getRessourcenWithLager.sql
 ```
 
-Im Repository liegen sie jedoch in Unterordnern unter `sql/queries/`, während `api/restApi.php` bei `get_sql_result` nur direkte Dateien aus `sql/` freigibt und den Dateinamen über `basename()` reduziert.
+Im Repository liegen die lesbaren Query-Dateien in Unterordnern unter `sql/queries/`; `api/restApi.php` liest sie bei `get_sql_result` nicht direkt aus, sondern ruft gleichnamige Stored Procedures auf.
 
 Deshalb gilt:
 
-> Die Ressourcenseite nur live zeigen, wenn sie auf dem Präsentationsserver unmittelbar vorher erfolgreich getestet wurde.
+> Die Ressourcenseite nur live zeigen, wenn die entsprechenden Procedures auf dem Präsentationsserver unmittelbar vorher erfolgreich getestet wurden.
 
-Die beiden Dashboardabfragen liegen direkt unter `sql/` und passen zum aktuellen API-Zugriff:
+Die beiden Dashboardabfragen liegen direkt unter `sql/`. Wenn sie über `get_sql_result` geladen werden, müssen in der verwendeten Datenbank gleichnamige Procedures vorhanden sein oder der ältere SQL-Datei-Fallback muss gezielt genutzt werden:
 
 ```text
 sql/getResourceConsumptionHistory.sql
@@ -841,9 +839,10 @@ sql/getResourceStockLevels.sql
 - Aktuelles Backend: **PHP-REST-API mit PDO**, nicht Prisma.
 - Die Anwendung greift nicht direkt aus React auf die Datenbank zu.
 - Die vorhandenen Procedure-Definitionen sind fachlich vollständig zugeordnet.
-- Die produktive PHP-API verwendet aktuell trotzdem noch SQL-Dateien über `runSqlFile()`.
+- Die PHP-API ruft im Hauptpfad Stored Procedures über `get_sql_result` auf.
+- Ältere SQL-Dateipfade über `get_sql_result_old` und `runSqlFile()` existieren weiterhin.
 - Die Nachschublogik bereitet eine Entscheidung vor; sie erzeugt keine automatische Bestellung.
-- Die berechneten 380 L sind kein gespeicherter Datensatz und keine aktuelle UI-Ausgabe.
+- Die berechneten 380 L sind kein gespeicherter Datensatz, werden aber in der Nachbestellungsansicht angezeigt, wenn die Procedure erfolgreich geladen wird.
 - Die Ressourcenseite zeigt unter „Kritische Ressourcen“ Ablaufdatenrisiken. Die Mindestbestandsunterschreitung wird im Dashboard und durch `getRessourcesBelowMin()` erkannt.
 - BP2 bleibt Projektbestandteil, ist aber nicht der rote Faden der Präsentation.
 
@@ -909,4 +908,6 @@ Für den Abgleich wurde der gesamte Dokumentationsordner einschließlich Arbeits
 - [`../sql/build/mysql.sql`](../sql/build/mysql.sql)
 - [`../src/pages/Overview.tsx`](../src/pages/Overview.tsx)
 - [`../src/pages/Ressources.tsx`](../src/pages/Ressources.tsx)
+- [`../src/pages/Restock.tsx`](../src/pages/Restock.tsx)
+- [`../src/pages/Sales.tsx`](../src/pages/Sales.tsx)
 - [`../api/restApi.php`](../api/restApi.php)

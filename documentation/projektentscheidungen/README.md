@@ -8,7 +8,8 @@ Neue Einträge sollten fortlaufend nummeriert werden:
 01 - 2026-06-11-prisma-und-rest-api.md
 02 - 2026-06-24-bp1-fokus-abschlusspräsentation.md
 03 - 2026-07-03-prisma-verworfen-bp1-fokus.md
-04 - YYYY-MM-DD-kurzer-titel.md
+04 - 2026-07-08-generischer-stored-procedure-aufruf.md
+05 - YYYY-MM-DD-kurzer-titel.md
 ```
 
 Jede Datei sollte mindestens enthalten:

@@ -1,6 +1,6 @@
 # AP10 – Revision Use Cases v2
 
-Stand: 03.07.2026
+Stand: 08.07.2026
 
 ## 1. Ziel der zweiten Revision
 
@@ -87,10 +87,10 @@ Für die Abschlusspräsentation werden die Use Cases 1 bis 3 aus BP1 priorisiert
 |---|---|---|---|
 | Ressourcenbestand anzeigen | Ressourcentyp, Menge, Einheit, Lagerbezug | `getRessourcenWithLager()` und `getResourceStockLevels.sql` | Bestandsdiagramm im Dashboard; Ressourcenansicht vorbereitet. |
 | Kritische Ressourcen anzeigen | Menge, Mindestbestand, Ablauf- und Lagerinformationen | `getRessourcesBelowMin()` und `getRessourcesAtRisk()` | Zentral für BP1. |
-| Nachschubbedarf erkennen | Kritische Bestände, Mindestwerte, Verbrauch und Lagerort | `getNachschubanforderungen()` | Datenbanklogik vorhanden; kein vollständiger Bestellablauf in der UI. |
-| Überschüssige Ressourcen anzeigen | Aktuelle Menge, Mindestreserve und Lagerdaten | `getRessourcenUeberschuss()` | Datenbanklogik vorhanden. |
-| Verkaufspotenzial bewerten | Überschussmenge, Ressourcentyp, Lagerort und Freigabe | `getVerkaufspotenzial()` | Datenbanklogik vorhanden. |
-| Externe Abgabe vorbereiten | Unternehmen, Ressource, Menge und Wert | `getExterneAbgabeVorbereitung()` | Verkaufstabellen und Beispieldaten vorhanden; keine vollständige UI. |
+| Nachschubbedarf erkennen | Kritische Bestände, Mindestwerte, Verbrauch und Lagerort | `getNachschubanforderungen()` | In der Nachbestellungsansicht sichtbar; Aktionen speichern noch keinen dauerhaften Auftrag. |
+| Überschüssige Ressourcen anzeigen | Aktuelle Menge, Mindestreserve und Lagerdaten | `getRessourcenUeberschuss()` | In der Verkaufsansicht als erster Schritt sichtbar. |
+| Verkaufspotenzial bewerten | Überschussmenge, Ressourcentyp, Lagerort und Freigabe | `getVerkaufspotenzial()` | In der Verkaufsansicht als zweiter Schritt sichtbar. |
+| Externe Abgabe vorbereiten | Unternehmen, Ressource, Menge und Wert | `getExterneAbgabeVorbereitung()` | Verkaufstabellen, Beispieldaten und dritter UI-Schritt vorhanden; kein Rechnungs- oder Zahlungsmodul. |
 
 ## 8. Abgrenzung
 
@@ -100,8 +100,8 @@ Für die Abschlusspräsentation werden die Use Cases 1 bis 3 aus BP1 priorisiert
 | Energieengpässe erkennen und Lastverteilung einleiten | Fachlich interessant, aber nicht Teil der ausgewählten Hauptprozesse. |
 | Personal- und Arbeitseinsätze planen | Gehört nicht direkt zur Ressourcenüberwachung oder zum Ressourcenverkauf. |
 | Städte und Bewohner verwalten | Wichtig als Datenbasis, aber kein Haupt-Use-Case der aktuellen Revision. |
-| Vollständiges Verkaufsmodul mit Rechnung und Zahlung | Kann später ergänzt werden, ist aber für AP10 nicht notwendig. |
-| Automatische Nachschubbestellung | Der Nachschubbedarf soll erkennbar werden; eine vollständige Automatisierung ist später möglich. |
+| Vollständiges Verkaufsmodul mit Rechnung und Zahlung | Kann später ergänzt werden; der aktuelle Stand zeigt Bewertung und vorbereitete Abgabe. |
+| Automatische Nachschubbestellung | Der Nachschubbedarf wird angezeigt; eine dauerhafte Bestellung mit Statusspeicherung ist nicht Bestandteil des Kernumfangs. |
 
 ## 9. Ergebnis der Use-Case-Revision
 
